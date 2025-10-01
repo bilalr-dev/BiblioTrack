@@ -1,5 +1,5 @@
 CMakeFiles/library_app.dir/src/launcher/main.cpp.o: \
-  /Users/bilalrahaoui/Documents/cppproject/src/launcher/main.cpp \
+  /Users/bilalrahaoui/Documents/BiblioTrack/src/launcher/main.cpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/iostream \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__config \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__config_site \
@@ -790,13 +790,13 @@ CMakeFiles/library_app.dir/src/launcher/main.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__fwd/stack.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/print \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/unistd.h \
-  /Users/bilalrahaoui/Documents/cppproject/include/repository/CsvBookRepository.hpp \
-  /Users/bilalrahaoui/Documents/cppproject/include/repository/IBookRepository.hpp \
-  /Users/bilalrahaoui/Documents/cppproject/include/datamodel/Book.hpp \
-  /Users/bilalrahaoui/Documents/cppproject/include/services/impl/BookValidationService.hpp \
-  /Users/bilalrahaoui/Documents/cppproject/include/services/IBookValidationService.hpp \
-  /Users/bilalrahaoui/Documents/cppproject/include/services/impl/FileService.hpp \
-  /Users/bilalrahaoui/Documents/cppproject/include/services/IFileService.hpp \
-  /Users/bilalrahaoui/Documents/cppproject/include/services/impl/LibraryService.hpp \
-  /Users/bilalrahaoui/Documents/cppproject/include/services/ILibraryService.hpp \
-  /Users/bilalrahaoui/Documents/cppproject/include/launcher/Launcher.hpp
+  /Users/bilalrahaoui/Documents/BiblioTrack/include/repository/CsvBookRepository.hpp \
+  /Users/bilalrahaoui/Documents/BiblioTrack/include/repository/IBookRepository.hpp \
+  /Users/bilalrahaoui/Documents/BiblioTrack/include/datamodel/Book.hpp \
+  /Users/bilalrahaoui/Documents/BiblioTrack/include/services/impl/BookValidationService.hpp \
+  /Users/bilalrahaoui/Documents/BiblioTrack/include/services/IBookValidationService.hpp \
+  /Users/bilalrahaoui/Documents/BiblioTrack/include/services/impl/FileService.hpp \
+  /Users/bilalrahaoui/Documents/BiblioTrack/include/services/IFileService.hpp \
+  /Users/bilalrahaoui/Documents/BiblioTrack/include/services/impl/LibraryService.hpp \
+  /Users/bilalrahaoui/Documents/BiblioTrack/include/services/ILibraryService.hpp \
+  /Users/bilalrahaoui/Documents/BiblioTrack/include/launcher/Launcher.hpp
