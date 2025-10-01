@@ -1,6 +1,6 @@
 CMakeFiles/library_app.dir/src/services/impl/LibraryService.cpp.o: \
-  /Users/bilalrahaoui/Documents/cppproject/src/services/impl/LibraryService.cpp \
-  /Users/bilalrahaoui/Documents/cppproject/include/services/impl/LibraryService.hpp \
+  /Users/bilalrahaoui/Documents/BiblioTrack/src/services/impl/LibraryService.cpp \
+  /Users/bilalrahaoui/Documents/BiblioTrack/include/services/impl/LibraryService.hpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/memory \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__config \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__config_site \
@@ -542,7 +542,7 @@ CMakeFiles/library_app.dir/src/services/impl/LibraryService.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__utility/forward_like.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__variant/monostate.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/stdexcept \
-  /Users/bilalrahaoui/Documents/cppproject/include/services/ILibraryService.hpp \
+  /Users/bilalrahaoui/Documents/BiblioTrack/include/services/ILibraryService.hpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/string \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__algorithm/max.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__algorithm/max_element.h \
@@ -752,6 +752,6 @@ CMakeFiles/library_app.dir/src/services/impl/LibraryService.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/_types/_fsfilcnt_t.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/_types/_nl_item.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/cstdarg \
-  /Users/bilalrahaoui/Documents/cppproject/include/datamodel/Book.hpp \
-  /Users/bilalrahaoui/Documents/cppproject/include/services/IBookValidationService.hpp \
-  /Users/bilalrahaoui/Documents/cppproject/include/repository/IBookRepository.hpp
+  /Users/bilalrahaoui/Documents/BiblioTrack/include/datamodel/Book.hpp \
+  /Users/bilalrahaoui/Documents/BiblioTrack/include/services/IBookValidationService.hpp \
+  /Users/bilalrahaoui/Documents/BiblioTrack/include/repository/IBookRepository.hpp

@@ -23,6 +23,7 @@ private:
 
 	std::vector<std::vector<std::string>> readCsvLinesUnlocked();
 	bool writeCsvLinesUnlocked(const std::vector<std::vector<std::string>>& rows);
+	bool appendCsvLineUnlocked(const std::vector<std::string>& fields);
 
 	static std::vector<std::string> parseCsvLine(const std::string& line);
 	static std::string buildCsvLine(const std::vector<std::string>& fields);

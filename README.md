@@ -17,12 +17,16 @@ The design emphasizes SOLID principles, dependency inversion (interfaces), and l
 Requirements: CMake 3.12+, C++17 compiler
 
 ```bash
+cd /Users/bilalrahaoui/Documents/BiblioTrack
 mkdir -p build && cd build
-cmake .. && cmake --build .
+cmake .. -DCMAKE_BUILD_TYPE=Release
+cmake --build .
 ./bin/library_app
 ```
 
-On first run, `data/books.csv` will be auto-created with headers.
+Notes:
+- `DATA_DIR` is compiled in as `${CMAKE_SOURCE_DIR}/data`, so CSV is read/written under `data/books.csv` in the project root regardless of where you run the binary from.
+- On first run, `data/books.csv` will be auto-created with headers.
 
 ### CLI
 
@@ -44,7 +48,7 @@ Enter your choice:
 ### Validation Rules
 
 - ISBN must be unique
-- Year between 1000–2024
+- Year between 1000–2025
 - Quantity is a positive integer
 - Title and Author cannot be empty
 

@@ -18,6 +18,8 @@ int main() {
 		return 1;
 	}
 
+	std::cout << "Data file: " << csvPath << "\n";
+
 	auto repo = std::make_shared<LibraryApp::Repository::CsvBookRepository>(csvPath);
 	auto validator = std::make_shared<LibraryApp::Services::BookValidationService>();
 	auto libraryService = std::make_shared<LibraryApp::Services::LibraryService>(repo, validator);

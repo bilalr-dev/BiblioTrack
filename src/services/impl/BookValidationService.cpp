@@ -4,8 +4,12 @@ using namespace LibraryApp::Services;
 
 std::optional<std::string> BookValidationService::validateIsbn(const std::string& isbn) const {
 	if (isbn.empty()) return std::string("ISBN cannot be empty");
-	// Basic length check; format rules can be expanded later
-	if (isbn.size() > 32) return std::string("ISBN too long (max 32)");
+	if (isbn.size() > 64) return std::string("ISBN too long (max 64)");
+	for (char c : isbn) {
+		if (!(std::isalnum(static_cast<unsigned char>(c)) || c == '-' )) {
+			return std::string("ISBN may contain only letters, digits, or '-'");
+		}
+	}
 	return std::nullopt;
 }
 
@@ -20,7 +24,7 @@ std::optional<std::string> BookValidationService::validateAuthor(const std::stri
 }
 
 std::optional<std::string> BookValidationService::validateYear(std::uint16_t year) const {
-	if (year < 1000 || year > 2024) return std::string("Year must be between 1000 and 2024");
+	if (year < 1000 || year > 2025) return std::string("Year must be between 1000 and 2025");
 	return std::nullopt;
 }
 

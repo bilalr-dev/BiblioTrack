@@ -66,11 +66,14 @@ std::optional<Book> CsvBookRepository::findByIsbn(const std::string& isbn) {
 bool CsvBookRepository::insert(const Book& book) {
 	std::lock_guard<std::mutex> lock(ioMutex_);
 	auto rows = readCsvLinesUnlocked();
-	// Ensure headers
+	// If empty file or missing, write header first
 	if (rows.empty()) {
-		rows.push_back(parseCsvLine(HEADERS));
+		std::ofstream out(csvPath_, std::ios::app);
+		if (!out.is_open()) return false;
+		out << HEADERS << "\n";
+		out.flush();
 	}
-	// Check duplicate
+	// Duplicate check
 	for (size_t i = 1; i < rows.size(); ++i) {
 		if (rows[i].size() >= 1 && rows[i][0] == book.getIsbn()) {
 			return false;
@@ -80,8 +83,7 @@ bool CsvBookRepository::insert(const Book& book) {
 		book.getIsbn(), book.getTitle(), book.getAuthor(),
 		std::to_string(book.getYear()), std::to_string(book.getQuantity())
 	};
-	rows.push_back(std::move(fields));
-	return writeCsvLinesUnlocked(rows);
+	return appendCsvLineUnlocked(fields);
 }
 
 bool CsvBookRepository::removeByIsbn(const std::string& isbn) {
@@ -129,6 +131,7 @@ bool CsvBookRepository::writeCsvLinesUnlocked(const std::vector<std::vector<std:
 	// Ensure header
 	if (rows.empty()) {
 		out << HEADERS << "\n";
+		out.flush();
 		return static_cast<bool>(out);
 	}
 	// If first row isn't header, write header explicitly
@@ -143,6 +146,15 @@ bool CsvBookRepository::writeCsvLinesUnlocked(const std::vector<std::vector<std:
 		}
 		out << buildCsvLine(rows[i]) << "\n";
 	}
+	out.flush();
+	return static_cast<bool>(out);
+}
+
+bool CsvBookRepository::appendCsvLineUnlocked(const std::vector<std::string>& fields) {
+	std::ofstream out(csvPath_, std::ios::app);
+	if (!out.is_open()) return false;
+	out << buildCsvLine(fields) << "\n";
+	out.flush();
 	return static_cast<bool>(out);
 }
 

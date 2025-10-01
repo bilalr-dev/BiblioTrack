@@ -53,10 +53,10 @@ RM = /usr/local/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/bilalrahaoui/Documents/cppproject
+CMAKE_SOURCE_DIR = /Users/bilalrahaoui/Documents/BiblioTrack
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/bilalrahaoui/Documents/cppproject/build
+CMAKE_BINARY_DIR = /Users/bilalrahaoui/Documents/BiblioTrack/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/library_app.dir/depend.make
@@ -73,88 +73,88 @@ CMakeFiles/library_app.dir/codegen:
 .PHONY : CMakeFiles/library_app.dir/codegen
 
 CMakeFiles/library_app.dir/src/launcher/Launcher.cpp.o: CMakeFiles/library_app.dir/flags.make
-CMakeFiles/library_app.dir/src/launcher/Launcher.cpp.o: /Users/bilalrahaoui/Documents/cppproject/src/launcher/Launcher.cpp
+CMakeFiles/library_app.dir/src/launcher/Launcher.cpp.o: /Users/bilalrahaoui/Documents/BiblioTrack/src/launcher/Launcher.cpp
 CMakeFiles/library_app.dir/src/launcher/Launcher.cpp.o: CMakeFiles/library_app.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/bilalrahaoui/Documents/cppproject/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/library_app.dir/src/launcher/Launcher.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/library_app.dir/src/launcher/Launcher.cpp.o -MF CMakeFiles/library_app.dir/src/launcher/Launcher.cpp.o.d -o CMakeFiles/library_app.dir/src/launcher/Launcher.cpp.o -c /Users/bilalrahaoui/Documents/cppproject/src/launcher/Launcher.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/bilalrahaoui/Documents/BiblioTrack/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/library_app.dir/src/launcher/Launcher.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/library_app.dir/src/launcher/Launcher.cpp.o -MF CMakeFiles/library_app.dir/src/launcher/Launcher.cpp.o.d -o CMakeFiles/library_app.dir/src/launcher/Launcher.cpp.o -c /Users/bilalrahaoui/Documents/BiblioTrack/src/launcher/Launcher.cpp
 
 CMakeFiles/library_app.dir/src/launcher/Launcher.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/library_app.dir/src/launcher/Launcher.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/bilalrahaoui/Documents/cppproject/src/launcher/Launcher.cpp > CMakeFiles/library_app.dir/src/launcher/Launcher.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/bilalrahaoui/Documents/BiblioTrack/src/launcher/Launcher.cpp > CMakeFiles/library_app.dir/src/launcher/Launcher.cpp.i
 
 CMakeFiles/library_app.dir/src/launcher/Launcher.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/library_app.dir/src/launcher/Launcher.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/bilalrahaoui/Documents/cppproject/src/launcher/Launcher.cpp -o CMakeFiles/library_app.dir/src/launcher/Launcher.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/bilalrahaoui/Documents/BiblioTrack/src/launcher/Launcher.cpp -o CMakeFiles/library_app.dir/src/launcher/Launcher.cpp.s
 
 CMakeFiles/library_app.dir/src/launcher/main.cpp.o: CMakeFiles/library_app.dir/flags.make
-CMakeFiles/library_app.dir/src/launcher/main.cpp.o: /Users/bilalrahaoui/Documents/cppproject/src/launcher/main.cpp
+CMakeFiles/library_app.dir/src/launcher/main.cpp.o: /Users/bilalrahaoui/Documents/BiblioTrack/src/launcher/main.cpp
 CMakeFiles/library_app.dir/src/launcher/main.cpp.o: CMakeFiles/library_app.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/bilalrahaoui/Documents/cppproject/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/library_app.dir/src/launcher/main.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/library_app.dir/src/launcher/main.cpp.o -MF CMakeFiles/library_app.dir/src/launcher/main.cpp.o.d -o CMakeFiles/library_app.dir/src/launcher/main.cpp.o -c /Users/bilalrahaoui/Documents/cppproject/src/launcher/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/bilalrahaoui/Documents/BiblioTrack/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/library_app.dir/src/launcher/main.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/library_app.dir/src/launcher/main.cpp.o -MF CMakeFiles/library_app.dir/src/launcher/main.cpp.o.d -o CMakeFiles/library_app.dir/src/launcher/main.cpp.o -c /Users/bilalrahaoui/Documents/BiblioTrack/src/launcher/main.cpp
 
 CMakeFiles/library_app.dir/src/launcher/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/library_app.dir/src/launcher/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/bilalrahaoui/Documents/cppproject/src/launcher/main.cpp > CMakeFiles/library_app.dir/src/launcher/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/bilalrahaoui/Documents/BiblioTrack/src/launcher/main.cpp > CMakeFiles/library_app.dir/src/launcher/main.cpp.i
 
 CMakeFiles/library_app.dir/src/launcher/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/library_app.dir/src/launcher/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/bilalrahaoui/Documents/cppproject/src/launcher/main.cpp -o CMakeFiles/library_app.dir/src/launcher/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/bilalrahaoui/Documents/BiblioTrack/src/launcher/main.cpp -o CMakeFiles/library_app.dir/src/launcher/main.cpp.s
 
 CMakeFiles/library_app.dir/src/repository/CsvBookRepository.cpp.o: CMakeFiles/library_app.dir/flags.make
-CMakeFiles/library_app.dir/src/repository/CsvBookRepository.cpp.o: /Users/bilalrahaoui/Documents/cppproject/src/repository/CsvBookRepository.cpp
+CMakeFiles/library_app.dir/src/repository/CsvBookRepository.cpp.o: /Users/bilalrahaoui/Documents/BiblioTrack/src/repository/CsvBookRepository.cpp
 CMakeFiles/library_app.dir/src/repository/CsvBookRepository.cpp.o: CMakeFiles/library_app.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/bilalrahaoui/Documents/cppproject/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/library_app.dir/src/repository/CsvBookRepository.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/library_app.dir/src/repository/CsvBookRepository.cpp.o -MF CMakeFiles/library_app.dir/src/repository/CsvBookRepository.cpp.o.d -o CMakeFiles/library_app.dir/src/repository/CsvBookRepository.cpp.o -c /Users/bilalrahaoui/Documents/cppproject/src/repository/CsvBookRepository.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/bilalrahaoui/Documents/BiblioTrack/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/library_app.dir/src/repository/CsvBookRepository.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/library_app.dir/src/repository/CsvBookRepository.cpp.o -MF CMakeFiles/library_app.dir/src/repository/CsvBookRepository.cpp.o.d -o CMakeFiles/library_app.dir/src/repository/CsvBookRepository.cpp.o -c /Users/bilalrahaoui/Documents/BiblioTrack/src/repository/CsvBookRepository.cpp
 
 CMakeFiles/library_app.dir/src/repository/CsvBookRepository.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/library_app.dir/src/repository/CsvBookRepository.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/bilalrahaoui/Documents/cppproject/src/repository/CsvBookRepository.cpp > CMakeFiles/library_app.dir/src/repository/CsvBookRepository.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/bilalrahaoui/Documents/BiblioTrack/src/repository/CsvBookRepository.cpp > CMakeFiles/library_app.dir/src/repository/CsvBookRepository.cpp.i
 
 CMakeFiles/library_app.dir/src/repository/CsvBookRepository.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/library_app.dir/src/repository/CsvBookRepository.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/bilalrahaoui/Documents/cppproject/src/repository/CsvBookRepository.cpp -o CMakeFiles/library_app.dir/src/repository/CsvBookRepository.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/bilalrahaoui/Documents/BiblioTrack/src/repository/CsvBookRepository.cpp -o CMakeFiles/library_app.dir/src/repository/CsvBookRepository.cpp.s
 
 CMakeFiles/library_app.dir/src/services/impl/BookValidationService.cpp.o: CMakeFiles/library_app.dir/flags.make
-CMakeFiles/library_app.dir/src/services/impl/BookValidationService.cpp.o: /Users/bilalrahaoui/Documents/cppproject/src/services/impl/BookValidationService.cpp
+CMakeFiles/library_app.dir/src/services/impl/BookValidationService.cpp.o: /Users/bilalrahaoui/Documents/BiblioTrack/src/services/impl/BookValidationService.cpp
 CMakeFiles/library_app.dir/src/services/impl/BookValidationService.cpp.o: CMakeFiles/library_app.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/bilalrahaoui/Documents/cppproject/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/library_app.dir/src/services/impl/BookValidationService.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/library_app.dir/src/services/impl/BookValidationService.cpp.o -MF CMakeFiles/library_app.dir/src/services/impl/BookValidationService.cpp.o.d -o CMakeFiles/library_app.dir/src/services/impl/BookValidationService.cpp.o -c /Users/bilalrahaoui/Documents/cppproject/src/services/impl/BookValidationService.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/bilalrahaoui/Documents/BiblioTrack/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/library_app.dir/src/services/impl/BookValidationService.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/library_app.dir/src/services/impl/BookValidationService.cpp.o -MF CMakeFiles/library_app.dir/src/services/impl/BookValidationService.cpp.o.d -o CMakeFiles/library_app.dir/src/services/impl/BookValidationService.cpp.o -c /Users/bilalrahaoui/Documents/BiblioTrack/src/services/impl/BookValidationService.cpp
 
 CMakeFiles/library_app.dir/src/services/impl/BookValidationService.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/library_app.dir/src/services/impl/BookValidationService.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/bilalrahaoui/Documents/cppproject/src/services/impl/BookValidationService.cpp > CMakeFiles/library_app.dir/src/services/impl/BookValidationService.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/bilalrahaoui/Documents/BiblioTrack/src/services/impl/BookValidationService.cpp > CMakeFiles/library_app.dir/src/services/impl/BookValidationService.cpp.i
 
 CMakeFiles/library_app.dir/src/services/impl/BookValidationService.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/library_app.dir/src/services/impl/BookValidationService.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/bilalrahaoui/Documents/cppproject/src/services/impl/BookValidationService.cpp -o CMakeFiles/library_app.dir/src/services/impl/BookValidationService.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/bilalrahaoui/Documents/BiblioTrack/src/services/impl/BookValidationService.cpp -o CMakeFiles/library_app.dir/src/services/impl/BookValidationService.cpp.s
 
 CMakeFiles/library_app.dir/src/services/impl/FileService.cpp.o: CMakeFiles/library_app.dir/flags.make
-CMakeFiles/library_app.dir/src/services/impl/FileService.cpp.o: /Users/bilalrahaoui/Documents/cppproject/src/services/impl/FileService.cpp
+CMakeFiles/library_app.dir/src/services/impl/FileService.cpp.o: /Users/bilalrahaoui/Documents/BiblioTrack/src/services/impl/FileService.cpp
 CMakeFiles/library_app.dir/src/services/impl/FileService.cpp.o: CMakeFiles/library_app.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/bilalrahaoui/Documents/cppproject/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/library_app.dir/src/services/impl/FileService.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/library_app.dir/src/services/impl/FileService.cpp.o -MF CMakeFiles/library_app.dir/src/services/impl/FileService.cpp.o.d -o CMakeFiles/library_app.dir/src/services/impl/FileService.cpp.o -c /Users/bilalrahaoui/Documents/cppproject/src/services/impl/FileService.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/bilalrahaoui/Documents/BiblioTrack/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/library_app.dir/src/services/impl/FileService.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/library_app.dir/src/services/impl/FileService.cpp.o -MF CMakeFiles/library_app.dir/src/services/impl/FileService.cpp.o.d -o CMakeFiles/library_app.dir/src/services/impl/FileService.cpp.o -c /Users/bilalrahaoui/Documents/BiblioTrack/src/services/impl/FileService.cpp
 
 CMakeFiles/library_app.dir/src/services/impl/FileService.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/library_app.dir/src/services/impl/FileService.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/bilalrahaoui/Documents/cppproject/src/services/impl/FileService.cpp > CMakeFiles/library_app.dir/src/services/impl/FileService.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/bilalrahaoui/Documents/BiblioTrack/src/services/impl/FileService.cpp > CMakeFiles/library_app.dir/src/services/impl/FileService.cpp.i
 
 CMakeFiles/library_app.dir/src/services/impl/FileService.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/library_app.dir/src/services/impl/FileService.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/bilalrahaoui/Documents/cppproject/src/services/impl/FileService.cpp -o CMakeFiles/library_app.dir/src/services/impl/FileService.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/bilalrahaoui/Documents/BiblioTrack/src/services/impl/FileService.cpp -o CMakeFiles/library_app.dir/src/services/impl/FileService.cpp.s
 
 CMakeFiles/library_app.dir/src/services/impl/LibraryService.cpp.o: CMakeFiles/library_app.dir/flags.make
-CMakeFiles/library_app.dir/src/services/impl/LibraryService.cpp.o: /Users/bilalrahaoui/Documents/cppproject/src/services/impl/LibraryService.cpp
+CMakeFiles/library_app.dir/src/services/impl/LibraryService.cpp.o: /Users/bilalrahaoui/Documents/BiblioTrack/src/services/impl/LibraryService.cpp
 CMakeFiles/library_app.dir/src/services/impl/LibraryService.cpp.o: CMakeFiles/library_app.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/bilalrahaoui/Documents/cppproject/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/library_app.dir/src/services/impl/LibraryService.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/library_app.dir/src/services/impl/LibraryService.cpp.o -MF CMakeFiles/library_app.dir/src/services/impl/LibraryService.cpp.o.d -o CMakeFiles/library_app.dir/src/services/impl/LibraryService.cpp.o -c /Users/bilalrahaoui/Documents/cppproject/src/services/impl/LibraryService.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/bilalrahaoui/Documents/BiblioTrack/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/library_app.dir/src/services/impl/LibraryService.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/library_app.dir/src/services/impl/LibraryService.cpp.o -MF CMakeFiles/library_app.dir/src/services/impl/LibraryService.cpp.o.d -o CMakeFiles/library_app.dir/src/services/impl/LibraryService.cpp.o -c /Users/bilalrahaoui/Documents/BiblioTrack/src/services/impl/LibraryService.cpp
 
 CMakeFiles/library_app.dir/src/services/impl/LibraryService.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/library_app.dir/src/services/impl/LibraryService.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/bilalrahaoui/Documents/cppproject/src/services/impl/LibraryService.cpp > CMakeFiles/library_app.dir/src/services/impl/LibraryService.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/bilalrahaoui/Documents/BiblioTrack/src/services/impl/LibraryService.cpp > CMakeFiles/library_app.dir/src/services/impl/LibraryService.cpp.i
 
 CMakeFiles/library_app.dir/src/services/impl/LibraryService.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/library_app.dir/src/services/impl/LibraryService.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/bilalrahaoui/Documents/cppproject/src/services/impl/LibraryService.cpp -o CMakeFiles/library_app.dir/src/services/impl/LibraryService.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/bilalrahaoui/Documents/BiblioTrack/src/services/impl/LibraryService.cpp -o CMakeFiles/library_app.dir/src/services/impl/LibraryService.cpp.s
 
 # Object files for target library_app
 library_app_OBJECTS = \
@@ -176,9 +176,9 @@ bin/library_app: CMakeFiles/library_app.dir/src/services/impl/FileService.cpp.o
 bin/library_app: CMakeFiles/library_app.dir/src/services/impl/LibraryService.cpp.o
 bin/library_app: CMakeFiles/library_app.dir/build.make
 bin/library_app: CMakeFiles/library_app.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/bilalrahaoui/Documents/cppproject/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable bin/library_app"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/bilalrahaoui/Documents/BiblioTrack/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable bin/library_app"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/library_app.dir/link.txt --verbose=$(VERBOSE)
-	/usr/local/bin/cmake -E make_directory /Users/bilalrahaoui/Documents/cppproject/data
+	/usr/local/bin/cmake -E make_directory /Users/bilalrahaoui/Documents/BiblioTrack/data
 
 # Rule to build all files generated by this target.
 CMakeFiles/library_app.dir/build: bin/library_app
@@ -189,6 +189,6 @@ CMakeFiles/library_app.dir/clean:
 .PHONY : CMakeFiles/library_app.dir/clean
 
 CMakeFiles/library_app.dir/depend:
-	cd /Users/bilalrahaoui/Documents/cppproject/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/bilalrahaoui/Documents/cppproject /Users/bilalrahaoui/Documents/cppproject /Users/bilalrahaoui/Documents/cppproject/build /Users/bilalrahaoui/Documents/cppproject/build /Users/bilalrahaoui/Documents/cppproject/build/CMakeFiles/library_app.dir/DependInfo.cmake "--color=$(COLOR)"
+	cd /Users/bilalrahaoui/Documents/BiblioTrack/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/bilalrahaoui/Documents/BiblioTrack /Users/bilalrahaoui/Documents/BiblioTrack /Users/bilalrahaoui/Documents/BiblioTrack/build /Users/bilalrahaoui/Documents/BiblioTrack/build /Users/bilalrahaoui/Documents/BiblioTrack/build/CMakeFiles/library_app.dir/DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/library_app.dir/depend
 
