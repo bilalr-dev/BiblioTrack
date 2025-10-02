@@ -1,0 +1,95 @@
+#include "LibraryService.hpp"
+#include <algorithm>
+#include <cctype>
+
+namespace Services {
+
+LibraryService::LibraryService(std::shared_ptr<BookRepository> repository) 
+    : repository_(repository) {}
+
+std::string LibraryService::addBook(const DataModel::Book& book) {
+    // Basic validation
+    if (book.getIsbn().empty()) {
+        return "ISBN cannot be empty";
+    }
+    if (book.getTitle().empty()) {
+        return "Title cannot be empty";
+    }
+    if (book.getAuthor().empty()) {
+        return "Author cannot be empty";
+    }
+    if (!isValidYear(book.getYear())) {
+        return "Invalid year (must be between 1000 and current year)";
+    }
+    if (book.getQuantity() <= 0) {
+        return "Quantity must be greater than 0";
+    }
+    
+    if (repository_->addBook(book)) {
+        return ""; // Success
+    } else {
+        return "Book with this ISBN already exists";
+    }
+}
+
+std::string LibraryService::deleteBook(const std::string& isbn) {
+    if (isbn.empty()) {
+        return "ISBN cannot be empty";
+    }
+    
+    if (repository_->removeBook(isbn)) {
+        return ""; // Success
+    } else {
+        return "Book not found";
+    }
+}
+
+std::vector<DataModel::Book> LibraryService::listBooks() {
+    return repository_->getAllBooks();
+}
+
+std::vector<DataModel::Book> LibraryService::searchByTitle(const std::string& title) {
+    std::vector<DataModel::Book> results;
+    auto books = repository_->getAllBooks();
+    std::string lowerTitle = toLowerCase(title);
+    
+    for (const auto& book : books) {
+        std::string bookTitle = toLowerCase(book.getTitle());
+        if (bookTitle.find(lowerTitle) != std::string::npos) {
+            results.push_back(book);
+        }
+    }
+    
+    return results;
+}
+
+std::vector<DataModel::Book> LibraryService::searchByAuthor(const std::string& author) {
+    std::vector<DataModel::Book> results;
+    auto books = repository_->getAllBooks();
+    std::string lowerAuthor = toLowerCase(author);
+    
+    for (const auto& book : books) {
+        std::string bookAuthor = toLowerCase(book.getAuthor());
+        if (bookAuthor.find(lowerAuthor) != std::string::npos) {
+            results.push_back(book);
+        }
+    }
+    
+    return results;
+}
+
+std::optional<DataModel::Book> LibraryService::searchByIsbn(const std::string& isbn) {
+    return repository_->findByIsbn(isbn);
+}
+
+bool LibraryService::isValidYear(int year) {
+    return year >= 1000 && year <= 2030; // Simple range check
+}
+
+std::string LibraryService::toLowerCase(const std::string& str) {
+    std::string result = str;
+    std::transform(result.begin(), result.end(), result.begin(), ::tolower);
+    return result;
+}
+
+} // namespace Services

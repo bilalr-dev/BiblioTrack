@@ -1,0 +1,1 @@
+/usr/bin/c++ -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/bibliotrack.dir/src/services/BookRepository.cpp.o CMakeFiles/bibliotrack.dir/src/services/LibraryService.cpp.o CMakeFiles/bibliotrack.dir/src/launcher/LibraryApp.cpp.o CMakeFiles/bibliotrack.dir/src/launcher/main.cpp.o -o bibliotrack
