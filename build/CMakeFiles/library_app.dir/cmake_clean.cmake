@@ -11,6 +11,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/library_app.dir/src/services/impl/FileService.cpp.o.d"
   "CMakeFiles/library_app.dir/src/services/impl/LibraryService.cpp.o"
   "CMakeFiles/library_app.dir/src/services/impl/LibraryService.cpp.o.d"
+  "CMakeFiles/library_app.dir/src/services/impl/SearchService.cpp.o"
+  "CMakeFiles/library_app.dir/src/services/impl/SearchService.cpp.o.d"
   "bin/library_app"
   "bin/library_app.pdb"
 )

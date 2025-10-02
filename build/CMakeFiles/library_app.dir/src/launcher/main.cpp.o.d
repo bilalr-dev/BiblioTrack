@@ -799,4 +799,6 @@ CMakeFiles/library_app.dir/src/launcher/main.cpp.o: \
   /Users/bilalrahaoui/Documents/BiblioTrack/include/services/IFileService.hpp \
   /Users/bilalrahaoui/Documents/BiblioTrack/include/services/impl/LibraryService.hpp \
   /Users/bilalrahaoui/Documents/BiblioTrack/include/services/ILibraryService.hpp \
+  /Users/bilalrahaoui/Documents/BiblioTrack/include/services/impl/SearchService.hpp \
+  /Users/bilalrahaoui/Documents/BiblioTrack/include/services/ISearchService.hpp \
   /Users/bilalrahaoui/Documents/BiblioTrack/include/launcher/Launcher.hpp

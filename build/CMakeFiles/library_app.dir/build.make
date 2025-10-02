@@ -156,6 +156,20 @@ CMakeFiles/library_app.dir/src/services/impl/LibraryService.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/library_app.dir/src/services/impl/LibraryService.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/bilalrahaoui/Documents/BiblioTrack/src/services/impl/LibraryService.cpp -o CMakeFiles/library_app.dir/src/services/impl/LibraryService.cpp.s
 
+CMakeFiles/library_app.dir/src/services/impl/SearchService.cpp.o: CMakeFiles/library_app.dir/flags.make
+CMakeFiles/library_app.dir/src/services/impl/SearchService.cpp.o: /Users/bilalrahaoui/Documents/BiblioTrack/src/services/impl/SearchService.cpp
+CMakeFiles/library_app.dir/src/services/impl/SearchService.cpp.o: CMakeFiles/library_app.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/bilalrahaoui/Documents/BiblioTrack/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/library_app.dir/src/services/impl/SearchService.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/library_app.dir/src/services/impl/SearchService.cpp.o -MF CMakeFiles/library_app.dir/src/services/impl/SearchService.cpp.o.d -o CMakeFiles/library_app.dir/src/services/impl/SearchService.cpp.o -c /Users/bilalrahaoui/Documents/BiblioTrack/src/services/impl/SearchService.cpp
+
+CMakeFiles/library_app.dir/src/services/impl/SearchService.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/library_app.dir/src/services/impl/SearchService.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/bilalrahaoui/Documents/BiblioTrack/src/services/impl/SearchService.cpp > CMakeFiles/library_app.dir/src/services/impl/SearchService.cpp.i
+
+CMakeFiles/library_app.dir/src/services/impl/SearchService.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/library_app.dir/src/services/impl/SearchService.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/bilalrahaoui/Documents/BiblioTrack/src/services/impl/SearchService.cpp -o CMakeFiles/library_app.dir/src/services/impl/SearchService.cpp.s
+
 # Object files for target library_app
 library_app_OBJECTS = \
 "CMakeFiles/library_app.dir/src/launcher/Launcher.cpp.o" \
@@ -163,7 +177,8 @@ library_app_OBJECTS = \
 "CMakeFiles/library_app.dir/src/repository/CsvBookRepository.cpp.o" \
 "CMakeFiles/library_app.dir/src/services/impl/BookValidationService.cpp.o" \
 "CMakeFiles/library_app.dir/src/services/impl/FileService.cpp.o" \
-"CMakeFiles/library_app.dir/src/services/impl/LibraryService.cpp.o"
+"CMakeFiles/library_app.dir/src/services/impl/LibraryService.cpp.o" \
+"CMakeFiles/library_app.dir/src/services/impl/SearchService.cpp.o"
 
 # External object files for target library_app
 library_app_EXTERNAL_OBJECTS =
@@ -174,9 +189,10 @@ bin/library_app: CMakeFiles/library_app.dir/src/repository/CsvBookRepository.cpp
 bin/library_app: CMakeFiles/library_app.dir/src/services/impl/BookValidationService.cpp.o
 bin/library_app: CMakeFiles/library_app.dir/src/services/impl/FileService.cpp.o
 bin/library_app: CMakeFiles/library_app.dir/src/services/impl/LibraryService.cpp.o
+bin/library_app: CMakeFiles/library_app.dir/src/services/impl/SearchService.cpp.o
 bin/library_app: CMakeFiles/library_app.dir/build.make
 bin/library_app: CMakeFiles/library_app.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/bilalrahaoui/Documents/BiblioTrack/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable bin/library_app"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/bilalrahaoui/Documents/BiblioTrack/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable bin/library_app"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/library_app.dir/link.txt --verbose=$(VERBOSE)
 	/usr/local/bin/cmake -E make_directory /Users/bilalrahaoui/Documents/BiblioTrack/data
 

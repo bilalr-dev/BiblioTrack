@@ -6,5 +6,5 @@ CXX_DEFINES = -DDATA_DIR=\"/Users/bilalrahaoui/Documents/BiblioTrack/data\"
 
 CXX_INCLUDES = -I/Users/bilalrahaoui/Documents/BiblioTrack/include
 
-CXX_FLAGS = -O3 -DNDEBUG -std=c++17 -Wall -Wextra -Wpedantic
+CXX_FLAGS = -std=c++17 -Wall -Wextra -Wpedantic
 

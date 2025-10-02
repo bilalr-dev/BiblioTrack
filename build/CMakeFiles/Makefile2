@@ -85,12 +85,12 @@ clean: CMakeFiles/library_app.dir/clean
 CMakeFiles/library_app.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/library_app.dir/build.make CMakeFiles/library_app.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/library_app.dir/build.make CMakeFiles/library_app.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/bilalrahaoui/Documents/BiblioTrack/build/CMakeFiles --progress-num=1,2,3,4,5,6,7 "Built target library_app"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/bilalrahaoui/Documents/BiblioTrack/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8 "Built target library_app"
 .PHONY : CMakeFiles/library_app.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/library_app.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/bilalrahaoui/Documents/BiblioTrack/build/CMakeFiles 7
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/bilalrahaoui/Documents/BiblioTrack/build/CMakeFiles 8
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/library_app.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/bilalrahaoui/Documents/BiblioTrack/build/CMakeFiles 0
 .PHONY : CMakeFiles/library_app.dir/rule
@@ -102,7 +102,7 @@ library_app: CMakeFiles/library_app.dir/rule
 # codegen rule for target.
 CMakeFiles/library_app.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/library_app.dir/build.make CMakeFiles/library_app.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/bilalrahaoui/Documents/BiblioTrack/build/CMakeFiles --progress-num=1,2,3,4,5,6,7 "Finished codegen for target library_app"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/bilalrahaoui/Documents/BiblioTrack/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8 "Finished codegen for target library_app"
 .PHONY : CMakeFiles/library_app.dir/codegen
 
 # clean rule for target.

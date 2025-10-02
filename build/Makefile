@@ -273,6 +273,30 @@ src/services/impl/LibraryService.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/library_app.dir/build.make CMakeFiles/library_app.dir/src/services/impl/LibraryService.cpp.s
 .PHONY : src/services/impl/LibraryService.cpp.s
 
+src/services/impl/SearchService.o: src/services/impl/SearchService.cpp.o
+.PHONY : src/services/impl/SearchService.o
+
+# target to build an object file
+src/services/impl/SearchService.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/library_app.dir/build.make CMakeFiles/library_app.dir/src/services/impl/SearchService.cpp.o
+.PHONY : src/services/impl/SearchService.cpp.o
+
+src/services/impl/SearchService.i: src/services/impl/SearchService.cpp.i
+.PHONY : src/services/impl/SearchService.i
+
+# target to preprocess a source file
+src/services/impl/SearchService.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/library_app.dir/build.make CMakeFiles/library_app.dir/src/services/impl/SearchService.cpp.i
+.PHONY : src/services/impl/SearchService.cpp.i
+
+src/services/impl/SearchService.s: src/services/impl/SearchService.cpp.s
+.PHONY : src/services/impl/SearchService.s
+
+# target to generate assembly for a file
+src/services/impl/SearchService.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/library_app.dir/build.make CMakeFiles/library_app.dir/src/services/impl/SearchService.cpp.s
+.PHONY : src/services/impl/SearchService.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -300,6 +324,9 @@ help:
 	@echo "... src/services/impl/LibraryService.o"
 	@echo "... src/services/impl/LibraryService.i"
 	@echo "... src/services/impl/LibraryService.s"
+	@echo "... src/services/impl/SearchService.o"
+	@echo "... src/services/impl/SearchService.i"
+	@echo "... src/services/impl/SearchService.s"
 .PHONY : help
 
 
