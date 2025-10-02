@@ -22,7 +22,8 @@ void LibraryApp::run() {
             case 2: deleteBook(); break;
             case 3: listBooks(); break;
             case 4: searchBooks(); break;
-            case 5: 
+            case 5: browseByCategory(); break;
+            case 6: 
                 std::cout << "Goodbye!\n";
                 return;
             default:
@@ -37,8 +38,9 @@ void LibraryApp::showMenu() {
     std::cout << "2. Delete Book\n";
     std::cout << "3. List All Books\n";
     std::cout << "4. Search Books\n";
-    std::cout << "5. Exit\n";
-    std::cout << "Choose an option (1-5): ";
+    std::cout << "5. Browse by Category\n";
+    std::cout << "6. Exit\n";
+    std::cout << "Choose an option (1-6): ";
 }
 
 int LibraryApp::getChoice() {
@@ -55,7 +57,7 @@ int LibraryApp::getChoice() {
 void LibraryApp::addBook() {
     std::cout << "\n--- Add New Book ---\n";
     
-    std::string isbn, title, author;
+    std::string isbn, title, author, category;
     int year, quantity;
     
     std::cout << "ISBN: ";
@@ -70,7 +72,24 @@ void LibraryApp::addBook() {
     std::cin >> quantity;
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     
-    DataModel::Book book(isbn, title, author, year, quantity);
+    // Show existing categories as suggestions
+    auto categories = service_->getAllCategories();
+    if (!categories.empty()) {
+        std::cout << "Existing categories: ";
+        for (size_t i = 0; i < categories.size(); ++i) {
+            std::cout << categories[i];
+            if (i < categories.size() - 1) std::cout << ", ";
+        }
+        std::cout << "\n";
+    }
+    
+    std::cout << "Category [General]: ";
+    std::getline(std::cin, category);
+    if (category.empty()) {
+        category = "General";
+    }
+    
+    DataModel::Book book(isbn, title, author, year, quantity, category);
     std::string result = service_->addBook(book);
     
     if (result.empty()) {
@@ -114,7 +133,8 @@ void LibraryApp::searchBooks() {
     std::cout << "1. Search by ISBN\n";
     std::cout << "2. Search by Title\n";
     std::cout << "3. Search by Author\n";
-    std::cout << "Choose search type (1-3): ";
+    std::cout << "4. Search by Category\n";
+    std::cout << "Choose search type (1-4): ";
     
     int choice = getChoice();
     std::string searchTerm;
@@ -146,6 +166,13 @@ void LibraryApp::searchBooks() {
             displayBooks(results);
             break;
         }
+        case 4: {
+            std::cout << "Enter category (or part of it): ";
+            std::getline(std::cin, searchTerm);
+            auto results = service_->searchByCategory(searchTerm);
+            displayBooks(results);
+            break;
+        }
         default:
             std::cout << "Invalid search option.\n";
     }
@@ -162,17 +189,85 @@ void LibraryApp::displayBooks(const std::vector<DataModel::Book>& books) {
               << std::setw(25) << "Title"
               << std::setw(20) << "Author"
               << std::setw(6) << "Year"
-              << std::setw(8) << "Qty" << "\n";
-    std::cout << std::string(74, '-') << "\n";
+              << std::setw(6) << "Qty"
+              << std::setw(15) << "Category" << "\n";
+    std::cout << std::string(87, '-') << "\n";
     
     for (const auto& book : books) {
         std::cout << std::left << std::setw(15) << book.getIsbn().substr(0, 14)
                   << std::setw(25) << book.getTitle().substr(0, 24)
                   << std::setw(20) << book.getAuthor().substr(0, 19)
                   << std::setw(6) << book.getYear()
-                  << std::setw(8) << book.getQuantity() << "\n";
+                  << std::setw(6) << book.getQuantity()
+                  << std::setw(15) << book.getCategory().substr(0, 14) << "\n";
     }
     std::cout << "\nTotal: " << books.size() << " book(s)\n";
+}
+
+void LibraryApp::browseByCategory() {
+    std::cout << "\n--- Browse by Category ---\n";
+    std::cout << "1. View Category Statistics\n";
+    std::cout << "2. Filter by Specific Category\n";
+    std::cout << "Choose option (1-2): ";
+    
+    int choice = getChoice();
+    
+    switch (choice) {
+        case 1: {
+            displayCategoryStatistics();
+            break;
+        }
+        case 2: {
+            auto categories = service_->getAllCategories();
+            if (categories.empty()) {
+                std::cout << "No categories found.\n";
+                return;
+            }
+            
+            std::cout << "\nAvailable categories:\n";
+            for (size_t i = 0; i < categories.size(); ++i) {
+                std::cout << (i + 1) << ". " << categories[i] << "\n";
+            }
+            
+            std::cout << "Choose category (1-" << categories.size() << "): ";
+            int catChoice = getChoice();
+            
+            if (catChoice >= 1 && catChoice <= static_cast<int>(categories.size())) {
+                std::string selectedCategory = categories[catChoice - 1];
+                std::cout << "\n--- Books in category: " << selectedCategory << " ---\n";
+                auto results = service_->searchByCategory(selectedCategory);
+                displayBooks(results);
+            } else {
+                std::cout << "Invalid category choice.\n";
+            }
+            break;
+        }
+        default:
+            std::cout << "Invalid option.\n";
+    }
+}
+
+void LibraryApp::displayCategoryStatistics() {
+    std::cout << "\n--- Category Statistics ---\n";
+    auto stats = service_->getCategoryStatistics();
+    
+    if (stats.empty()) {
+        std::cout << "No books found.\n";
+        return;
+    }
+    
+    std::cout << std::left << std::setw(20) << "Category" << std::setw(10) << "Count" << "\n";
+    std::cout << std::string(30, '-') << "\n";
+    
+    int totalBooks = 0;
+    for (const auto& pair : stats) {
+        std::cout << std::left << std::setw(20) << pair.first 
+                  << std::setw(10) << pair.second << "\n";
+        totalBooks += pair.second;
+    }
+    
+    std::cout << std::string(30, '-') << "\n";
+    std::cout << std::left << std::setw(20) << "Total Books:" << std::setw(10) << totalBooks << "\n";
 }
 
 } // namespace Launcher

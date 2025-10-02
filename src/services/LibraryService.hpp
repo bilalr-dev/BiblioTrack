@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <map>
 
 namespace Services {
 
@@ -20,6 +21,11 @@ public:
     std::vector<DataModel::Book> searchByTitle(const std::string& title);
     std::vector<DataModel::Book> searchByAuthor(const std::string& author);
     std::optional<DataModel::Book> searchByIsbn(const std::string& isbn);
+    std::vector<DataModel::Book> searchByCategory(const std::string& category);
+    
+    // Category management
+    std::vector<std::string> getAllCategories();
+    std::map<std::string, int> getCategoryStatistics();
 
 private:
     std::shared_ptr<BookRepository> repository_;

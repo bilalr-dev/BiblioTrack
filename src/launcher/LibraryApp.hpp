@@ -23,9 +23,11 @@ private:
     void deleteBook();
     void listBooks();
     void searchBooks();
+    void browseByCategory();
     
-    // Display helper
+    // Display helpers
     void displayBooks(const std::vector<DataModel::Book>& books);
+    void displayCategoryStatistics();
 };
 
 } // namespace Launcher

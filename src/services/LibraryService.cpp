@@ -1,6 +1,7 @@
 #include "LibraryService.hpp"
 #include <algorithm>
 #include <cctype>
+#include <map>
 
 namespace Services {
 
@@ -80,6 +81,57 @@ std::vector<DataModel::Book> LibraryService::searchByAuthor(const std::string& a
 
 std::optional<DataModel::Book> LibraryService::searchByIsbn(const std::string& isbn) {
     return repository_->findByIsbn(isbn);
+}
+
+std::vector<DataModel::Book> LibraryService::searchByCategory(const std::string& category) {
+    std::vector<DataModel::Book> results;
+    auto books = repository_->getAllBooks();
+    std::string lowerCategory = toLowerCase(category);
+    
+    for (const auto& book : books) {
+        std::string bookCategory = toLowerCase(book.getCategory());
+        if (bookCategory.find(lowerCategory) != std::string::npos) {
+            results.push_back(book);
+        }
+    }
+    
+    return results;
+}
+
+std::vector<std::string> LibraryService::getAllCategories() {
+    std::vector<std::string> categories;
+    auto books = repository_->getAllBooks();
+    
+    for (const auto& book : books) {
+        std::string category = book.getCategory();
+        bool exists = false;
+        for (const auto& existingCategory : categories) {
+            if (existingCategory == category) {
+                exists = true;
+                break;
+            }
+        }
+        if (!exists && !category.empty()) {
+            categories.push_back(category);
+        }
+    }
+    
+    return categories;
+}
+
+std::map<std::string, int> LibraryService::getCategoryStatistics() {
+    std::map<std::string, int> stats;
+    auto books = repository_->getAllBooks();
+    
+    for (const auto& book : books) {
+        std::string category = book.getCategory();
+        if (category.empty()) {
+            category = "General";
+        }
+        stats[category]++;
+    }
+    
+    return stats;
 }
 
 bool LibraryService::isValidYear(int year) {

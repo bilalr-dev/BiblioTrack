@@ -21,7 +21,7 @@ void BookRepository::ensureFileExists() {
         
         std::ofstream outFile(csvPath_);
         if (outFile.is_open()) {
-            outFile << "ISBN,Title,Author,Year,Quantity\n";
+            outFile << "ISBN,Title,Author,Year,Quantity,Category\n";
             outFile.close();
         }
     }
@@ -38,11 +38,12 @@ std::vector<DataModel::Book> BookRepository::getAllBooks() {
             if (line.empty()) continue;
             
             auto fields = parseLine(line);
-            if (fields.size() == 5) {
+            if (fields.size() >= 5) {
                 try {
                     int year = std::stoi(fields[3]);
                     int quantity = std::stoi(fields[4]);
-                    books.emplace_back(fields[0], fields[1], fields[2], year, quantity);
+                    std::string category = (fields.size() > 5) ? fields[5] : "General";
+                    books.emplace_back(fields[0], fields[1], fields[2], year, quantity, category);
                 } catch (const std::exception&) {
                     // Skip invalid lines
                     continue;
@@ -82,7 +83,8 @@ bool BookRepository::addBook(const DataModel::Book& book) {
         book.getTitle(),
         book.getAuthor(),
         std::to_string(book.getYear()),
-        std::to_string(book.getQuantity())
+        std::to_string(book.getQuantity()),
+        book.getCategory()
     };
     
     file << buildLine(fields) << "\n";
@@ -112,7 +114,7 @@ bool BookRepository::removeBook(const std::string& isbn) {
         return false;
     }
     
-    file << "ISBN,Title,Author,Year,Quantity\n";
+    file << "ISBN,Title,Author,Year,Quantity,Category\n";
     for (const auto& book : books) {
         if (book.getIsbn() != isbn) {
             std::vector<std::string> fields = {
@@ -120,7 +122,8 @@ bool BookRepository::removeBook(const std::string& isbn) {
                 book.getTitle(),
                 book.getAuthor(),
                 std::to_string(book.getYear()),
-                std::to_string(book.getQuantity())
+                std::to_string(book.getQuantity()),
+                book.getCategory()
             };
             file << buildLine(fields) << "\n";
         }
