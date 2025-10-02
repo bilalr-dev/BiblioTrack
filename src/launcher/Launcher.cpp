@@ -38,7 +38,7 @@ void AppLauncher::clearScreen() const {
 }
 
 void AppLauncher::showMenu() const {
-	std::cout << "\n=== Library Management System v1.1 ===\n";
+	std::cout << "\n=== Library Management System v2.0 ===\n";
 	std::cout << "1. Add Book\n";
 	std::cout << "2. Delete Book\n";
 	std::cout << "3. View Current Stock\n";
