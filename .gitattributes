@@ -1,2 +1,7 @@
+# Ignore Makefiles for language stats
+Makefile linguist-detectable=false
+
+# Explicitly mark C++ files as C++
 *.cpp linguist-language=C++
 *.hpp linguist-language=C++
+*.h   linguist-language=C++
