@@ -1,31 +1,40 @@
 cmake_minimum_required(VERSION 3.12)
-project(LibraryManagementSystem VERSION 1.0 LANGUAGES CXX)
+project(BiblioTrack VERSION 2.0 LANGUAGES CXX)
 
+# C++ Standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
 
-# Output directories
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-
-# Include directories
-include_directories(${CMAKE_SOURCE_DIR}/include)
-
-# Source files
-file(GLOB_RECURSE SOURCES
-    ${CMAKE_SOURCE_DIR}/src/*.cpp
+# Source files organized by layers
+set(DATAMODEL_SOURCES
+    src/datamodel/Book.hpp
 )
 
-add_executable(library_app ${SOURCES})
-
-target_compile_options(library_app PRIVATE -Wall -Wextra -Wpedantic)
-
-# Define data directory for runtime
-target_compile_definitions(library_app PRIVATE DATA_DIR="${CMAKE_SOURCE_DIR}/data")
-
-# Create data directory at build time
-add_custom_command(TARGET library_app POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E make_directory
-            ${CMAKE_SOURCE_DIR}/data
+set(SERVICES_SOURCES
+    src/services/BookRepository.cpp
+    src/services/LibraryService.cpp
 )
 
+set(LAUNCHER_SOURCES
+    src/launcher/LibraryApp.cpp
+    src/launcher/main.cpp
+)
+
+# All source files
+set(SOURCES
+    ${DATAMODEL_SOURCES}
+    ${SERVICES_SOURCES}
+    ${LAUNCHER_SOURCES}
+)
+
+# Create executable
+add_executable(bibliotrack ${SOURCES})
+
+# Include directories for clean imports
+target_include_directories(bibliotrack PRIVATE src)
+
+# Compiler flags
+target_compile_options(bibliotrack PRIVATE -Wall -Wextra)
+
+# Create data directory
+file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/data)

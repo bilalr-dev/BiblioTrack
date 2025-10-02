@@ -1,35 +1,13 @@
+#include "LibraryApp.hpp"
 #include <iostream>
-#include <memory>
-#include <string>
-
-#include "repository/CsvBookRepository.hpp"
-#include "services/impl/BookValidationService.hpp"
-#include "services/impl/FileService.hpp"
-#include "services/impl/LibraryService.hpp"
-#include "services/impl/SearchService.hpp"
-#include "launcher/Launcher.hpp"
 
 int main() {
-	const std::string csvPath = std::string(DATA_DIR) + "/books.csv";
-	const std::string headers = std::string("ISBN,Title,Author,Year,Quantity");
-
-	// Initialize file service and ensure data file exists
-	auto fileService = std::make_shared<LibraryApp::Services::FileService>();
-	if (!fileService->ensureFileWithHeaders(csvPath, headers)) {
-		std::cerr << "Error: cannot create or access CSV file at " << csvPath << "\n";
-		return 1;
-	}
-
-	std::cout << "BiblioTrack v1.1 - Now with Search!\n";
-	std::cout << "Data file: " << csvPath << "\n";
-
-	// Initialize repository and services
-	auto repo = std::make_shared<LibraryApp::Repository::CsvBookRepository>(csvPath);
-	auto validator = std::make_shared<LibraryApp::Services::BookValidationService>();
-	auto libraryService = std::make_shared<LibraryApp::Services::LibraryService>(repo, validator);
-	auto searchService = std::make_shared<LibraryApp::Services::SearchService>(repo);
-
-	// Launch enhanced application with search capabilities
-	LibraryApp::Launcher::AppLauncher app(libraryService, searchService);
-	return app.run();
+    try {
+        Launcher::LibraryApp app;
+        app.run();
+        return 0;
+    } catch (const std::exception& e) {
+        std::cerr << "Error: " << e.what() << "\n";
+        return 1;
+    }
 }

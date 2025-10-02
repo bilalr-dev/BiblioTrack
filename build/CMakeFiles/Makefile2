@@ -63,11 +63,11 @@ CMAKE_BINARY_DIR = /Users/bilalrahaoui/Documents/BiblioTrack/build
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/library_app.dir/all
+all: CMakeFiles/bibliotrack.dir/all
 .PHONY : all
 
 # The main recursive "codegen" target.
-codegen: CMakeFiles/library_app.dir/codegen
+codegen: CMakeFiles/bibliotrack.dir/codegen
 .PHONY : codegen
 
 # The main recursive "preinstall" target.
@@ -75,40 +75,40 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/library_app.dir/clean
+clean: CMakeFiles/bibliotrack.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/library_app.dir
+# Target rules for target CMakeFiles/bibliotrack.dir
 
 # All Build rule for target.
-CMakeFiles/library_app.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/library_app.dir/build.make CMakeFiles/library_app.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/library_app.dir/build.make CMakeFiles/library_app.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/bilalrahaoui/Documents/BiblioTrack/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8 "Built target library_app"
-.PHONY : CMakeFiles/library_app.dir/all
+CMakeFiles/bibliotrack.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/bibliotrack.dir/build.make CMakeFiles/bibliotrack.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/bibliotrack.dir/build.make CMakeFiles/bibliotrack.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/bilalrahaoui/Documents/BiblioTrack/build/CMakeFiles --progress-num=1,2,3,4,5 "Built target bibliotrack"
+.PHONY : CMakeFiles/bibliotrack.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/library_app.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/bilalrahaoui/Documents/BiblioTrack/build/CMakeFiles 8
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/library_app.dir/all
+CMakeFiles/bibliotrack.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/bilalrahaoui/Documents/BiblioTrack/build/CMakeFiles 5
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/bibliotrack.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/bilalrahaoui/Documents/BiblioTrack/build/CMakeFiles 0
-.PHONY : CMakeFiles/library_app.dir/rule
+.PHONY : CMakeFiles/bibliotrack.dir/rule
 
 # Convenience name for target.
-library_app: CMakeFiles/library_app.dir/rule
-.PHONY : library_app
+bibliotrack: CMakeFiles/bibliotrack.dir/rule
+.PHONY : bibliotrack
 
 # codegen rule for target.
-CMakeFiles/library_app.dir/codegen:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/library_app.dir/build.make CMakeFiles/library_app.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/bilalrahaoui/Documents/BiblioTrack/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8 "Finished codegen for target library_app"
-.PHONY : CMakeFiles/library_app.dir/codegen
+CMakeFiles/bibliotrack.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/bibliotrack.dir/build.make CMakeFiles/bibliotrack.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/bilalrahaoui/Documents/BiblioTrack/build/CMakeFiles --progress-num=1,2,3,4,5 "Finished codegen for target bibliotrack"
+.PHONY : CMakeFiles/bibliotrack.dir/codegen
 
 # clean rule for target.
-CMakeFiles/library_app.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/library_app.dir/build.make CMakeFiles/library_app.dir/clean
-.PHONY : CMakeFiles/library_app.dir/clean
+CMakeFiles/bibliotrack.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/bibliotrack.dir/build.make CMakeFiles/bibliotrack.dir/clean
+.PHONY : CMakeFiles/bibliotrack.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

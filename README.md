@@ -1,395 +1,132 @@
-# BiblioTrack - Library Management System
+# BiblioTrack - Layered Library Management System
 
-[![C++17](https://img.shields.io/badge/C%2B%2B-17-blue.svg)](https://en.cppreference.com/w/cpp/17)
-[![CMake](https://img.shields.io/badge/CMake-3.12%2B-green.svg)](https://cmake.org/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/bilalr-dev/BiblioTrack/blob/v2.0/LICENSE)
-[![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen.svg)](BUILD)
+A clean, well-structured C++ library management system organized in separate layers for maintainability and scalability.
 
-A professional, scalable library management system built with Clean Architecture principles in C++17. Designed for rapid development and enterprise-grade extensibility.
+## Features
 
-## 🎯 Project Overview
+- ✅ Add new books with ISBN, title, author, year, and quantity
+- ✅ Delete books by ISBN with confirmation
+- ✅ List all books in a formatted table
+- ✅ Search books by ISBN (exact match)
+- ✅ Search books by title (partial, case-insensitive)
+- ✅ Search books by author (partial, case-insensitive)
+- ✅ CSV file persistence with automatic creation
+- ✅ Clean layered architecture with separation of concerns
 
-**Current Version:** v2.0 (Enhanced System with Search)   
-**Target Version:** v3.0 (Complete Library System)  
-**Development Timeline:** 3 weeks (October 2-23, 2025)  
-**Architecture:** Clean Architecture with SOLID principles  
+## Layered Architecture
 
-BiblioTrack provides a complete library management solution with book inventory, member management, and borrowing system capabilities.
+The project is organized into three distinct layers:
 
-## 🏗️ Architecture
+### 📊 **DataModel Layer** (`src/datamodel/`)
+Contains the core data structures and entities.
+- `Book.hpp` - Book entity with properties and basic operations
 
-### Clean Architecture Layers
+### 🔧 **Services Layer** (`src/services/`)
+Contains business logic and data access components.
+- `BookRepository.*` - Data persistence and CSV file operations
+- `LibraryService.*` - Business logic, validation, and search operations
+
+### 🚀 **Launcher Layer** (`src/launcher/`)
+Contains the presentation layer and application entry point.
+- `LibraryApp.*` - User interface and menu system
+- `main.cpp` - Application entry point
+
+## Project Structure
 
 ```
-┌─────────────────────────────────────────┐
-│              Presentation               │
-│         (CLI Interface)                 │
-├─────────────────────────────────────────┤
-│              Services                   │
-│    (Business Logic & Validation)       │
-├─────────────────────────────────────────┤
-│             Repository                  │
-│        (Data Access Layer)             │
-├─────────────────────────────────────────┤
-│             Entities                    │
-│         (Domain Models)                 │
-└─────────────────────────────────────────┘
+BiblioTrack/
+├── src/
+│   ├── datamodel/
+│   │   └── Book.hpp              # Book entity
+│   ├── services/
+│   │   ├── BookRepository.*      # Data access layer
+│   │   └── LibraryService.*      # Business logic layer
+│   └── launcher/
+│       ├── LibraryApp.*          # Application layer
+│       └── main.cpp              # Entry point
+├── data/
+│   └── books.csv                 # Data storage (auto-created)
+├── build/                        # Build directory
+└── CMakeLists.txt                # Build configuration
 ```
 
-### Namespace Organization
-```cpp
-LibraryApp::
-├── Entities::          // Book, Member, Transaction
-├── Repository::        // IBookRepository, CsvBookRepository
-├── Services::          // ILibraryService, ISearchService
-└── Presentation::      // CLI, MenuSystem
+## Architecture Benefits
+
+### 🎯 **Separation of Concerns**
+- **DataModel**: Pure data structures, no business logic
+- **Services**: Business rules and data operations
+- **Launcher**: User interface and application flow
+
+### 🔄 **Dependency Flow**
 ```
+Launcher → Services → DataModel
+```
+- Each layer only depends on the layer below it
+- Clean, unidirectional dependencies
+- Easy to test and maintain
 
-### Key Design Principles
-- **Dependency Inversion:** Services depend on abstractions, not implementations
-- **Single Responsibility:** Each class has one reason to change
-- **Open/Closed:** Open for extension, closed for modification
-- **Interface Segregation:** Focused, cohesive interfaces
-- **Loose Coupling:** Easy to test, maintain, and extend
+### 📈 **Scalability**
+- Easy to add new features in the appropriate layer
+- Simple to replace components (e.g., CSV → Database)
+- Clear boundaries for team development
 
-## 🚀 Quick Start
+## Building and Running
 
 ### Prerequisites
-- **CMake 3.12+**
-- **C++17 compatible compiler** (GCC 7+, Clang 5+, MSVC 2017+)
-- **Git** (for version control)
+- C++17 compatible compiler
+- CMake 3.12 or higher
 
 ### Build Instructions
 
 ```bash
-# Clone the repository
-git clone https://github.com/bilalr-dev/BiblioTrack.git
-cd BiblioTrack
-
-# Create build directory
-mkdir -p build && cd build
+# Create and enter build directory
+mkdir build && cd build
 
 # Configure and build
-cmake .. -DCMAKE_BUILD_TYPE=Release
-cmake --build .
+cmake ..
+make
 
 # Run the application
-./bin/library_app
+./bibliotrack
 ```
 
-### Development Build
-```bash
-# For development with debug symbols and tests
-cmake .. -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTS=ON
-cmake --build .
-ctest  # Run unit tests
+## Usage
+
+The application provides a simple menu-driven interface:
+
+1. **Add Book** - Enter book details with validation
+2. **Delete Book** - Remove a book by ISBN with confirmation
+3. **List All Books** - Display all books in a formatted table
+4. **Search Books** - Search by ISBN (exact), title (partial), or author (partial)
+5. **Exit** - Close the application
+
+## Data Storage
+
+Books are stored in `data/books.csv` with the following format:
 ```
-
-## 📋 Features by Version
-
-### v1.0 - Foundation (Week 1) ✅
-- **Book Management:** Complete CRUD operations
-- **Clean Architecture:** Modular, testable design
-- **CSV Storage:** Reliable data persistence
-- **Console Interface:** Intuitive menu-driven UI
-- **Validation Framework:** Data integrity and business rules
-
-### v2.0 - Enhanced System with Search ✅
-- **Comprehensive Search:** Multi-field search (ISBN, Title, Author, Year, Advanced)
-- **Enhanced CLI:** Professional interface with organized menu sections
-- **Data Operations:** Export/Import capabilities with CSV support
-- **System Statistics:** Real-time library analytics and reporting
-- **Performance:** Optimized for large inventories with efficient algorithms
-- **Error Handling:** Comprehensive validation and user feedback
-
-### v3.0 - Complete Library System (Week 3) 📋
-- **Member Management:** Registration and profile management
-- **Borrowing System:** Check-out and return workflows
-- **Due Date Tracking:** Automated overdue detection
-- **Transaction History:** Complete audit trail
-- **Integration Testing:** Production-ready reliability
-
-### v4.0+ - Advanced Features (Future) 🔮
-- **Fine Management:** Automated calculation and tracking
-- **Reporting & Analytics:** Usage statistics and insights
-- **Notification System:** Due date reminders and alerts
-- **Multi-Storage:** JSON and SQLite backend support
-
-## 🖥️ User Interface
-
-### Main Menu (v1.0 - Original)
-```
-=== Library Management System v1.0 ===
-1. Add Book
-2. Delete Book
-3. View Current Stock
-4. Exit
-Enter your choice: _
-```
-
-### Enhanced Menu (v2.0 - Current)
-```
-=== Library Management System v2.0 ===
-1. Add Book
-2. Delete Book
-3. View Current Stock
-4. Search Books
-5. Exit
-Enter your choice: _
-```
-
-### Future Menu (v3.0 - Planned)
-```
-=== BiblioTrack Library Management System v3.0 ===
-BOOK MANAGEMENT
-1. Add Book                    2. Delete Book
-3. View All Books             4. Search Books
-
-MEMBER MANAGEMENT
-5. Register Member            6. View Members
-7. Search Members             8. Update Member
-
-BORROWING SYSTEM
-9. Borrow Book               10. Return Book
-11. View Transactions        12. Overdue Books
-
-SYSTEM
-13. Export Data              14. Import Data
-15. System Settings          16. Exit
-
-Enter your choice: _
-```
-
-## 💾 Data Management
-
-### File Structure
-```
-BiblioTrack/
-├── data/
-│   ├── books.csv           # Book inventory
-│   ├── members.csv         # Member database (v3.0)
-│   ├── transactions.csv    # Borrowing history (v3.0)
-│   └── config.ini          # System configuration
-├── logs/
-│   └── application.log     # System logs
-└── backups/
-    └── [timestamp]/        # Automated backups
-```
-
-### CSV Specifications
-
-#### Books (books.csv)
-```csv
 ISBN,Title,Author,Year,Quantity
-978-0134685991,"Effective Modern C++","Scott Meyers",2014,3
-978-0321563842,"The C++ Programming Language","Bjarne Stroustrup",2013,2
+978-0134685991,Effective Modern C++,Scott Meyers,2014,5
 ```
 
-#### Members (members.csv) - v3.0
-```csv
-MemberID,Name,Email,Phone,Status,RegisterDate,ExpiryDate
-M001,"John Doe","john.doe@email.com","555-0123","Active","2025-10-01","2026-10-01"
-```
+The file and directory are automatically created on first run.
 
-#### Transactions (transactions.csv) - v3.0
-```csv
-TransactionID,MemberID,ISBN,BorrowDate,DueDate,ReturnDate,Status
-T001,"M001","978-0134685991","2025-10-15","2025-10-29","","Active"
-```
+## Design Principles
 
-## 🔧 Configuration
+### ✅ **Clean Architecture**
+- Clear layer separation with defined responsibilities
+- Dependency inversion (depends on abstractions)
+- Single responsibility principle
 
-### System Settings (config.ini)
-```ini
-[Library]
-Name=City Public Library
-MaxBooksPerMember=5
-DefaultBorrowPeriod=14
+### ✅ **SOLID Principles**
+- **S**ingle Responsibility: Each class has one reason to change
+- **O**pen/Closed: Open for extension, closed for modification
+- **L**iskov Substitution: Components are easily replaceable
+- **I**nterface Segregation: Focused, cohesive interfaces
+- **D**ependency Inversion: Depend on abstractions, not concretions
 
-[Files]
-DataDirectory=./data
-BackupDirectory=./backups
-LogLevel=INFO
+### ✅ **Maintainability**
+- Readable code with clear naming conventions
+- Minimal coupling between layers
+- Easy to extend and modify
 
-[Validation]
-MinYear=1000
-MaxYear=2025
-RequireISBN=true
-```
-
-## 🧪 Testing
-
-### Running Tests
-```bash
-# Build with tests enabled
-cmake .. -DBUILD_TESTS=ON
-cmake --build .
-
-# Run all tests
-ctest
-
-# Run specific test suite
-./tests/unit_tests
-./tests/integration_tests
-```
-
-### Test Coverage
-- **Unit Tests:** >85% code coverage
-- **Integration Tests:** End-to-end workflow validation
-- **Performance Tests:** Large dataset handling
-- **Error Scenario Tests:** Comprehensive error handling
-
-## 📊 Performance Specifications
-
-### System Requirements
-- **Memory:** 50MB base + 1MB per 1000 books
-- **Storage:** 10KB per book + transaction history
-- **CPU:** Single-core sufficient for <10,000 books
-- **OS:** Cross-platform (Windows, macOS, Linux)
-
-### Performance Targets
-- **Search Response:** <100ms for 10,000 books
-- **CRUD Operations:** <50ms per operation
-- **Startup Time:** <2 seconds
-- **Data Export:** 1000 books/second
-
-## 🔒 Data Validation Rules
-
-### Book Validation
-- **ISBN:** Must be unique, valid format (10 or 13 digits)
-- **Title:** Required, 1-200 characters
-- **Author:** Required, 1-100 characters  
-- **Year:** Range 1000-2025
-- **Quantity:** Non-negative integer
-
-### Member Validation (v3.0)
-- **Member ID:** Auto-generated, unique format (M001, M002...)
-- **Name:** Required, 2-50 characters
-- **Email:** Valid email format, unique
-- **Phone:** Valid phone number format
-- **Status:** Active, Suspended, or Expired
-
-### Business Rules (v3.0)
-- **Borrowing Limit:** Maximum 5 books per member
-- **Loan Period:** 14 days default (configurable)
-- **Renewal:** Up to 2 renewals if no holds
-- **Overdue Grace:** 3-day grace period before fines
-
-## 🛠️ Development Workflow
-
-### Project Structure
-```
-BiblioTrack/
-├── include/                 # Header files
-│   ├── entities/           # Domain models
-│   ├── repository/         # Data access interfaces
-│   ├── services/           # Business logic interfaces
-│   └── presentation/       # UI components
-├── src/                    # Implementation files
-│   ├── entities/
-│   ├── repository/
-│   ├── services/
-│   └── presentation/
-├── tests/                  # Test suites
-├── docs/                   # Documentation
-├── data/                   # Runtime data
-└── CMakeLists.txt         # Build configuration
-```
-
-### Coding Standards
-- **Style:** Google C++ Style Guide
-- **Documentation:** Doxygen comments for public APIs
-- **Testing:** Test-driven development (TDD)
-- **Review:** All code requires peer review
-- **CI/CD:** Automated build and test pipeline
-
-## 📈 Development Timeline
-
-### Week 1: Foundation Sprint (Oct 2-8, 2025)
-- [x] Project setup and clean architecture
-- [x] Book entity and repository pattern  
-- [x] Basic CRUD operations
-- [x] Console interface and validation
-
-### Week 2: Enhancement Sprint (Oct 9-15, 2025)
-- [x] Comprehensive search service implementation
-- [x] Enhanced CLI with professional interface
-- [x] Data export/import functionality
-- [x] System statistics and analytics
-- [x] Performance optimization and error handling
-
-### Week 3: Integration Sprint (Oct 16-23, 2025)
-- [ ] Member management system
-- [ ] Borrowing and return functionality
-- [ ] Due date tracking
-- [ ] System integration and testing
-
-## 🤝 Contributing
-
-### Getting Started
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Follow coding standards and add tests
-4. Commit changes (`git commit -m 'Add amazing feature'`)
-5. Push to branch (`git push origin feature/amazing-feature`)
-6. Open a Pull Request
-
-### Development Guidelines
-- Write unit tests for new functionality
-- Update documentation for API changes
-- Follow existing code style and patterns
-- Ensure all tests pass before submitting PR
-
-## 📚 Documentation
-
-- **[API Documentation](https://github.com/bilalr-dev/BiblioTrack/blob/v2.0/docs/api.md)** - Complete API reference
-- **[User Manual](https://github.com/bilalr-dev/BiblioTrack/blob/v2.0/docs/user-guide.md)** - End-user documentation
-- **[Developer Guide](https://github.com/bilalr-dev/BiblioTrack/blob/v2.0/docs/developer-guide.md)** - Development setup and patterns
-- **[Architecture Decision Records](https://github.com/bilalr-dev/BiblioTrack/tree/v2.0/docs/adr/)** - Design decisions and rationale
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-**Build Errors:**
-```bash
-# Clear build cache
-rm -rf build/
-mkdir build && cd build
-cmake .. && make clean && make
-```
-
-**Data File Issues:**
-```bash
-# Reset data files
-rm -rf data/
-mkdir data
-# Application will recreate with defaults
-```
-
-**Permission Errors:**
-```bash
-# Fix file permissions
-chmod 755 bin/library_app
-chmod -R 644 data/
-```
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/bilalr-dev/BiblioTrack/blob/v2.0/LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- **Clean Architecture** concepts by Robert C. Martin
-- **C++ Core Guidelines** by Bjarne Stroustrup and Herb Sutter
-- **Modern C++** best practices from the community
-
-## 📞 Support
-
-- **Issues:** [GitHub Issues](https://github.com/bilalr-dev/BiblioTrack/issues)
-- **Discussions:** [GitHub Discussions](https://github.com/bilalr-dev/BiblioTrack/discussions)
-- **Repository:** [BiblioTrack v2.0](https://github.com/bilalr-dev/BiblioTrack/tree/v2.0)
-
----
-
-**BiblioTrack** - Professional Library Management Made Simple
+This architecture provides a solid foundation for a library management system that can grow and evolve while maintaining clean, maintainable code.

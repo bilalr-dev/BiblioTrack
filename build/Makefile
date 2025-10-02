@@ -117,48 +117,48 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named library_app
+# Target rules for targets named bibliotrack
 
 # Build rule for target.
-library_app: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 library_app
-.PHONY : library_app
+bibliotrack: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 bibliotrack
+.PHONY : bibliotrack
 
 # fast build rule for target.
-library_app/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/library_app.dir/build.make CMakeFiles/library_app.dir/build
-.PHONY : library_app/fast
+bibliotrack/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/bibliotrack.dir/build.make CMakeFiles/bibliotrack.dir/build
+.PHONY : bibliotrack/fast
 
-src/launcher/Launcher.o: src/launcher/Launcher.cpp.o
-.PHONY : src/launcher/Launcher.o
+src/launcher/LibraryApp.o: src/launcher/LibraryApp.cpp.o
+.PHONY : src/launcher/LibraryApp.o
 
 # target to build an object file
-src/launcher/Launcher.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/library_app.dir/build.make CMakeFiles/library_app.dir/src/launcher/Launcher.cpp.o
-.PHONY : src/launcher/Launcher.cpp.o
+src/launcher/LibraryApp.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/bibliotrack.dir/build.make CMakeFiles/bibliotrack.dir/src/launcher/LibraryApp.cpp.o
+.PHONY : src/launcher/LibraryApp.cpp.o
 
-src/launcher/Launcher.i: src/launcher/Launcher.cpp.i
-.PHONY : src/launcher/Launcher.i
+src/launcher/LibraryApp.i: src/launcher/LibraryApp.cpp.i
+.PHONY : src/launcher/LibraryApp.i
 
 # target to preprocess a source file
-src/launcher/Launcher.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/library_app.dir/build.make CMakeFiles/library_app.dir/src/launcher/Launcher.cpp.i
-.PHONY : src/launcher/Launcher.cpp.i
+src/launcher/LibraryApp.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/bibliotrack.dir/build.make CMakeFiles/bibliotrack.dir/src/launcher/LibraryApp.cpp.i
+.PHONY : src/launcher/LibraryApp.cpp.i
 
-src/launcher/Launcher.s: src/launcher/Launcher.cpp.s
-.PHONY : src/launcher/Launcher.s
+src/launcher/LibraryApp.s: src/launcher/LibraryApp.cpp.s
+.PHONY : src/launcher/LibraryApp.s
 
 # target to generate assembly for a file
-src/launcher/Launcher.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/library_app.dir/build.make CMakeFiles/library_app.dir/src/launcher/Launcher.cpp.s
-.PHONY : src/launcher/Launcher.cpp.s
+src/launcher/LibraryApp.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/bibliotrack.dir/build.make CMakeFiles/bibliotrack.dir/src/launcher/LibraryApp.cpp.s
+.PHONY : src/launcher/LibraryApp.cpp.s
 
 src/launcher/main.o: src/launcher/main.cpp.o
 .PHONY : src/launcher/main.o
 
 # target to build an object file
 src/launcher/main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/library_app.dir/build.make CMakeFiles/library_app.dir/src/launcher/main.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/bibliotrack.dir/build.make CMakeFiles/bibliotrack.dir/src/launcher/main.cpp.o
 .PHONY : src/launcher/main.cpp.o
 
 src/launcher/main.i: src/launcher/main.cpp.i
@@ -166,7 +166,7 @@ src/launcher/main.i: src/launcher/main.cpp.i
 
 # target to preprocess a source file
 src/launcher/main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/library_app.dir/build.make CMakeFiles/library_app.dir/src/launcher/main.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/bibliotrack.dir/build.make CMakeFiles/bibliotrack.dir/src/launcher/main.cpp.i
 .PHONY : src/launcher/main.cpp.i
 
 src/launcher/main.s: src/launcher/main.cpp.s
@@ -174,128 +174,56 @@ src/launcher/main.s: src/launcher/main.cpp.s
 
 # target to generate assembly for a file
 src/launcher/main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/library_app.dir/build.make CMakeFiles/library_app.dir/src/launcher/main.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/bibliotrack.dir/build.make CMakeFiles/bibliotrack.dir/src/launcher/main.cpp.s
 .PHONY : src/launcher/main.cpp.s
 
-src/repository/CsvBookRepository.o: src/repository/CsvBookRepository.cpp.o
-.PHONY : src/repository/CsvBookRepository.o
+src/services/BookRepository.o: src/services/BookRepository.cpp.o
+.PHONY : src/services/BookRepository.o
 
 # target to build an object file
-src/repository/CsvBookRepository.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/library_app.dir/build.make CMakeFiles/library_app.dir/src/repository/CsvBookRepository.cpp.o
-.PHONY : src/repository/CsvBookRepository.cpp.o
+src/services/BookRepository.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/bibliotrack.dir/build.make CMakeFiles/bibliotrack.dir/src/services/BookRepository.cpp.o
+.PHONY : src/services/BookRepository.cpp.o
 
-src/repository/CsvBookRepository.i: src/repository/CsvBookRepository.cpp.i
-.PHONY : src/repository/CsvBookRepository.i
+src/services/BookRepository.i: src/services/BookRepository.cpp.i
+.PHONY : src/services/BookRepository.i
 
 # target to preprocess a source file
-src/repository/CsvBookRepository.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/library_app.dir/build.make CMakeFiles/library_app.dir/src/repository/CsvBookRepository.cpp.i
-.PHONY : src/repository/CsvBookRepository.cpp.i
+src/services/BookRepository.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/bibliotrack.dir/build.make CMakeFiles/bibliotrack.dir/src/services/BookRepository.cpp.i
+.PHONY : src/services/BookRepository.cpp.i
 
-src/repository/CsvBookRepository.s: src/repository/CsvBookRepository.cpp.s
-.PHONY : src/repository/CsvBookRepository.s
+src/services/BookRepository.s: src/services/BookRepository.cpp.s
+.PHONY : src/services/BookRepository.s
 
 # target to generate assembly for a file
-src/repository/CsvBookRepository.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/library_app.dir/build.make CMakeFiles/library_app.dir/src/repository/CsvBookRepository.cpp.s
-.PHONY : src/repository/CsvBookRepository.cpp.s
+src/services/BookRepository.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/bibliotrack.dir/build.make CMakeFiles/bibliotrack.dir/src/services/BookRepository.cpp.s
+.PHONY : src/services/BookRepository.cpp.s
 
-src/services/impl/BookValidationService.o: src/services/impl/BookValidationService.cpp.o
-.PHONY : src/services/impl/BookValidationService.o
+src/services/LibraryService.o: src/services/LibraryService.cpp.o
+.PHONY : src/services/LibraryService.o
 
 # target to build an object file
-src/services/impl/BookValidationService.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/library_app.dir/build.make CMakeFiles/library_app.dir/src/services/impl/BookValidationService.cpp.o
-.PHONY : src/services/impl/BookValidationService.cpp.o
+src/services/LibraryService.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/bibliotrack.dir/build.make CMakeFiles/bibliotrack.dir/src/services/LibraryService.cpp.o
+.PHONY : src/services/LibraryService.cpp.o
 
-src/services/impl/BookValidationService.i: src/services/impl/BookValidationService.cpp.i
-.PHONY : src/services/impl/BookValidationService.i
-
-# target to preprocess a source file
-src/services/impl/BookValidationService.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/library_app.dir/build.make CMakeFiles/library_app.dir/src/services/impl/BookValidationService.cpp.i
-.PHONY : src/services/impl/BookValidationService.cpp.i
-
-src/services/impl/BookValidationService.s: src/services/impl/BookValidationService.cpp.s
-.PHONY : src/services/impl/BookValidationService.s
-
-# target to generate assembly for a file
-src/services/impl/BookValidationService.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/library_app.dir/build.make CMakeFiles/library_app.dir/src/services/impl/BookValidationService.cpp.s
-.PHONY : src/services/impl/BookValidationService.cpp.s
-
-src/services/impl/FileService.o: src/services/impl/FileService.cpp.o
-.PHONY : src/services/impl/FileService.o
-
-# target to build an object file
-src/services/impl/FileService.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/library_app.dir/build.make CMakeFiles/library_app.dir/src/services/impl/FileService.cpp.o
-.PHONY : src/services/impl/FileService.cpp.o
-
-src/services/impl/FileService.i: src/services/impl/FileService.cpp.i
-.PHONY : src/services/impl/FileService.i
+src/services/LibraryService.i: src/services/LibraryService.cpp.i
+.PHONY : src/services/LibraryService.i
 
 # target to preprocess a source file
-src/services/impl/FileService.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/library_app.dir/build.make CMakeFiles/library_app.dir/src/services/impl/FileService.cpp.i
-.PHONY : src/services/impl/FileService.cpp.i
+src/services/LibraryService.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/bibliotrack.dir/build.make CMakeFiles/bibliotrack.dir/src/services/LibraryService.cpp.i
+.PHONY : src/services/LibraryService.cpp.i
 
-src/services/impl/FileService.s: src/services/impl/FileService.cpp.s
-.PHONY : src/services/impl/FileService.s
-
-# target to generate assembly for a file
-src/services/impl/FileService.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/library_app.dir/build.make CMakeFiles/library_app.dir/src/services/impl/FileService.cpp.s
-.PHONY : src/services/impl/FileService.cpp.s
-
-src/services/impl/LibraryService.o: src/services/impl/LibraryService.cpp.o
-.PHONY : src/services/impl/LibraryService.o
-
-# target to build an object file
-src/services/impl/LibraryService.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/library_app.dir/build.make CMakeFiles/library_app.dir/src/services/impl/LibraryService.cpp.o
-.PHONY : src/services/impl/LibraryService.cpp.o
-
-src/services/impl/LibraryService.i: src/services/impl/LibraryService.cpp.i
-.PHONY : src/services/impl/LibraryService.i
-
-# target to preprocess a source file
-src/services/impl/LibraryService.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/library_app.dir/build.make CMakeFiles/library_app.dir/src/services/impl/LibraryService.cpp.i
-.PHONY : src/services/impl/LibraryService.cpp.i
-
-src/services/impl/LibraryService.s: src/services/impl/LibraryService.cpp.s
-.PHONY : src/services/impl/LibraryService.s
+src/services/LibraryService.s: src/services/LibraryService.cpp.s
+.PHONY : src/services/LibraryService.s
 
 # target to generate assembly for a file
-src/services/impl/LibraryService.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/library_app.dir/build.make CMakeFiles/library_app.dir/src/services/impl/LibraryService.cpp.s
-.PHONY : src/services/impl/LibraryService.cpp.s
-
-src/services/impl/SearchService.o: src/services/impl/SearchService.cpp.o
-.PHONY : src/services/impl/SearchService.o
-
-# target to build an object file
-src/services/impl/SearchService.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/library_app.dir/build.make CMakeFiles/library_app.dir/src/services/impl/SearchService.cpp.o
-.PHONY : src/services/impl/SearchService.cpp.o
-
-src/services/impl/SearchService.i: src/services/impl/SearchService.cpp.i
-.PHONY : src/services/impl/SearchService.i
-
-# target to preprocess a source file
-src/services/impl/SearchService.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/library_app.dir/build.make CMakeFiles/library_app.dir/src/services/impl/SearchService.cpp.i
-.PHONY : src/services/impl/SearchService.cpp.i
-
-src/services/impl/SearchService.s: src/services/impl/SearchService.cpp.s
-.PHONY : src/services/impl/SearchService.s
-
-# target to generate assembly for a file
-src/services/impl/SearchService.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/library_app.dir/build.make CMakeFiles/library_app.dir/src/services/impl/SearchService.cpp.s
-.PHONY : src/services/impl/SearchService.cpp.s
+src/services/LibraryService.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/bibliotrack.dir/build.make CMakeFiles/bibliotrack.dir/src/services/LibraryService.cpp.s
+.PHONY : src/services/LibraryService.cpp.s
 
 # Help Target
 help:
@@ -305,28 +233,19 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... library_app"
-	@echo "... src/launcher/Launcher.o"
-	@echo "... src/launcher/Launcher.i"
-	@echo "... src/launcher/Launcher.s"
+	@echo "... bibliotrack"
+	@echo "... src/launcher/LibraryApp.o"
+	@echo "... src/launcher/LibraryApp.i"
+	@echo "... src/launcher/LibraryApp.s"
 	@echo "... src/launcher/main.o"
 	@echo "... src/launcher/main.i"
 	@echo "... src/launcher/main.s"
-	@echo "... src/repository/CsvBookRepository.o"
-	@echo "... src/repository/CsvBookRepository.i"
-	@echo "... src/repository/CsvBookRepository.s"
-	@echo "... src/services/impl/BookValidationService.o"
-	@echo "... src/services/impl/BookValidationService.i"
-	@echo "... src/services/impl/BookValidationService.s"
-	@echo "... src/services/impl/FileService.o"
-	@echo "... src/services/impl/FileService.i"
-	@echo "... src/services/impl/FileService.s"
-	@echo "... src/services/impl/LibraryService.o"
-	@echo "... src/services/impl/LibraryService.i"
-	@echo "... src/services/impl/LibraryService.s"
-	@echo "... src/services/impl/SearchService.o"
-	@echo "... src/services/impl/SearchService.i"
-	@echo "... src/services/impl/SearchService.s"
+	@echo "... src/services/BookRepository.o"
+	@echo "... src/services/BookRepository.i"
+	@echo "... src/services/BookRepository.s"
+	@echo "... src/services/LibraryService.o"
+	@echo "... src/services/LibraryService.i"
+	@echo "... src/services/LibraryService.s"
 .PHONY : help
 
 

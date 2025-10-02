@@ -14,6 +14,15 @@
 # EXTERNAL cache entries
 ########################
 
+//Value Computed by CMake
+BiblioTrack_BINARY_DIR:STATIC=/Users/bilalrahaoui/Documents/BiblioTrack/build
+
+//Value Computed by CMake
+BiblioTrack_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+BiblioTrack_SOURCE_DIR:STATIC=/Users/bilalrahaoui/Documents/BiblioTrack
+
 //Path to a program.
 CMAKE_ADDR2LINE:FILEPATH=CMAKE_ADDR2LINE-NOTFOUND
 
@@ -131,13 +140,13 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=LibraryManagementSystem
+CMAKE_PROJECT_NAME:STATIC=BiblioTrack
 
 //Value Computed by CMake
-CMAKE_PROJECT_VERSION:STATIC=1.0
+CMAKE_PROJECT_VERSION:STATIC=2.0
 
 //Value Computed by CMake
-CMAKE_PROJECT_VERSION_MAJOR:STATIC=1
+CMAKE_PROJECT_VERSION_MAJOR:STATIC=2
 
 //Value Computed by CMake
 CMAKE_PROJECT_VERSION_MINOR:STATIC=0
@@ -212,15 +221,6 @@ CMAKE_TAPI:FILEPATH=/Library/Developer/CommandLineTools/usr/bin/tapi
 // during the make.  This is useful for debugging only. With Visual
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
-
-//Value Computed by CMake
-LibraryManagementSystem_BINARY_DIR:STATIC=/Users/bilalrahaoui/Documents/BiblioTrack/build
-
-//Value Computed by CMake
-LibraryManagementSystem_IS_TOP_LEVEL:STATIC=ON
-
-//Value Computed by CMake
-LibraryManagementSystem_SOURCE_DIR:STATIC=/Users/bilalrahaoui/Documents/BiblioTrack
 
 
 ########################
