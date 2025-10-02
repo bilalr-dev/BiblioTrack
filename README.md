@@ -129,18 +129,12 @@ Enter your choice: _
 
 ### Enhanced Menu (v2.0 - Current)
 ```
-=== BiblioTrack v2.0 - Enhanced System ===
-BOOK MANAGEMENT
-  1. Add Book                    2. Delete Book
-  3. View All Books             4. Search Books
-
-QUICK ACCESS
-  5. View Available Books       6. Export Data
-  7. Import Data                8. System Statistics
-
-SYSTEM
-  9. Exit
-
+=== Library Management System v2.0 ===
+1. Add Book
+2. Delete Book
+3. View Current Stock
+4. Search Books
+5. Exit
 Enter your choice: _
 ```
 
