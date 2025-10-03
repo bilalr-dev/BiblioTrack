@@ -11,7 +11,7 @@ LibraryApp::LibraryApp() {
 }
 
 void LibraryApp::run() {
-    std::cout << "=== BiblioTrack - Library Management System 2.01 ===\n";
+    std::cout << "=== BiblioTrack - Library Management System 2.03 ===\n";
     
     while (true) {
         showMenu();

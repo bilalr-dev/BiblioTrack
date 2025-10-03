@@ -1,3 +1,0 @@
-/Users/bilalrahaoui/Documents/BiblioTrack/build/CMakeFiles/bibliotrack.dir
-/Users/bilalrahaoui/Documents/BiblioTrack/build/CMakeFiles/edit_cache.dir
-/Users/bilalrahaoui/Documents/BiblioTrack/build/CMakeFiles/rebuild_cache.dir

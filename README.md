@@ -1,4 +1,4 @@
-# BiblioTrack - Layered Library Management System (v2.02)
+# BiblioTrack - Layered Library Management System (v2.03)
 
 A clean, well-structured C++ library management system organized in separate layers for maintainability and scalability. Enhanced with comprehensive category management and advanced browsing features.
 

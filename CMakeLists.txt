@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
-project(BiblioTrack VERSION 2.0 LANGUAGES CXX)
+project(BiblioTrack VERSION 2.3 LANGUAGES CXX)
 
 # C++ Standard
 set(CMAKE_CXX_STANDARD 17)
