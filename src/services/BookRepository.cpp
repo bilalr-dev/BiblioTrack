@@ -134,16 +134,35 @@ bool BookRepository::removeBook(const std::string& isbn) {
 
 std::vector<std::string> BookRepository::parseLine(const std::string& line) {
     std::vector<std::string> result;
-    std::stringstream ss(line);
     std::string field;
+    bool inQuotes = false;
+    bool escapeNext = false;
     
-    while (std::getline(ss, field, ',')) {
-        // Remove surrounding quotes if present
-        if (field.length() >= 2 && field.front() == '"' && field.back() == '"') {
-            field = field.substr(1, field.length() - 2);
+    for (size_t i = 0; i < line.length(); ++i) {
+        char c = line[i];
+        
+        if (escapeNext) {
+            field += c;
+            escapeNext = false;
+        } else if (c == '"') {
+            if (inQuotes && i + 1 < line.length() && line[i + 1] == '"') {
+                // Escaped quote
+                field += '"';
+                ++i; // Skip next quote
+            } else {
+                // Toggle quote state
+                inQuotes = !inQuotes;
+            }
+        } else if (c == ',' && !inQuotes) {
+            result.push_back(field);
+            field.clear();
+        } else {
+            field += c;
         }
-        result.push_back(field);
     }
+    
+    // Add the last field
+    result.push_back(field);
     
     return result;
 }
