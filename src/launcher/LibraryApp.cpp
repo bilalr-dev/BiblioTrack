@@ -11,7 +11,7 @@ LibraryApp::LibraryApp() {
 }
 
 void LibraryApp::run() {
-    std::cout << "=== BiblioTrack - Library Management System 2.03 ===\n";
+    std::cout << "=== BiblioTrack - Library Management System 2.04 ===\n";
     
     while (true) {
         showMenu();
@@ -271,3 +271,4 @@ void LibraryApp::displayCategoryStatistics() {
 }
 
 } // namespace Launcher
+

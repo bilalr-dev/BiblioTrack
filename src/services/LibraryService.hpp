@@ -33,6 +33,8 @@ private:
     // Validation methods
     bool isValidYear(int year);
     std::string toLowerCase(const std::string& str);
+    std::string sanitizeInput(const std::string& input);
 };
 
 } // namespace Services
+

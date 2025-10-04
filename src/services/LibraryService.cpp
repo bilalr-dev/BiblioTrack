@@ -26,7 +26,17 @@ std::string LibraryService::addBook(const DataModel::Book& book) {
         return "Quantity must be greater than 0";
     }
     
-    if (repository_->addBook(book)) {
+    // Create sanitized book with cleaned input
+    DataModel::Book sanitizedBook(
+        sanitizeInput(book.getIsbn()),
+        sanitizeInput(book.getTitle()),
+        sanitizeInput(book.getAuthor()),
+        book.getYear(),
+        book.getQuantity(),
+        sanitizeInput(book.getCategory())
+    );
+    
+    if (repository_->addBook(sanitizedBook)) {
         return ""; // Success
     } else {
         return "Book with this ISBN already exists";
@@ -144,4 +154,34 @@ std::string LibraryService::toLowerCase(const std::string& str) {
     return result;
 }
 
+std::string LibraryService::sanitizeInput(const std::string& input) {
+    std::string result = input;
+    
+    // Trim leading and trailing whitespace
+    size_t start = result.find_first_not_of(" \t\n\r");
+    if (start == std::string::npos) {
+        return "";
+    }
+    size_t end = result.find_last_not_of(" \t\n\r");
+    result = result.substr(start, end - start + 1);
+    
+    // Remove excessive whitespace (replace multiple spaces with single space)
+    std::string cleaned;
+    bool inSpace = false;
+    for (char c : result) {
+        if (std::isspace(c)) {
+            if (!inSpace) {
+                cleaned += ' ';
+                inSpace = true;
+            }
+        } else {
+            cleaned += c;
+            inSpace = false;
+        }
+    }
+    
+    return cleaned;
+}
+
 } // namespace Services
+

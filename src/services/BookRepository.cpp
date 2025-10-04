@@ -138,6 +138,10 @@ std::vector<std::string> BookRepository::parseLine(const std::string& line) {
     std::string field;
     
     while (std::getline(ss, field, ',')) {
+        // Remove surrounding quotes if present
+        if (field.length() >= 2 && field.front() == '"' && field.back() == '"') {
+            field = field.substr(1, field.length() - 2);
+        }
         result.push_back(field);
     }
     
@@ -147,7 +151,25 @@ std::vector<std::string> BookRepository::parseLine(const std::string& line) {
 std::string BookRepository::buildLine(const std::vector<std::string>& fields) {
     std::string result;
     for (size_t i = 0; i < fields.size(); ++i) {
-        result += fields[i];
+        std::string field = fields[i];
+        
+        // Escape field if it contains comma, quote, or newline
+        if (field.find(',') != std::string::npos || 
+            field.find('"') != std::string::npos || 
+            field.find('\n') != std::string::npos) {
+            // Escape quotes by doubling them
+            std::string escaped;
+            for (char c : field) {
+                if (c == '"') {
+                    escaped += "\"\"";
+                } else {
+                    escaped += c;
+                }
+            }
+            field = "\"" + escaped + "\"";
+        }
+        
+        result += field;
         if (i < fields.size() - 1) {
             result += ",";
         }
@@ -156,3 +178,4 @@ std::string BookRepository::buildLine(const std::vector<std::string>& fields) {
 }
 
 } // namespace Services
+

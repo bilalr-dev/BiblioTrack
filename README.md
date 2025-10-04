@@ -1,4 +1,4 @@
-# BiblioTrack - Layered Library Management System (v2.03)
+# BiblioTrack - Layered Library Management System (v2.04)
 
 A clean, well-structured C++ library management system organized in separate layers for maintainability and scalability. Enhanced with comprehensive category management and advanced browsing features.
 
@@ -133,6 +133,23 @@ The file and directory are automatically created on first run. The system suppor
 - **Legacy Support**: Seamlessly handles existing CSV files without category data
 - **Gradual Migration**: Old books are automatically assigned "General" category
 - **Non-Breaking**: All existing functionality remains unchanged
+
+## 🔧 **Data Quality & Input Sanitization (v2.04)**
+
+### **Enhanced CSV Handling**
+- **Proper CSV Escaping**: Books with commas, quotes, or newlines in titles/authors are properly escaped
+- **Robust Parsing**: System correctly handles quoted fields and escaped characters in CSV files
+- **Data Integrity**: Prevents CSV corruption from special characters in book data
+
+### **Input Sanitization**
+- **Whitespace Cleanup**: Automatic trimming of leading/trailing spaces and normalization of excessive whitespace
+- **Data Consistency**: Ensures clean, consistent data storage and retrieval
+- **User Experience**: Handles user input gracefully without breaking the system
+
+### **Improved Reliability**
+- **Error Prevention**: Reduces data corruption issues from malformed input
+- **Better Compatibility**: Enhanced CSV file format compliance
+- **Maintainable Data**: Cleaner data storage for long-term system health
 
 ## Design Principles
 
