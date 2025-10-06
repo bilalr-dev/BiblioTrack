@@ -50,5 +50,6 @@ test_*.txt
 *_test.cpp
 quick_test*
 
-# Data files (optional - uncomment if you don't want to track data)
-# data/books.csv
+# Data files
+data/*.csv
+
