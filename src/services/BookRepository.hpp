@@ -18,23 +18,16 @@ public:
 
 private:
     std::string jsonPath_;
-    bool loaded_ = false;
-    std::vector<DataModel::Book> cache_;
-    std::unordered_map<std::string, size_t> isbnToIndex_;
+    std::vector<DataModel::Book> books_;
+    std::unordered_map<std::string, size_t> isbnIndex_;
+    bool loaded_;
     
-    // JSON helpers (line-delimited JSON objects for simplicity and robustness without external deps)
-    static std::string escapeJsonString(const std::string& input);
-    static bool parseJsonLine(const std::string& line,
-                              std::string& isbn,
-                              std::string& title,
-                              std::string& author,
-                              int& year,
-                              int& quantity,
-                              std::string& category);
     void ensureFileExists();
-    void migrateCsvIfPresent();
-    void loadAllIntoCache();
-    bool writeAllFromCache();
+    void loadBooksFromJson();
+    bool saveBooksToJson();
+    bool parseJsonLine(const std::string& line, std::string& isbn, std::string& title, std::string& author, int& year, int& quantity, std::string& category);
+    std::string buildJsonLine(const DataModel::Book& book);
+    std::string escapeJsonString(const std::string& input);
 };
 
 } // namespace Services

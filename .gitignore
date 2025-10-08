@@ -53,3 +53,8 @@ quick_test*
 # Data files
 data/*.csv
 
+# Credentials files (contains sensitive data)
+.env
+credentials.json
+config/credentials.json
+

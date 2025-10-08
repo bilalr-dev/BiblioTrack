@@ -8,10 +8,16 @@ namespace Launcher {
 LibraryApp::LibraryApp() {
     repository_ = std::make_shared<Services::BookRepository>("data/books.json");
     service_ = std::make_shared<Services::LibraryService>(repository_);
+    authService_ = std::make_shared<Services::AuthenticationService>();
 }
 
 void LibraryApp::run() {
-    std::cout << "=== BiblioTrack - Library Management System 2.05 ===\n";
+    std::cout << "=== BiblioTrack - Library Management System 2.06 ===\n";
+    
+    // Authenticate user before allowing access
+    if (!authService_->runAuthenticationFlow()) {
+        return; // User chose to exit
+    }
     
     while (true) {
         showMenu();
@@ -269,6 +275,8 @@ void LibraryApp::displayCategoryStatistics() {
     std::cout << std::string(30, '-') << "\n";
     std::cout << std::left << std::setw(20) << "Total Books:" << std::setw(10) << totalBooks << "\n";
 }
+
+// Authentication logic has been moved to AuthenticationService
 
 } // namespace Launcher
 
