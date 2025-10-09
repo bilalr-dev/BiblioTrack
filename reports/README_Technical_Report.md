@@ -110,7 +110,7 @@ All diagrams are created using Mermaid syntax and can be rendered in any Mermaid
 - **Complexity Level**: 4/10 (Beginner to Intermediate)
 - **Lines of Code**: ~500 lines
 - **Architecture**: Layered (3-tier)
-- **Technology**: C++17, CMake, JSON persistence (line-delimited), CSV migration
+- **Technology**: C++17, CMake, JSON persistence (line-delimited)
 - **Design Pattern**: Clean Architecture with SOLID principles
 
 ### 🎨 Diagram Rendering

@@ -78,7 +78,7 @@ Launcher → Services → DataModel
 
 ### 📈 **Scalability**
 - Easy to add new features in the appropriate layer (demonstrated by category feature extension)
-- Simple to replace components (e.g., CSV → Database)
+- Simple to replace components (e.g., JSON → Database)
 - Clear boundaries for team development
 - Backward compatibility maintained during feature additions
 
@@ -172,16 +172,16 @@ Example lines in `books.json` (numeric ISBNs):
 - **Visual Organization**: All book displays now include category information in formatted tables
 
 ### **Backward Compatibility**
-- **Legacy Support**: Seamlessly handles existing CSV files without category data
+- **Legacy Support**: Seamlessly handles existing JSON files with automatic category assignment
 - **Gradual Migration**: Old books are automatically assigned "General" category
 - **Non-Breaking**: All existing functionality remains unchanged
 
 ## 🔧 **Data Quality & Input Sanitization (v2.04)**
 
-### **Enhanced CSV Handling**
-- **Proper CSV Escaping**: Books with commas, quotes, or newlines in titles/authors are properly escaped
-- **Robust Parsing**: System correctly handles quoted fields and escaped characters in CSV files
-- **Data Integrity**: Prevents CSV corruption from special characters in book data
+### **Enhanced JSON Handling**
+- **Proper JSON Escaping**: Books with quotes, newlines, or special characters in titles/authors are properly escaped
+- **Robust Parsing**: System correctly handles escaped characters and special characters in JSON files
+- **Data Integrity**: Prevents JSON corruption from special characters in book data
 
 ### **Input Sanitization**
 - **Whitespace Cleanup**: Automatic trimming of leading/trailing spaces and normalization of excessive whitespace
