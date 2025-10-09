@@ -58,18 +58,29 @@ bool BookRepository::addBook(const DataModel::Book& book) {
     if (isbnIndex_.count(book.getIsbn())) return false;
     books_.push_back(book);
     isbnIndex_[book.getIsbn()] = books_.size() - 1;
-    // Append to file for efficiency
+    
+    // Pre-build JSON string for efficiency
+    std::string json;
+    json.reserve(JsonConstants::ESTIMATED_JSON_LINE_SIZE);
+    
+    json += "{\"isbn\":\"";
+    json += escapeJsonString(book.getIsbn());
+    json += "\",\"title\":\"";
+    json += escapeJsonString(book.getTitle());
+    json += "\",\"author\":\"";
+    json += escapeJsonString(book.getAuthor());
+    json += "\",\"year\":";
+    json += std::to_string(book.getYear());
+    json += ",\"quantity\":";
+    json += std::to_string(book.getQuantity());
+    json += ",\"category\":\"";
+    json += escapeJsonString(book.getCategory());
+    json += "\"}";
+    
+    // Append to file
     std::ofstream file(jsonPath_, std::ios::app);
     if (!file.is_open()) return false;
-    file << "{"
-         << "\"isbn\":\"" << escapeJsonString(book.getIsbn()) << "\"," 
-         << "\"title\":\"" << escapeJsonString(book.getTitle()) << "\"," 
-         << "\"author\":\"" << escapeJsonString(book.getAuthor()) << "\"," 
-         << "\"year\":" << book.getYear() << ","
-         << "\"quantity\":" << book.getQuantity() << ","
-         << "\"category\":\"" << escapeJsonString(book.getCategory()) << "\"" 
-         << "}"
-         << "\n";
+    file << json << "\n";
     return true;
 }
 
@@ -222,19 +233,28 @@ bool BookRepository::saveBooksToJson() {
     std::ofstream file(jsonPath_);
     if (!file.is_open()) return false;
     for (const auto& book : books_) {
-        file << "{"
-             << "\"isbn\":\"" << escapeJsonString(book.getIsbn()) << "\"," 
-             << "\"title\":\"" << escapeJsonString(book.getTitle()) << "\"," 
-             << "\"author\":\"" << escapeJsonString(book.getAuthor()) << "\"," 
-             << "\"year\":" << book.getYear() << ","
-             << "\"quantity\":" << book.getQuantity() << ","
-             << "\"category\":\"" << escapeJsonString(book.getCategory()) << "\"" 
-             << "}"
-             << "\n";
+        // Pre-build JSON string for efficiency
+        std::string json;
+        json.reserve(JsonConstants::ESTIMATED_JSON_LINE_SIZE);
+        
+        json += "{\"isbn\":\"";
+        json += escapeJsonString(book.getIsbn());
+        json += "\",\"title\":\"";
+        json += escapeJsonString(book.getTitle());
+        json += "\",\"author\":\"";
+        json += escapeJsonString(book.getAuthor());
+        json += "\",\"year\":";
+        json += std::to_string(book.getYear());
+        json += ",\"quantity\":";
+        json += std::to_string(book.getQuantity());
+        json += ",\"category\":\"";
+        json += escapeJsonString(book.getCategory());
+        json += "\"}";
+        
+        file << json << "\n";
     }
     return true;
 }
-
 
 } // namespace Services
 

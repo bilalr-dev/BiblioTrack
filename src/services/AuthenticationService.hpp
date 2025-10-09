@@ -4,7 +4,7 @@
 namespace Services {
 
 /**
- * AuthenticationService handles complete user authentication flow for BiblioTrack v2.06
+ * AuthenticationService handles complete user authentication flow for BiblioTrack v2.07
  * Provides secure login verification, user interaction, and authentication flow management
  */
 class AuthenticationService {

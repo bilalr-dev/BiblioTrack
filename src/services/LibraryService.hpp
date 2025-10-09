@@ -8,6 +8,15 @@
 
 namespace Services {
 
+// Constants for validation
+namespace Constants {
+    constexpr int MIN_YEAR = 1000;
+    constexpr int MIN_QUANTITY = 1;
+    constexpr size_t ESTIMATED_CATEGORIES_PER_BOOK = 4;
+    constexpr size_t ESTIMATED_SEARCH_MATCH_RATE = 10; // 10% of books
+    constexpr size_t ESTIMATED_CATEGORY_MATCH_RATE = 5; // 20% of books
+}
+
 class LibraryService {
 public:
     explicit LibraryService(std::shared_ptr<BookRepository> repository);
