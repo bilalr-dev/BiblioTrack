@@ -1,5 +1,6 @@
 #include "../src/services/LibraryService.hpp"
 #include "../src/services/BookRepository.hpp"
+#include "../src/datamodel/Book.hpp"
 #include <iostream>
 #include <filesystem>
 #include <cassert>
@@ -18,9 +19,11 @@ static void test_add_valid_then_duplicate() {
     LibraryService svc(repo);
     std::string err;
 
-    err = svc.addBook("978-0134685991", "Effective Modern C++", "Scott Meyers", 2014, 2, "Programming");
+    DataModel::Book book1("978-0134685991", "Effective Modern C++", "Scott Meyers", 2014, 2, "Programming");
+    err = svc.addBook(book1);
     assert(err.empty());
-    err = svc.addBook("9780134685991", "Duplicate", "X", 2015, 1, "Programming");
+    DataModel::Book book2("9780134685991", "Duplicate", "X", 2015, 1, "Programming");
+    err = svc.addBook(book2);
     assert(err == "Book with this ISBN already exists");
 }
 
@@ -28,7 +31,8 @@ static void test_invalid_quantity_first() {
     cleanTestData();
     auto repo = std::make_shared<BookRepository>("data/books.json");
     LibraryService svc(repo);
-    std::string err = svc.addBook("0-395-19395-4", "Test 3", "Tester", 2000, -10, "");
+    DataModel::Book book("0-395-19395-4", "Test 3", "Tester", 2000, -10, "");
+    std::string err = svc.addBook(book);
     assert(err == "Quantity must be greater than 0");
 }
 
@@ -37,7 +41,8 @@ static void test_delete_and_search() {
     auto repo = std::make_shared<BookRepository>("data/books.json");
     LibraryService svc(repo);
     std::string err;
-    err = svc.addBook("9780134685991", "EMC++", "Meyers", 2014, 1, "Programming");
+    DataModel::Book book("9780134685991", "EMC++", "Meyers", 2014, 1, "Programming");
+    err = svc.addBook(book);
     assert(err.empty());
     auto found = svc.searchByIsbn("978-0-13-468599-1");
     assert(found.has_value());

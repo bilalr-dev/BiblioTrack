@@ -18,7 +18,6 @@ private:
     std::shared_ptr<Services::LibraryService> service_;
     std::shared_ptr<Services::AuthenticationService> authService_;
     
-    // Authentication is now handled by AuthenticationService
     
     // Menu and UI methods
     void showMenu();

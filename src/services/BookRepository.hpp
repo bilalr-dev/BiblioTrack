@@ -26,7 +26,6 @@ private:
     void loadBooksFromJson();
     bool saveBooksToJson();
     bool parseJsonLine(const std::string& line, std::string& isbn, std::string& title, std::string& author, int& year, int& quantity, std::string& category);
-    std::string buildJsonLine(const DataModel::Book& book);
     std::string escapeJsonString(const std::string& input);
 };
 

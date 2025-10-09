@@ -45,17 +45,17 @@ BiblioTrack/
 │   ├── datamodel/
 │   │   └── Book.hpp              # Book entity
 │   ├── services/
+│   │   ├── AuthenticationService.* # Authentication layer
 │   │   ├── BookRepository.*      # Data access layer
 │   │   └── LibraryService.*      # Business logic layer
 │   └── launcher/
 │       ├── LibraryApp.*          # Application layer
 │       └── main.cpp              # Entry point
-├── data/
-│   └── books.json                # Data storage (auto-created)
+├── tests/
+│   └── SmokeTests.cpp            # Basic functionality tests
 ├── config/                        # 🔐 SECURE CONFIGURATION
-│   ├── credentials_template.json # Template for admin credentials
-│   └── credentials.json          # Admin credentials (git-ignored, secure)
-├── build/                        # Build directory
+│   └── credentials_template.json # Template for admin credentials
+├── cmake-build-debug/            # Build directory (auto-created)
 └── CMakeLists.txt                # Build configuration
 ```
 
@@ -91,15 +91,15 @@ Launcher → Services → DataModel
 
 ```bash
 # Create and enter build directory
-mkdir build && cd build
+mkdir cmake-build-debug && cd cmake-build-debug
 
 # Configure and build (Unix/macOS)
 cmake ..
-cmake --build .
+cmake --build . --target BiblioTrack -j 10
 
 # Configure and build (Windows MSVC)
 # cmake -G "Visual Studio 17 2022" ..
-# cmake --build . --config Release
+# cmake --build . --config Release --target BiblioTrack
 
 # Setup secure credentials file (required for authentication)
 cp ../config/credentials_template.json ../config/credentials.json
@@ -131,7 +131,7 @@ The application now requires authentication before access:
 
 ## Data Storage
 
-As of v2.05, books are stored in `data/books.json` as one JSON object per line (line-delimited JSON).
+As of v2.05, books are stored in `data/books.json` as one JSON object per line (line-delimited JSON). The data file is automatically created when the first book is added.
 
 ## Security Features (v2.06)
 

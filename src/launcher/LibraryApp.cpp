@@ -276,7 +276,6 @@ void LibraryApp::displayCategoryStatistics() {
     std::cout << std::left << std::setw(20) << "Total Books:" << std::setw(10) << totalBooks << "\n";
 }
 
-// Authentication logic has been moved to AuthenticationService
 
 } // namespace Launcher
 

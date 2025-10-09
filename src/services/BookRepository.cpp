@@ -235,18 +235,6 @@ bool BookRepository::saveBooksToJson() {
     return true;
 }
 
-std::string BookRepository::buildJsonLine(const DataModel::Book& book) {
-    std::stringstream json;
-    json << "{"
-         << "\"isbn\":\"" << escapeJsonString(book.getIsbn()) << "\","
-         << "\"title\":\"" << escapeJsonString(book.getTitle()) << "\","
-         << "\"author\":\"" << escapeJsonString(book.getAuthor()) << "\","
-         << "\"year\":" << book.getYear() << ","
-         << "\"quantity\":" << book.getQuantity() << ","
-         << "\"category\":\"" << escapeJsonString(book.getCategory()) << "\""
-         << "}";
-    return json.str();
-}
 
 } // namespace Services
 
