@@ -83,9 +83,9 @@ Launcher → Services → DataModel
 ## Building and Running
 
 ### Prerequisites
-- C++17 compatible compiler
+- C++17 compatible compiler (GCC, Clang, or MSVC 19.14+)
 - CMake 3.12 or higher
-- Unix-like system (for secure file permissions)
+- Unix-like system recommended for secure file permissions (works on Windows/macOS/Linux)
 
 ### Build Instructions
 
@@ -93,18 +93,25 @@ Launcher → Services → DataModel
 # Create and enter build directory
 mkdir build && cd build
 
-# Configure and build
+# Configure and build (Unix/macOS)
 cmake ..
-make
+cmake --build .
+
+# Configure and build (Windows MSVC)
+# cmake -G "Visual Studio 17 2022" ..
+# cmake --build . --config Release
 
 # Setup secure credentials file (required for authentication)
 cp ../config/credentials_template.json ../config/credentials.json
 # Edit config/credentials.json with your desired admin credentials
-# Set secure file permissions (recommended for production)
-chmod 600 ../config/credentials.json
+# Set secure file permissions (recommended for production on Unix)
+chmod 600 ../config/credentials.json || true
 
-# Run the application
-./bibliotrack
+# Run the application (Unix/macOS)
+./BiblioTrack
+
+# Run the application (Windows)
+# .\\Release\\BiblioTrack.exe
 ```
 
 ## Usage

@@ -3,6 +3,7 @@
 #include <sstream>
 #include <iostream>
 #include <cctype>
+#include <filesystem>
 
 namespace Services {
 
@@ -11,21 +12,26 @@ BookRepository::BookRepository(const std::string& jsonPath) : jsonPath_(jsonPath
 }
 
 void BookRepository::ensureFileExists() {
+    namespace fs = std::filesystem;
     std::ifstream file(jsonPath_);
-    if (!file.good()) {
-        // Create directory if it doesn't exist
-        size_t lastSlash = jsonPath_.find_last_of('/');
-        if (lastSlash != std::string::npos) {
-            std::string dir = jsonPath_.substr(0, lastSlash);
-            system(("mkdir -p " + dir).c_str());
+    if (file.good()) {
+        return;
+    }
+    // Create parent directory cross-platform
+    try {
+        fs::path jsonPath(jsonPath_);
+        fs::path parentDir = jsonPath.parent_path();
+        if (!parentDir.empty() && !fs::exists(parentDir)) {
+            fs::create_directories(parentDir);
         }
-        
-        std::ofstream outFile(jsonPath_);
-        if (outFile.is_open()) {
-            // Start with an empty file for line-delimited JSON
-            // Each line is a JSON object representing one book
-            outFile.close();
-        }
+    } catch (...) {
+        // If directory creation fails, proceed to attempt file creation; addBook will fail gracefully if needed
+    }
+    std::ofstream outFile(jsonPath_);
+    if (outFile.is_open()) {
+        // Start with an empty file for line-delimited JSON
+        // Each line is a JSON object representing one book
+        outFile.close();
     }
 }
 
