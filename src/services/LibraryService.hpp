@@ -35,6 +35,27 @@ public:
     // Category management
     std::vector<std::string> getAllCategories();
     std::map<std::string, int> getCategoryStatistics();
+    
+    // Statistics and analytics (v2.08)
+    struct LibraryStatistics {
+        int totalBooks = 0;
+        int totalQuantity = 0;
+        int uniqueAuthors = 0;
+        int totalCategories = 0;
+        std::string mostPopularCategory;
+        std::string categoryWithHighestQuantity;
+        std::string mostProlificAuthor;
+        int oldestYear = 0;
+        int newestYear = 0;
+        double averageBooksPerCategory = 0.0;
+        double averageQuantityPerBook = 0.0;
+        std::string oldestBookTitle;
+        std::string newestBookTitle;
+    };
+    
+    LibraryStatistics getLibraryStatistics();
+    std::map<std::string, int> getAuthorStatistics();
+    std::map<int, int> getYearStatistics();
 
 private:
     std::shared_ptr<BookRepository> repository_;

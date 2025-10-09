@@ -22,6 +22,32 @@ add_executable(BiblioTrack
         src/services/BookRepository.cpp
         src/services/BookRepository.hpp
         src/services/LibraryService.cpp
-        src/services/LibraryService.hpp
-        src/launcher/main.cpp
-        src/launcher/main.cpp)
+        src/services/LibraryService.hpp)
+
+# Test executables
+add_executable(UnitTests
+        tests/UnitTests.cpp
+        src/services/LibraryService.cpp
+        src/services/BookRepository.cpp
+        src/services/AuthenticationService.cpp)
+
+add_executable(IntegrationTests
+        tests/IntegrationTests.cpp
+        src/services/LibraryService.cpp
+        src/services/BookRepository.cpp
+        src/services/AuthenticationService.cpp)
+
+add_executable(SmokeTests
+        tests/SmokeTests.cpp
+        src/services/LibraryService.cpp
+        src/services/BookRepository.cpp
+        src/services/AuthenticationService.cpp)
+
+add_executable(TestRunner
+        tests/TestRunner.cpp)
+
+# Test target to run all tests
+add_custom_target(run_all_tests
+        COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/cmake-build-debug/TestRunner --all
+        DEPENDS UnitTests IntegrationTests SmokeTests TestRunner
+        COMMENT "Running all test suites")

@@ -1,4 +1,4 @@
-# BiblioTrack - Secure Library Management System (v2.07)
+# BiblioTrack - Secure Library Management System (v2.08)
 
 A clean, well-structured C++ library management system with secure authentication, organized in separate layers for maintainability and scalability. Enhanced with comprehensive category management, advanced browsing features, and enterprise-grade security.
 
@@ -16,6 +16,7 @@ A clean, well-structured C++ library management system with secure authenticatio
 - ✅ JSON file persistence (line-delimited) with automatic creation
 - ✅ Secure user authentication system with encrypted credential storage (v2.06)
 - ✅ High-performance algorithms with optimized memory usage (v2.07)
+- ✅ Comprehensive statistics dashboard with analytics (v2.08)
 - ✅ Clean layered architecture with separation of concerns
 - ✅ Enterprise-grade security with config directory isolation
 
@@ -35,7 +36,7 @@ Contains business logic, data access, and security components.
 
 ### 🚀 **Launcher Layer** (`src/launcher/`)
 Contains the presentation layer and application entry point.
-- `LibraryApp.*` - User interface and menu system with category browsing features (authentication delegated to services)
+- `LibraryApp.*` - User interface and menu system with category browsing and statistics dashboard (authentication delegated to services)
 - `main.cpp` - Application entry point
 
 ## Project Structure
@@ -128,7 +129,8 @@ The application now requires authentication before access:
 5. **List All Books** - Display all books in a formatted table with categories
 6. **Search Books** - Search by ISBN (exact), title (partial), author (partial), or category (partial)
 7. **Browse by Category** - View category statistics or filter books by specific categories
-8. **Exit** - Close the application
+8. **View Statistics** - Comprehensive library analytics dashboard (v2.08)
+9. **Exit** - Close the application
 
 ## Data Storage
 
@@ -204,6 +206,15 @@ Example lines in `books.json` (numeric ISBNs):
 - **Search Performance**: Enhanced with early size checks and const references
 - **Caching**: Static current year calculation to avoid repeated system calls
 
+### **Statistics Dashboard (v2.08)**
+- **Collection Overview**: Total books, quantity, authors, and categories
+- **Category Analytics**: Most popular categories and quantity distribution
+- **Author Analytics**: Most prolific authors and top contributors
+- **Publication Analytics**: Year ranges, decade distribution, and trends
+- **Quick Insights**: Averages, oldest/newest books, and collection metrics
+- **Performance Optimized**: Efficient single-pass data analysis
+- **Real-time Updates**: Statistics reflect current library state
+
 ### **Security Note (v2.06)**
 - Credentials stored in isolated `config/` directory for enhanced security
 - File permissions and git protection prevent accidental credential exposure
@@ -232,6 +243,7 @@ This architecture provides a solid foundation for a secure library management sy
 
 ## Version History
 
+- **v2.08**: Statistics dashboard release - Comprehensive library analytics, collection insights, and performance metrics
 - **v2.07**: Performance optimization release - O(n²) → O(n) algorithms, memory optimization, enhanced testing
 - **v2.06**: Added secure authentication system with config directory isolation and enterprise-grade security
 - **v2.05**: JSON storage implementation, improved performance with in-memory caching

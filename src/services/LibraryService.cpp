@@ -4,6 +4,7 @@
 #include <map>
 #include <ctime>
 #include <unordered_set>
+#include <limits>
 
 namespace Services {
 
@@ -238,6 +239,124 @@ std::string LibraryService::sanitizeInput(const std::string& input) {
     }
     
     return result;
+}
+
+// ============================================================================
+// STATISTICS AND ANALYTICS METHODS (v2.08)
+// ============================================================================
+
+LibraryService::LibraryStatistics LibraryService::getLibraryStatistics() {
+    LibraryStatistics stats;
+    auto books = repository_->getAllBooks();
+    
+    if (books.empty()) {
+        return stats; // Return default values for empty library
+    }
+    
+    // Basic counts
+    stats.totalBooks = static_cast<int>(books.size());
+    
+    // Calculate totals and collect data for analysis
+    std::map<std::string, int> categoryBookCounts;
+    std::map<std::string, int> categoryQuantityCounts;
+    std::map<std::string, int> authorBookCounts;
+    std::unordered_set<std::string> uniqueAuthors;
+    std::unordered_set<std::string> uniqueCategories;
+    
+    int totalQuantity = 0;
+    int oldestYear = std::numeric_limits<int>::max();
+    int newestYear = std::numeric_limits<int>::min();
+    std::string oldestBookTitle;
+    std::string newestBookTitle;
+    
+    for (const auto& book : books) {
+        // Quantity calculations
+        totalQuantity += book.getQuantity();
+        
+        // Category analysis
+        const std::string& category = book.getCategory();
+        uniqueCategories.insert(category);
+        categoryBookCounts[category]++;
+        categoryQuantityCounts[category] += book.getQuantity();
+        
+        // Author analysis
+        const std::string& author = book.getAuthor();
+        uniqueAuthors.insert(author);
+        authorBookCounts[author]++;
+        
+        // Year analysis
+        int year = book.getYear();
+        if (year < oldestYear) {
+            oldestYear = year;
+            oldestBookTitle = book.getTitle();
+        }
+        if (year > newestYear) {
+            newestYear = year;
+            newestBookTitle = book.getTitle();
+        }
+    }
+    
+    // Set calculated values
+    stats.totalQuantity = totalQuantity;
+    stats.uniqueAuthors = static_cast<int>(uniqueAuthors.size());
+    stats.totalCategories = static_cast<int>(uniqueCategories.size());
+    stats.oldestYear = oldestYear;
+    stats.newestYear = newestYear;
+    stats.oldestBookTitle = oldestBookTitle;
+    stats.newestBookTitle = newestBookTitle;
+    
+    // Calculate averages
+    if (stats.totalCategories > 0) {
+        stats.averageBooksPerCategory = static_cast<double>(stats.totalBooks) / stats.totalCategories;
+    }
+    if (stats.totalBooks > 0) {
+        stats.averageQuantityPerBook = static_cast<double>(stats.totalQuantity) / stats.totalBooks;
+    }
+    
+    // Find most popular category (by book count)
+    if (!categoryBookCounts.empty()) {
+        auto maxCategory = std::max_element(categoryBookCounts.begin(), categoryBookCounts.end(),
+            [](const auto& a, const auto& b) { return a.second < b.second; });
+        stats.mostPopularCategory = maxCategory->first;
+    }
+    
+    // Find category with highest quantity
+    if (!categoryQuantityCounts.empty()) {
+        auto maxQuantityCategory = std::max_element(categoryQuantityCounts.begin(), categoryQuantityCounts.end(),
+            [](const auto& a, const auto& b) { return a.second < b.second; });
+        stats.categoryWithHighestQuantity = maxQuantityCategory->first;
+    }
+    
+    // Find most prolific author
+    if (!authorBookCounts.empty()) {
+        auto maxAuthor = std::max_element(authorBookCounts.begin(), authorBookCounts.end(),
+            [](const auto& a, const auto& b) { return a.second < b.second; });
+        stats.mostProlificAuthor = maxAuthor->first;
+    }
+    
+    return stats;
+}
+
+std::map<std::string, int> LibraryService::getAuthorStatistics() {
+    std::map<std::string, int> authorStats;
+    auto books = repository_->getAllBooks();
+    
+    for (const auto& book : books) {
+        authorStats[book.getAuthor()]++;
+    }
+    
+    return authorStats;
+}
+
+std::map<int, int> LibraryService::getYearStatistics() {
+    std::map<int, int> yearStats;
+    auto books = repository_->getAllBooks();
+    
+    for (const auto& book : books) {
+        yearStats[book.getYear()]++;
+    }
+    
+    return yearStats;
 }
 
 } // namespace Services

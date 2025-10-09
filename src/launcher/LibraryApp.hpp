@@ -18,7 +18,6 @@ private:
     std::shared_ptr<Services::LibraryService> service_;
     std::shared_ptr<Services::AuthenticationService> authService_;
     
-    
     // Menu and UI methods
     void showMenu();
     int getChoice();
@@ -31,6 +30,7 @@ private:
     // Display helpers
     void displayBooks(const std::vector<DataModel::Book>& books);
     void displayCategoryStatistics();
+    void displayLibraryStatistics(); // v2.08
 };
 
 } // namespace Launcher

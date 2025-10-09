@@ -12,7 +12,7 @@ LibraryApp::LibraryApp() {
 }
 
 void LibraryApp::run() {
-    std::cout << "=== BiblioTrack - Library Management System 2.07 ===\n";
+    std::cout << "=== BiblioTrack - Library Management System 2.08 ===\n";
     
     // Authenticate user before allowing access
     if (!authService_->runAuthenticationFlow()) {
@@ -29,7 +29,8 @@ void LibraryApp::run() {
             case 3: listBooks(); break;
             case 4: searchBooks(); break;
             case 5: browseByCategory(); break;
-            case 6: 
+            case 6: displayLibraryStatistics(); break;
+            case 7: 
                 std::cout << "Goodbye!\n";
                 return;
             default:
@@ -45,8 +46,9 @@ void LibraryApp::showMenu() {
     std::cout << "3. List All Books\n";
     std::cout << "4. Search Books\n";
     std::cout << "5. Browse by Category\n";
-    std::cout << "6. Exit\n";
-    std::cout << "Choose an option (1-6): ";
+    std::cout << "6. View Statistics\n";
+    std::cout << "7. Exit\n";
+    std::cout << "Choose an option (1-7): ";
 }
 
 int LibraryApp::getChoice() {
@@ -274,6 +276,98 @@ void LibraryApp::displayCategoryStatistics() {
     
     std::cout << std::string(30, '-') << "\n";
     std::cout << std::left << std::setw(20) << "Total Books:" << std::setw(10) << totalBooks << "\n";
+}
+
+void LibraryApp::displayLibraryStatistics() {
+    std::cout << "\n=== Library Statistics Dashboard ===\n";
+    
+    auto stats = service_->getLibraryStatistics();
+    
+    if (stats.totalBooks == 0) {
+        std::cout << "No books found in the library.\n";
+        return;
+    }
+    
+    // Collection Overview
+    std::cout << "\n📊 Collection Overview:\n";
+    std::cout << "   Total Books: " << stats.totalBooks << "\n";
+    std::cout << "   Total Quantity: " << stats.totalQuantity << "\n";
+    std::cout << "   Unique Authors: " << stats.uniqueAuthors << "\n";
+    std::cout << "   Categories: " << stats.totalCategories << "\n";
+    
+    // Category Analytics
+    std::cout << "\n📈 Category Analytics:\n";
+    if (!stats.mostPopularCategory.empty()) {
+        std::cout << "   Most Popular: " << stats.mostPopularCategory << "\n";
+    }
+    if (!stats.categoryWithHighestQuantity.empty()) {
+        std::cout << "   Highest Quantity: " << stats.categoryWithHighestQuantity << "\n";
+    }
+    std::cout << "   Average per Category: " << std::fixed << std::setprecision(1) 
+              << stats.averageBooksPerCategory << " books\n";
+    
+    // Author Analytics
+    std::cout << "\n👥 Author Analytics:\n";
+    if (!stats.mostProlificAuthor.empty()) {
+        std::cout << "   Most Prolific: " << stats.mostProlificAuthor << "\n";
+    }
+    
+    // Show top 5 authors
+    auto authorStats = service_->getAuthorStatistics();
+    if (!authorStats.empty()) {
+        std::vector<std::pair<std::string, int>> sortedAuthors(authorStats.begin(), authorStats.end());
+        std::sort(sortedAuthors.begin(), sortedAuthors.end(),
+            [](const auto& a, const auto& b) { return a.second > b.second; });
+        
+        std::cout << "   Top Authors: ";
+        int count = 0;
+        for (const auto& author : sortedAuthors) {
+            if (count >= 5) break;
+            if (count > 0) std::cout << ", ";
+            std::cout << author.first << " (" << author.second << ")";
+            count++;
+        }
+        std::cout << "\n";
+    }
+    
+    // Publication Analytics
+    std::cout << "\n📅 Publication Analytics:\n";
+    if (stats.oldestYear > 0 && stats.newestYear > 0) {
+        std::cout << "   Year Range: " << stats.oldestYear << " - " << stats.newestYear << "\n";
+    }
+    
+    // Calculate decade distribution
+    auto yearStats = service_->getYearStatistics();
+    if (!yearStats.empty()) {
+        std::map<int, int> decadeStats;
+        for (const auto& yearPair : yearStats) {
+            int decade = (yearPair.first / 10) * 10;
+            decadeStats[decade] += yearPair.second;
+        }
+        
+        if (!decadeStats.empty()) {
+            auto maxDecade = std::max_element(decadeStats.begin(), decadeStats.end(),
+                [](const auto& a, const auto& b) { return a.second < b.second; });
+            std::cout << "   Most Common Decade: " << maxDecade->first << "s (" 
+                      << maxDecade->second << " books)\n";
+        }
+    }
+    
+    // Quick Insights
+    std::cout << "\n💡 Quick Insights:\n";
+    std::cout << "   Average books per category: " << std::fixed << std::setprecision(1) 
+              << stats.averageBooksPerCategory << "\n";
+    std::cout << "   Average quantity per book: " << std::fixed << std::setprecision(1) 
+              << stats.averageQuantityPerBook << "\n";
+    
+    if (!stats.oldestBookTitle.empty()) {
+        std::cout << "   Oldest Book: " << stats.oldestBookTitle << " (" << stats.oldestYear << ")\n";
+    }
+    if (!stats.newestBookTitle.empty()) {
+        std::cout << "   Newest Book: " << stats.newestBookTitle << " (" << stats.newestYear << ")\n";
+    }
+    
+    std::cout << "\n";
 }
 
 
