@@ -2,7 +2,7 @@
 
 ## 📋 Complete Technical Documentation
 
-This directory contains the comprehensive technical report for the BiblioTrack Library Management System v2.08.
+This directory contains the comprehensive technical report for the BiblioTrack Library Management System v2.09.
 
 ### 📄 Main Documents
 
@@ -110,7 +110,7 @@ All diagrams are created using Mermaid syntax and can be rendered in any Mermaid
 - **Complexity Level**: 4/10 (Beginner to Intermediate)
 - **Lines of Code**: ~500 lines
 - **Architecture**: Layered (3-tier)
-- **Technology**: C++17, CMake, JSON persistence (line-delimited)
+- **Technology**: C++17, CMake, JSONL persistence (line-delimited JSON)
 - **Design Pattern**: Clean Architecture with SOLID principles
 
 ### 🎨 Diagram Rendering
@@ -130,9 +130,9 @@ All Mermaid diagrams can be rendered using:
 
 ---
 
-**Documentation Version**: 1.2  
+**Documentation Version**: 1.3  
 **Last Updated**: October 2025  
-**Project**: BiblioTrack Library Management System v2.08  
+**Project**: BiblioTrack Library Management System v2.09  
 **Architecture**: Clean Architecture with Layered Design (C++17, CMake 3.12+)
 
 

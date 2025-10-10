@@ -16,13 +16,13 @@ using namespace Services;
 // Test utilities
 static void cleanTestData() {
     std::error_code ec;
-    std::filesystem::remove("data/books.json", ec);
+    std::filesystem::remove("data/books.jsonl", ec);
     // Note: credentials.json is NOT removed to preserve authentication setup
 }
 
 static void cleanTestDataIncludingCredentials() {
     std::error_code ec;
-    std::filesystem::remove("data/books.json", ec);
+    std::filesystem::remove("data/books.jsonl", ec);
     std::filesystem::remove("config/credentials.json", ec);
 }
 
@@ -124,7 +124,7 @@ static void test_library_service_validation() {
     std::cout << "Testing LibraryService validation methods...\n";
     
     cleanTestData();
-    auto repo = std::make_shared<BookRepository>("data/books.json");
+    auto repo = std::make_shared<BookRepository>("data/books.jsonl");
     LibraryService service(repo);
     
     // Test valid book
@@ -187,7 +187,7 @@ static void test_library_service_search() {
     std::cout << "Testing LibraryService search methods...\n";
     
     cleanTestData();
-    auto repo = std::make_shared<BookRepository>("data/books.json");
+    auto repo = std::make_shared<BookRepository>("data/books.jsonl");
     LibraryService service(repo);
     
     // Add test books
@@ -241,7 +241,7 @@ static void test_library_service_category_management() {
     std::cout << "Testing LibraryService category management...\n";
     
     cleanTestData();
-    auto repo = std::make_shared<BookRepository>("data/books.json");
+    auto repo = std::make_shared<BookRepository>("data/books.jsonl");
     LibraryService service(repo);
     
     // Add books with different categories
@@ -276,7 +276,7 @@ static void test_book_repository_basic_operations() {
     std::cout << "Testing BookRepository basic operations...\n";
     
     cleanTestData();
-    BookRepository repo("data/books.json");
+    BookRepository repo("data/books.jsonl");
     
     // Test initial state
     auto books = repo.getAllBooks();
@@ -319,13 +319,13 @@ static void test_book_repository_persistence() {
     
     // Create repository and add books
     {
-        BookRepository repo("data/books.json");
+        BookRepository repo("data/books.jsonl");
         repo.addBook(Book("1", "Book1", "Author1", 2020, 1, "Category1"));
         repo.addBook(Book("2", "Book2", "Author2", 2021, 2, "Category2"));
     }
     
     // Create new repository and verify data persisted
-    BookRepository repo2("data/books.json");
+    BookRepository repo2("data/books.jsonl");
     auto books = repo2.getAllBooks();
     assert(books.size() == 2);
     
@@ -415,7 +415,7 @@ static void test_edge_cases_large_dataset() {
     std::cout << "Testing edge cases with large dataset...\n";
     
     cleanTestData();
-    auto repo = std::make_shared<BookRepository>("data/books.json");
+    auto repo = std::make_shared<BookRepository>("data/books.jsonl");
     LibraryService service(repo);
     
     // Add many books
@@ -446,7 +446,7 @@ static void test_edge_cases_special_characters() {
     std::cout << "Testing edge cases with special characters...\n";
     
     cleanTestData();
-    auto repo = std::make_shared<BookRepository>("data/books.json");
+    auto repo = std::make_shared<BookRepository>("data/books.jsonl");
     LibraryService service(repo);
     
     // Test books with special characters
@@ -472,7 +472,7 @@ static void test_edge_cases_boundary_values() {
     std::cout << "Testing edge cases with boundary values...\n";
     
     cleanTestData();
-    auto repo = std::make_shared<BookRepository>("data/books.json");
+    auto repo = std::make_shared<BookRepository>("data/books.jsonl");
     LibraryService service(repo);
     
     // Test minimum valid year
@@ -510,7 +510,7 @@ static void test_library_statistics_basic() {
     std::cout << "Testing LibraryService statistics basic functionality...\n";
     
     cleanTestData();
-    auto repo = std::make_shared<BookRepository>("data/books.json");
+    auto repo = std::make_shared<BookRepository>("data/books.jsonl");
     LibraryService service(repo);
     
     // Add test books
@@ -545,7 +545,7 @@ static void test_library_statistics_analytics() {
     std::cout << "Testing LibraryService statistics analytics...\n";
     
     cleanTestData();
-    auto repo = std::make_shared<BookRepository>("data/books.json");
+    auto repo = std::make_shared<BookRepository>("data/books.jsonl");
     LibraryService service(repo);
     
     // Add books with specific patterns for analytics
@@ -571,7 +571,7 @@ static void test_author_statistics() {
     std::cout << "Testing LibraryService author statistics...\n";
     
     cleanTestData();
-    auto repo = std::make_shared<BookRepository>("data/books.json");
+    auto repo = std::make_shared<BookRepository>("data/books.jsonl");
     LibraryService service(repo);
     
     // Add books with different authors
@@ -596,7 +596,7 @@ static void test_year_statistics() {
     std::cout << "Testing LibraryService year statistics...\n";
     
     cleanTestData();
-    auto repo = std::make_shared<BookRepository>("data/books.json");
+    auto repo = std::make_shared<BookRepository>("data/books.jsonl");
     LibraryService service(repo);
     
     // Add books with different years
@@ -622,7 +622,7 @@ static void test_statistics_empty_library() {
     std::cout << "Testing LibraryService statistics with empty library...\n";
     
     cleanTestData();
-    auto repo = std::make_shared<BookRepository>("data/books.json");
+    auto repo = std::make_shared<BookRepository>("data/books.jsonl");
     LibraryService service(repo);
     
     auto stats = service.getLibraryStatistics();
@@ -655,7 +655,7 @@ static void test_statistics_large_dataset() {
     std::cout << "Testing LibraryService statistics with large dataset...\n";
     
     cleanTestData();
-    auto repo = std::make_shared<BookRepository>("data/books.json");
+    auto repo = std::make_shared<BookRepository>("data/books.jsonl");
     LibraryService service(repo);
     
     // Add many books with patterns
@@ -694,7 +694,7 @@ static void test_statistics_edge_cases() {
     std::cout << "Testing LibraryService statistics edge cases...\n";
     
     cleanTestData();
-    auto repo = std::make_shared<BookRepository>("data/books.json");
+    auto repo = std::make_shared<BookRepository>("data/books.jsonl");
     LibraryService service(repo);
     
     // Test with single book
@@ -737,7 +737,7 @@ static void test_statistics_category_analytics() {
     std::cout << "Testing LibraryService category analytics...\n";
     
     cleanTestData();
-    auto repo = std::make_shared<BookRepository>("data/books.json");
+    auto repo = std::make_shared<BookRepository>("data/books.jsonl");
     LibraryService service(repo);
     
     // Add books with specific category patterns
@@ -763,7 +763,7 @@ static void test_statistics_author_analytics() {
     std::cout << "Testing LibraryService author analytics...\n";
     
     cleanTestData();
-    auto repo = std::make_shared<BookRepository>("data/books.json");
+    auto repo = std::make_shared<BookRepository>("data/books.jsonl");
     LibraryService service(repo);
     
     // Add books with specific author patterns
@@ -792,7 +792,7 @@ static void test_statistics_year_analytics() {
     std::cout << "Testing LibraryService year analytics...\n";
     
     cleanTestData();
-    auto repo = std::make_shared<BookRepository>("data/books.json");
+    auto repo = std::make_shared<BookRepository>("data/books.jsonl");
     LibraryService service(repo);
     
     // Add books with specific year patterns
@@ -822,7 +822,7 @@ static void test_statistics_performance() {
     std::cout << "Testing LibraryService statistics performance...\n";
     
     cleanTestData();
-    auto repo = std::make_shared<BookRepository>("data/books.json");
+    auto repo = std::make_shared<BookRepository>("data/books.jsonl");
     LibraryService service(repo);
     
     // Add a large number of books for performance testing
@@ -868,7 +868,7 @@ static void test_statistics_boundary_values() {
     std::cout << "Testing LibraryService statistics boundary values...\n";
     
     cleanTestData();
-    auto repo = std::make_shared<BookRepository>("data/books.json");
+    auto repo = std::make_shared<BookRepository>("data/books.jsonl");
     LibraryService service(repo);
     
     // Test with extreme values (within valid ranges)
@@ -893,7 +893,7 @@ static void test_statistics_special_characters() {
     std::cout << "Testing LibraryService statistics with special characters...\n";
     
     cleanTestData();
-    auto repo = std::make_shared<BookRepository>("data/books.json");
+    auto repo = std::make_shared<BookRepository>("data/books.jsonl");
     LibraryService service(repo);
     
     // Add books with special characters
@@ -919,7 +919,7 @@ static void test_statistics_consistency() {
     std::cout << "Testing LibraryService statistics consistency...\n";
     
     cleanTestData();
-    auto repo = std::make_shared<BookRepository>("data/books.json");
+    auto repo = std::make_shared<BookRepository>("data/books.jsonl");
     LibraryService service(repo);
     
     // Add books and verify statistics remain consistent
@@ -960,7 +960,7 @@ static void test_statistics_consistency() {
 // ============================================================================
 
 int main() {
-    std::cout << "Running BiblioTrack v2.08 Unit Tests...\n";
+    std::cout << "Running BiblioTrack v2.09 Unit Tests...\n";
     std::cout << "==========================================\n\n";
     
     try {

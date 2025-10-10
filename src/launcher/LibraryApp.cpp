@@ -6,13 +6,13 @@
 namespace Launcher {
 
 LibraryApp::LibraryApp() {
-    repository_ = std::make_shared<Services::BookRepository>("data/books.json");
+    repository_ = std::make_shared<Services::BookRepository>("data/books.jsonl");
     service_ = std::make_shared<Services::LibraryService>(repository_);
     authService_ = std::make_shared<Services::AuthenticationService>();
 }
 
 void LibraryApp::run() {
-    std::cout << "=== BiblioTrack - Library Management System 2.08 ===\n";
+    std::cout << "=== BiblioTrack - Library Management System 2.09 ===\n";
     
     // Authenticate user before allowing access
     if (!authService_->runAuthenticationFlow()) {

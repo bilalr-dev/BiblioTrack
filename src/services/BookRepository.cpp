@@ -1,14 +1,18 @@
 #include "BookRepository.hpp"
+#include "../utils/PerformanceMonitor.hpp"
 #include <fstream>
 #include <sstream>
 #include <iostream>
 #include <cctype>
 #include <filesystem>
+#include <algorithm>
 
 namespace Services {
 
 BookRepository::BookRepository(const std::string& jsonPath) : jsonPath_(jsonPath), loaded_(false) {
     ensureFileExists();
+    // Initialize cache as invalid
+    cachedStats_.isValid = false;
 }
 
 void BookRepository::ensureFileExists() {
@@ -56,8 +60,16 @@ bool BookRepository::addBook(const DataModel::Book& book) {
         loadBooksFromJson();
     }
     if (isbnIndex_.count(book.getIsbn())) return false;
+    
+    size_t newIndex = books_.size();
     books_.push_back(book);
-    isbnIndex_[book.getIsbn()] = books_.size() - 1;
+    isbnIndex_[book.getIsbn()] = newIndex;
+    
+    // Update indices for the new book
+    updateIndicesForBook(newIndex, book, false);
+    
+    // Invalidate cached statistics
+    invalidateCachedStatistics();
     
     // Pre-build JSON string for efficiency
     std::string json;
@@ -91,14 +103,25 @@ bool BookRepository::removeBook(const std::string& isbn) {
     auto it = isbnIndex_.find(isbn);
     if (it == isbnIndex_.end()) return false;
     size_t idx = it->second;
+    
+    // Update indices before removal
+    updateIndicesForBook(idx, books_[idx], true);
+    
     // Erase from books by swap-pop to keep O(1)
     size_t last = books_.size() - 1;
     if (idx != last) {
+        // Update indices for the swapped book - remove from old position first
+        updateIndicesForBook(last, books_[last], true); // Remove from last position
         books_[idx] = books_[last];
+        updateIndicesForBook(idx, books_[idx], false); // Add to new position
         isbnIndex_[books_[idx].getIsbn()] = idx;
     }
     books_.pop_back();
     isbnIndex_.erase(it);
+    
+    // Invalidate cached statistics
+    invalidateCachedStatistics();
+    
     // Rewrite entire file from books to maintain correctness
     return saveBooksToJson();
 }
@@ -212,8 +235,14 @@ bool BookRepository::parseJsonLine(const std::string& line,
 }
 
 void BookRepository::loadBooksFromJson() {
+    PERF_TIMER("loadBooksFromJson");
+    
     books_.clear();
     isbnIndex_.clear();
+    titleIndex_.clear();
+    authorIndex_.clear();
+    categoryIndex_.clear();
+    
     std::ifstream file(jsonPath_);
     std::string line;
     while (std::getline(file, line)) {
@@ -226,6 +255,9 @@ void BookRepository::loadBooksFromJson() {
             books_.emplace_back(isbn, title, author, year, quantity, category);
         }
     }
+    
+    // Build all indices after loading
+    buildIndices();
     loaded_ = true;
 }
 
@@ -254,6 +286,188 @@ bool BookRepository::saveBooksToJson() {
         file << json << "\n";
     }
     return true;
+}
+
+// ============================================================================
+// OPTIMIZED SEARCH METHODS WITH INDEXING
+// ============================================================================
+
+std::vector<DataModel::Book> BookRepository::findByTitle(const std::string& title) {
+    PERF_TIMER("findByTitle");
+    
+    if (!loaded_) {
+        loadBooksFromJson();
+    }
+    
+    std::vector<DataModel::Book> results;
+    std::string normalizedTitle = normalizeString(title);
+    
+    // For partial matching, we need to iterate through all titles
+    // This is still more efficient than the original O(n) approach because we use the index
+    for (const auto& [indexedTitle, indices] : titleIndex_) {
+        if (indexedTitle.find(normalizedTitle) != std::string::npos) {
+            results.reserve(results.size() + indices.size());
+            for (size_t index : indices) {
+                results.push_back(books_[index]);
+            }
+        }
+    }
+    
+    return results;
+}
+
+std::vector<DataModel::Book> BookRepository::findByAuthor(const std::string& author) {
+    if (!loaded_) {
+        loadBooksFromJson();
+    }
+    
+    std::vector<DataModel::Book> results;
+    std::string normalizedAuthor = normalizeString(author);
+    
+    // For partial matching, iterate through all authors
+    for (const auto& [indexedAuthor, indices] : authorIndex_) {
+        if (indexedAuthor.find(normalizedAuthor) != std::string::npos) {
+            results.reserve(results.size() + indices.size());
+            for (size_t index : indices) {
+                results.push_back(books_[index]);
+            }
+        }
+    }
+    
+    return results;
+}
+
+std::vector<DataModel::Book> BookRepository::findByCategory(const std::string& category) {
+    if (!loaded_) {
+        loadBooksFromJson();
+    }
+    
+    std::vector<DataModel::Book> results;
+    std::string normalizedCategory = normalizeString(category);
+    
+    // For partial matching, iterate through all categories
+    for (const auto& [indexedCategory, indices] : categoryIndex_) {
+        if (indexedCategory.find(normalizedCategory) != std::string::npos) {
+            results.reserve(results.size() + indices.size());
+            for (size_t index : indices) {
+                results.push_back(books_[index]);
+            }
+        }
+    }
+    
+    return results;
+}
+
+// ============================================================================
+// CACHED STATISTICS METHODS
+// ============================================================================
+
+const BookRepository::CachedStatistics& BookRepository::getCachedStatistics() {
+    if (!loaded_) {
+        loadBooksFromJson();
+    }
+    if (!cachedStats_.isValid) {
+        rebuildCachedStatistics();
+    }
+    return cachedStats_;
+}
+
+// ============================================================================
+// INDEX MANAGEMENT METHODS
+// ============================================================================
+
+void BookRepository::buildIndices() {
+    // Reserve space for better performance
+    titleIndex_.reserve(JsonConstants::ESTIMATED_INDEX_SIZE);
+    authorIndex_.reserve(JsonConstants::ESTIMATED_INDEX_SIZE);
+    categoryIndex_.reserve(JsonConstants::ESTIMATED_INDEX_SIZE);
+    
+    for (size_t i = 0; i < books_.size(); ++i) {
+        updateIndicesForBook(i, books_[i], false);
+    }
+}
+
+void BookRepository::updateIndicesForBook(size_t index, const DataModel::Book& book, bool isRemoval) {
+    if (isRemoval) {
+        // Remove from indices
+        std::string normalizedTitle = normalizeString(book.getTitle());
+        std::string normalizedAuthor = normalizeString(book.getAuthor());
+        std::string normalizedCategory = normalizeString(book.getCategory());
+        
+        auto titleIt = titleIndex_.find(normalizedTitle);
+        if (titleIt != titleIndex_.end()) {
+            titleIt->second.erase(index);
+            if (titleIt->second.empty()) {
+                titleIndex_.erase(titleIt);
+            }
+        }
+        
+        auto authorIt = authorIndex_.find(normalizedAuthor);
+        if (authorIt != authorIndex_.end()) {
+            authorIt->second.erase(index);
+            if (authorIt->second.empty()) {
+                authorIndex_.erase(authorIt);
+            }
+        }
+        
+        auto categoryIt = categoryIndex_.find(normalizedCategory);
+        if (categoryIt != categoryIndex_.end()) {
+            categoryIt->second.erase(index);
+            if (categoryIt->second.empty()) {
+                categoryIndex_.erase(categoryIt);
+            }
+        }
+    } else {
+        // Add to indices
+        std::string normalizedTitle = normalizeString(book.getTitle());
+        std::string normalizedAuthor = normalizeString(book.getAuthor());
+        std::string normalizedCategory = normalizeString(book.getCategory());
+        
+        titleIndex_[normalizedTitle].insert(index);
+        authorIndex_[normalizedAuthor].insert(index);
+        categoryIndex_[normalizedCategory].insert(index);
+    }
+}
+
+void BookRepository::invalidateCachedStatistics() {
+    cachedStats_.isValid = false;
+}
+
+void BookRepository::rebuildCachedStatistics() const {
+    cachedStats_.totalBooks = static_cast<int>(books_.size());
+    cachedStats_.totalQuantity = 0;
+    cachedStats_.uniqueAuthors.clear();
+    cachedStats_.uniqueCategories.clear();
+    cachedStats_.categoryCounts.clear();
+    cachedStats_.authorCounts.clear();
+    cachedStats_.yearCounts.clear();
+    
+    // Reserve space for better performance (only for unordered_set)
+    cachedStats_.uniqueAuthors.reserve(books_.size() / 10); // Estimate 10% unique authors
+    cachedStats_.uniqueCategories.reserve(books_.size() / 20); // Estimate 5% unique categories
+    // Note: std::map doesn't have reserve() method
+    
+    for (const auto& book : books_) {
+        // Update quantity
+        cachedStats_.totalQuantity += book.getQuantity();
+        
+        // Update unique sets
+        cachedStats_.uniqueAuthors.insert(book.getAuthor());
+        cachedStats_.uniqueCategories.insert(book.getCategory());
+        
+        // Update counts
+        cachedStats_.categoryCounts[book.getCategory()]++;
+        cachedStats_.authorCounts[book.getAuthor()]++;
+        cachedStats_.yearCounts[book.getYear()]++;
+    }
+    
+    cachedStats_.isValid = true;
+}
+
+std::string BookRepository::normalizeString(const std::string& str) const {
+    std::string result = str;
+    std::transform(result.begin(), result.end(), result.begin(), ::tolower);
+    return result;
 }
 
 } // namespace Services

@@ -1,4 +1,4 @@
-# BiblioTrack v2.08 Testing Suite
+# BiblioTrack v2.09 Testing Suite
 
 This directory contains comprehensive testing suites for the BiblioTrack Library Management System, including unit tests, integration tests, and smoke tests.
 
@@ -55,6 +55,7 @@ Comprehensive end-to-end tests for critical functionality and edge cases.
 - **Performance**: Large dataset handling
 - **Edge Cases**: Special characters, boundary values
 - **Statistics & Analytics (v2.08)**: Comprehensive statistics dashboard testing
+- **Performance & Optimization (v2.09)**: Advanced algorithm optimization testing
 - **Data Persistence**: Cross-session data integrity
 
 **Key Test Categories:**
@@ -82,57 +83,293 @@ Utility to run all test suites with comprehensive reporting.
 ## 🚀 Running Tests
 
 ### Prerequisites
+
+**All Platforms:**
 - C++17 compatible compiler
 - CMake 3.12 or higher
 - Built BiblioTrack project
 - Credentials file setup (see Setup section below)
 
-### Setup Credentials
-```bash
-# Create credentials file from template (required for authentication tests)
-cp config/credentials_template.json config/credentials.json
+**Platform-Specific Requirements:**
+- **Windows**: Visual Studio 2019+ or MinGW-w64
+- **macOS**: Xcode Command Line Tools or Clang
+- **Linux**: GCC 7+ or Clang 6+
+
+### Step-by-Step Testing Instructions
+
+#### 🪟 **Windows (Visual Studio)**
+
+**Step 1: Build All Test Targets**
+```cmd
+# Navigate to build directory
+cd cmake-build-debug
+
+# Build all test executables
+cmake --build . --config Release --target UnitTests IntegrationTests SmokeTests PerformanceTests TestRunner
+
+# Or build all targets at once
+cmake --build . --config Release --target ALL_BUILD
+```
+
+**Step 2: Setup Credentials**
+```cmd
+# Copy credentials template
+copy ..\config\credentials_template.json ..\config\credentials.json
 
 # Verify credentials file exists
-ls -la config/credentials.json
+dir ..\config\credentials.json
 ```
 
-### Build All Tests
-```bash
-# Build all test executables
-cmake --build cmake-build-debug --target UnitTests IntegrationTests SmokeTests TestRunner
-
-# Or build and run all tests
-cmake --build cmake-build-debug --target run_all_tests
-```
-
-### Run Individual Test Suites
-```bash
+**Step 3: Run Individual Test Suites**
+```cmd
 # Run unit tests
-./cmake-build-debug/UnitTests
+.\Release\UnitTests.exe
 
 # Run integration tests
-./cmake-build-debug/IntegrationTests
+.\Release\IntegrationTests.exe
 
 # Run smoke tests
-./cmake-build-debug/SmokeTests
+.\Release\SmokeTests.exe
+
+# Run performance tests
+.\Release\PerformanceTests.exe
 ```
 
-### Use Test Runner
-```bash
+**Step 4: Use Test Runner**
+```cmd
 # Run all tests
-./cmake-build-debug/TestRunner --all
+.\Release\TestRunner.exe --all
 
 # Run specific test suite
-./cmake-build-debug/TestRunner --suite UnitTests
+.\Release\TestRunner.exe --suite UnitTests
 
 # Build and run all tests
-./cmake-build-debug/TestRunner --build
+.\Release\TestRunner.exe --build
 
 # List available test suites
-./cmake-build-debug/TestRunner --list
+.\Release\TestRunner.exe --list
 
 # Show help
-./cmake-build-debug/TestRunner --help
+.\Release\TestRunner.exe --help
+```
+
+#### 🍎 **macOS**
+
+**Step 1: Build All Test Targets**
+```bash
+# Navigate to build directory
+cd cmake-build-debug
+
+# Build all test executables
+cmake --build . --target UnitTests IntegrationTests SmokeTests PerformanceTests TestRunner -j $(nproc)
+
+# Or build all targets at once
+cmake --build . --target ALL_BUILD -j $(nproc)
+```
+
+**Step 2: Setup Credentials**
+```bash
+# Copy credentials template
+cp ../config/credentials_template.json ../config/credentials.json
+
+# Set secure file permissions (recommended)
+chmod 600 ../config/credentials.json
+
+# Verify credentials file exists
+ls -la ../config/credentials.json
+```
+
+**Step 3: Run Individual Test Suites**
+```bash
+# Run unit tests
+./UnitTests
+
+# Run integration tests
+./IntegrationTests
+
+# Run smoke tests
+./SmokeTests
+
+# Run performance tests
+./PerformanceTests
+```
+
+**Step 4: Use Test Runner**
+```bash
+# Run all tests
+./TestRunner --all
+
+# Run specific test suite
+./TestRunner --suite UnitTests
+
+# Build and run all tests
+./TestRunner --build
+
+# List available test suites
+./TestRunner --list
+
+# Show help
+./TestRunner --help
+```
+
+#### 🐧 **Linux (Ubuntu/Debian)**
+
+**Step 1: Build All Test Targets**
+```bash
+# Navigate to build directory
+cd cmake-build-debug
+
+# Build all test executables
+cmake --build . --target UnitTests IntegrationTests SmokeTests PerformanceTests TestRunner -j $(nproc)
+
+# Or build all targets at once
+cmake --build . --target ALL_BUILD -j $(nproc)
+```
+
+**Step 2: Setup Credentials**
+```bash
+# Copy credentials template
+cp ../config/credentials_template.json ../config/credentials.json
+
+# Set secure file permissions (recommended)
+chmod 600 ../config/credentials.json
+
+# Verify credentials file exists
+ls -la ../config/credentials.json
+```
+
+**Step 3: Run Individual Test Suites**
+```bash
+# Run unit tests
+./UnitTests
+
+# Run integration tests
+./IntegrationTests
+
+# Run smoke tests
+./SmokeTests
+
+# Run performance tests
+./PerformanceTests
+```
+
+**Step 4: Use Test Runner**
+```bash
+# Run all tests
+./TestRunner --all
+
+# Run specific test suite
+./TestRunner --suite UnitTests
+
+# Build and run all tests
+./TestRunner --build
+
+# List available test suites
+./TestRunner --list
+
+# Show help
+./TestRunner --help
+```
+
+#### 🐧 **Linux (CentOS/RHEL/Fedora)**
+
+**Step 1: Build All Test Targets**
+```bash
+# Navigate to build directory
+cd cmake-build-debug
+
+# Build all test executables
+cmake --build . --target UnitTests IntegrationTests SmokeTests PerformanceTests TestRunner -j $(nproc)
+
+# Or build all targets at once
+cmake --build . --target ALL_BUILD -j $(nproc)
+```
+
+**Step 2-4: Follow Ubuntu/Debian steps above**
+
+### 🔧 **Troubleshooting Test Issues**
+
+#### **Common Issues and Solutions:**
+
+**1. Test Executables Not Found**
+```bash
+# Make sure you built the test targets
+cmake --build . --target UnitTests IntegrationTests SmokeTests PerformanceTests
+
+# Check if executables exist
+ls -la UnitTests IntegrationTests SmokeTests PerformanceTests  # Linux/macOS
+dir UnitTests.exe IntegrationTests.exe SmokeTests.exe PerformanceTests.exe  # Windows
+```
+
+**2. Credentials File Missing**
+```bash
+# Create credentials file from template
+cp ../config/credentials_template.json ../config/credentials.json  # Linux/macOS
+copy ..\config\credentials_template.json ..\config\credentials.json  # Windows
+```
+
+**3. Permission Denied (Linux/macOS)**
+```bash
+# Make test executables executable
+chmod +x UnitTests IntegrationTests SmokeTests PerformanceTests TestRunner
+```
+
+**4. Test Failures**
+```bash
+# Run individual tests to isolate issues
+./UnitTests  # Check unit test failures
+./IntegrationTests  # Check integration test failures
+./SmokeTests  # Check smoke test failures
+```
+
+### 🚀 **Quick Test Commands (All Platforms)**
+
+For experienced users, here's the minimal command sequence:
+
+```bash
+# 1. Build all tests
+cmake --build cmake-build-debug --target UnitTests IntegrationTests SmokeTests PerformanceTests
+
+# 2. Setup credentials
+cp config/credentials_template.json config/credentials.json
+
+# 3. Run all tests
+cd cmake-build-debug
+./TestRunner --all  # Linux/macOS
+# or
+.\Release\TestRunner.exe --all  # Windows
+```
+
+### 📋 **Test Execution Examples**
+
+#### **Running Specific Test Categories:**
+```bash
+# Run only unit tests
+./UnitTests
+
+# Run only integration tests
+./IntegrationTests
+
+# Run only smoke tests
+./SmokeTests
+
+# Run only performance tests
+./PerformanceTests
+```
+
+#### **Using Test Runner Options:**
+```bash
+# Run all tests with verbose output
+./TestRunner --all --verbose
+
+# Run specific test suite
+./TestRunner --suite UnitTests
+
+# Build and run all tests
+./TestRunner --build --all
+
+# List all available test suites
+./TestRunner --list
 ```
 
 ## 📊 Test Coverage
@@ -321,4 +558,4 @@ export DEBUG=1
 - Avoid dependencies between tests
 - Use meaningful test data
 
-This comprehensive testing suite ensures BiblioTrack v2.08 maintains high quality, reliability, and performance across all components and use cases.
+This comprehensive testing suite ensures BiblioTrack v2.09 maintains high quality, reliability, and performance across all components and use cases.

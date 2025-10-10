@@ -26,7 +26,7 @@ public:
     std::string deleteBook(const std::string& isbn);
     std::vector<DataModel::Book> listBooks();
     
-    // Search operations
+    // Optimized search operations using repository indexing
     std::vector<DataModel::Book> searchByTitle(const std::string& title);
     std::vector<DataModel::Book> searchByAuthor(const std::string& author);
     std::optional<DataModel::Book> searchByIsbn(const std::string& isbn);
