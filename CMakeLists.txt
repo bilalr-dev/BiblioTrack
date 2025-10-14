@@ -11,6 +11,7 @@ include_directories(src)
 include_directories(src/datamodel)
 include_directories(src/launcher)
 include_directories(src/services)
+include_directories(src/utils)
 
 add_executable(BiblioTrack
         src/datamodel/Book.hpp
@@ -22,26 +23,38 @@ add_executable(BiblioTrack
         src/services/BookRepository.cpp
         src/services/BookRepository.hpp
         src/services/LibraryService.cpp
-        src/services/LibraryService.hpp)
+        src/services/LibraryService.hpp
+        src/utils/PerformanceMonitor.cpp
+        src/utils/PerformanceMonitor.hpp)
 
 # Test executables
 add_executable(UnitTests
         tests/UnitTests.cpp
         src/services/LibraryService.cpp
         src/services/BookRepository.cpp
-        src/services/AuthenticationService.cpp)
+        src/services/AuthenticationService.cpp
+        src/utils/PerformanceMonitor.cpp)
 
 add_executable(IntegrationTests
         tests/IntegrationTests.cpp
         src/services/LibraryService.cpp
         src/services/BookRepository.cpp
-        src/services/AuthenticationService.cpp)
+        src/services/AuthenticationService.cpp
+        src/utils/PerformanceMonitor.cpp)
 
 add_executable(SmokeTests
         tests/SmokeTests.cpp
         src/services/LibraryService.cpp
         src/services/BookRepository.cpp
-        src/services/AuthenticationService.cpp)
+        src/services/AuthenticationService.cpp
+        src/utils/PerformanceMonitor.cpp)
+
+add_executable(PerformanceTests
+        tests/PerformanceTests.cpp
+        src/services/LibraryService.cpp
+        src/services/BookRepository.cpp
+        src/services/AuthenticationService.cpp
+        src/utils/PerformanceMonitor.cpp)
 
 add_executable(TestRunner
         tests/TestRunner.cpp)
@@ -49,5 +62,5 @@ add_executable(TestRunner
 # Test target to run all tests
 add_custom_target(run_all_tests
         COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/cmake-build-debug/TestRunner --all
-        DEPENDS UnitTests IntegrationTests SmokeTests TestRunner
+        DEPENDS UnitTests IntegrationTests SmokeTests PerformanceTests TestRunner
         COMMENT "Running all test suites")

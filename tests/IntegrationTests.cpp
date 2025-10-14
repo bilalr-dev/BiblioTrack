@@ -18,7 +18,7 @@ using namespace Launcher;
 // Test utilities
 static void cleanTestData() {
     std::error_code ec;
-    std::filesystem::remove("data/books.json", ec);
+    std::filesystem::remove("data/books.jsonl", ec);
     // Note: credentials.json is NOT removed to preserve authentication setup
 }
 
@@ -30,7 +30,7 @@ static void test_library_service_repository_integration() {
     std::cout << "Testing LibraryService + BookRepository integration...\n";
     
     cleanTestData();
-    auto repo = std::make_shared<BookRepository>("data/books.json");
+    auto repo = std::make_shared<BookRepository>("data/books.jsonl");
     LibraryService service(repo);
     
     // Test complete workflow: add -> search -> delete -> verify
@@ -79,7 +79,7 @@ static void test_data_persistence_integration() {
     
     // Create service and add books
     {
-        auto repo = std::make_shared<BookRepository>("data/books.json");
+        auto repo = std::make_shared<BookRepository>("data/books.jsonl");
         LibraryService service(repo);
         
         service.addBook(Book("1", "Book1", "Author1", 2020, 1, "Category1"));
@@ -89,7 +89,7 @@ static void test_data_persistence_integration() {
     
     // Create new service instance and verify data persistence
     {
-        auto repo = std::make_shared<BookRepository>("data/books.json");
+        auto repo = std::make_shared<BookRepository>("data/books.jsonl");
         LibraryService service(repo);
         
         auto books = service.listBooks();
@@ -116,7 +116,7 @@ static void test_data_persistence_integration() {
     
     // Verify final state persisted
     {
-        auto repo = std::make_shared<BookRepository>("data/books.json");
+        auto repo = std::make_shared<BookRepository>("data/books.jsonl");
         LibraryService service(repo);
         
         auto finalBooks = service.listBooks();
@@ -151,7 +151,7 @@ static void test_authentication_library_integration() {
     assert(authResult);
     
     // Test that library service works after authentication
-    auto repo = std::make_shared<BookRepository>("data/books.json");
+    auto repo = std::make_shared<BookRepository>("data/books.jsonl");
     LibraryService service(repo);
     
     Book book("9780134685991", "Clean Code", "Robert Martin", 2008, 5, "Programming");
@@ -179,7 +179,7 @@ static void test_complete_library_workflow() {
     credFile.close();
     
     // Simulate complete library management workflow
-    auto repo = std::make_shared<BookRepository>("data/books.json");
+    auto repo = std::make_shared<BookRepository>("data/books.jsonl");
     LibraryService service(repo);
     
     // 1. Add multiple books
@@ -245,7 +245,7 @@ static void test_concurrent_operations_integration() {
     std::cout << "Testing concurrent operations integration...\n";
     
     cleanTestData();
-    auto repo = std::make_shared<BookRepository>("data/books.json");
+    auto repo = std::make_shared<BookRepository>("data/books.jsonl");
     LibraryService service(repo);
     
     // Add books in rapid succession
@@ -297,7 +297,7 @@ static void test_error_handling_integration() {
     std::cout << "Testing error handling integration...\n";
     
     cleanTestData();
-    auto repo = std::make_shared<BookRepository>("data/books.json");
+    auto repo = std::make_shared<BookRepository>("data/books.jsonl");
     LibraryService service(repo);
     
     // Test duplicate ISBN handling
@@ -336,7 +336,7 @@ static void test_data_integrity_integration() {
     std::cout << "Testing data integrity integration...\n";
     
     cleanTestData();
-    auto repo = std::make_shared<BookRepository>("data/books.json");
+    auto repo = std::make_shared<BookRepository>("data/books.jsonl");
     LibraryService service(repo);
     
     // Add books with various data types
@@ -396,7 +396,7 @@ static void test_statistics_integration() {
     
     // Test statistics with real data persistence
     {
-        auto repo = std::make_shared<BookRepository>("data/books.json");
+        auto repo = std::make_shared<BookRepository>("data/books.jsonl");
         LibraryService service(repo);
         
         // Add books with specific patterns for statistics
@@ -415,7 +415,7 @@ static void test_statistics_integration() {
     
     // Test statistics persistence across service instances
     {
-        auto repo = std::make_shared<BookRepository>("data/books.json");
+        auto repo = std::make_shared<BookRepository>("data/books.jsonl");
         LibraryService service(repo);
         
         // Statistics should reflect previously added books
@@ -440,7 +440,7 @@ static void test_statistics_workflow_integration() {
     std::cout << "Testing statistics integration with complete workflows...\n";
     
     cleanTestData();
-    auto repo = std::make_shared<BookRepository>("data/books.json");
+    auto repo = std::make_shared<BookRepository>("data/books.jsonl");
     LibraryService service(repo);
     
     // Simulate a complete library management workflow
@@ -492,7 +492,7 @@ static void test_statistics_performance_integration() {
     std::cout << "Testing statistics performance integration...\n";
     
     cleanTestData();
-    auto repo = std::make_shared<BookRepository>("data/books.json");
+    auto repo = std::make_shared<BookRepository>("data/books.jsonl");
     LibraryService service(repo);
     
     // Add a moderate number of books for performance testing
@@ -547,7 +547,7 @@ static void test_statistics_performance_integration() {
 // ============================================================================
 
 int main() {
-    std::cout << "Running BiblioTrack v2.08 Integration Tests...\n";
+    std::cout << "Running BiblioTrack v2.09 Integration Tests...\n";
     std::cout << "===============================================\n\n";
     
     try {

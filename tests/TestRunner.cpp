@@ -118,7 +118,7 @@ void printSummary(const std::vector<TestResult>& results) {
     
     if (failedTests == 0) {
         std::cout << "\n🎉 ALL TESTS PASSED! 🎉\n";
-        std::cout << "BiblioTrack v2.08 is working correctly.\n";
+        std::cout << "BiblioTrack v2.09 is working correctly.\n";
     } else {
         std::cout << "\n⚠️  SOME TESTS FAILED!\n";
         std::cout << "Please check the failed test suites above.\n";
@@ -127,7 +127,7 @@ void printSummary(const std::vector<TestResult>& results) {
 
 // Print usage information
 void printUsage(const char* programName) {
-    std::cout << "BiblioTrack v2.08 Test Runner\n";
+    std::cout << "BiblioTrack v2.09 Test Runner\n";
     std::cout << "=============================\n\n";
     std::cout << "Usage: " << programName << " [options]\n\n";
     std::cout << "Options:\n";
@@ -185,7 +185,7 @@ TestSuite* findTestSuite(const std::string& name) {
 }
 
 int main(int argc, char* argv[]) {
-    std::cout << "BiblioTrack v2.08 Test Runner\n";
+    std::cout << "BiblioTrack v2.09 Test Runner\n";
     std::cout << "=============================\n\n";
     
     // Parse command line arguments

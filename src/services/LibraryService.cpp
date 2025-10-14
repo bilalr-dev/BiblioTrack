@@ -71,49 +71,15 @@ std::vector<DataModel::Book> LibraryService::listBooks() {
 std::vector<DataModel::Book> LibraryService::searchByTitle(const std::string& title) {
     if (title.empty()) return {};
     
-    std::vector<DataModel::Book> results;
-    auto books = repository_->getAllBooks();
-    
-    // Pre-allocate results vector for better performance
-    results.reserve(books.size() / Constants::ESTIMATED_SEARCH_MATCH_RATE);
-    
-    const std::string lowerTitle = toLowerCase(title);
-    
-    for (const auto& book : books) {
-        const std::string& bookTitle = book.getTitle();
-        if (bookTitle.size() >= title.size()) { // Quick size check
-            std::string lowerBookTitle = toLowerCase(bookTitle);
-            if (lowerBookTitle.find(lowerTitle) != std::string::npos) {
-                results.push_back(book);
-            }
-        }
-    }
-    
-    return results;
+    // Use optimized repository search with indexing - O(1) lookup
+    return repository_->findByTitle(title);
 }
 
 std::vector<DataModel::Book> LibraryService::searchByAuthor(const std::string& author) {
     if (author.empty()) return {};
     
-    std::vector<DataModel::Book> results;
-    auto books = repository_->getAllBooks();
-    
-    // Pre-allocate results vector for better performance
-    results.reserve(books.size() / Constants::ESTIMATED_SEARCH_MATCH_RATE);
-    
-    const std::string lowerAuthor = toLowerCase(author);
-    
-    for (const auto& book : books) {
-        const std::string& bookAuthor = book.getAuthor();
-        if (bookAuthor.size() >= author.size()) { // Quick size check
-            std::string lowerBookAuthor = toLowerCase(bookAuthor);
-            if (lowerBookAuthor.find(lowerAuthor) != std::string::npos) {
-                results.push_back(book);
-            }
-        }
-    }
-    
-    return results;
+    // Use optimized repository search with indexing - O(1) lookup
+    return repository_->findByAuthor(author);
 }
 
 std::optional<DataModel::Book> LibraryService::searchByIsbn(const std::string& isbn) {
@@ -126,62 +92,25 @@ std::optional<DataModel::Book> LibraryService::searchByIsbn(const std::string& i
 std::vector<DataModel::Book> LibraryService::searchByCategory(const std::string& category) {
     if (category.empty()) return {};
     
-    std::vector<DataModel::Book> results;
-    auto books = repository_->getAllBooks();
-    
-    // Pre-allocate results vector for better performance
-    results.reserve(books.size() / Constants::ESTIMATED_CATEGORY_MATCH_RATE);
-    
-    const std::string lowerCategory = toLowerCase(category);
-    
-    for (const auto& book : books) {
-        const std::string& bookCategory = book.getCategory();
-        if (bookCategory.size() >= category.size()) { // Quick size check
-            std::string lowerBookCategory = toLowerCase(bookCategory);
-            if (lowerBookCategory.find(lowerCategory) != std::string::npos) {
-                results.push_back(book);
-            }
-        }
-    }
-    
-    return results;
+    // Use optimized repository search with indexing - O(1) lookup
+    return repository_->findByCategory(category);
 }
 
 std::vector<std::string> LibraryService::getAllCategories() {
-    std::unordered_set<std::string> categorySet;
-    auto books = repository_->getAllBooks();
+    // Use cached statistics for O(1) access
+    const auto& cachedStats = repository_->getCachedStatistics();
     
-    // Reserve space for better performance
-    categorySet.reserve(books.size() / Constants::ESTIMATED_CATEGORIES_PER_BOOK);
-    
-    for (const auto& book : books) {
-        const std::string& category = book.getCategory();
-        if (!category.empty()) {
-            categorySet.insert(category);
-        }
-    }
-    
-    // Convert set to vector for return
     std::vector<std::string> categories;
-    categories.reserve(categorySet.size());
-    categories.assign(categorySet.begin(), categorySet.end());
+    categories.reserve(cachedStats.uniqueCategories.size());
+    categories.assign(cachedStats.uniqueCategories.begin(), cachedStats.uniqueCategories.end());
     
     return categories;
 }
 
 std::map<std::string, int> LibraryService::getCategoryStatistics() {
-    std::map<std::string, int> stats;
-    auto books = repository_->getAllBooks();
-    
-    for (const auto& book : books) {
-        std::string category = book.getCategory();
-        if (category.empty()) {
-            category = "General";
-        }
-        stats[category]++;
-    }
-    
-    return stats;
+    // Use cached statistics for O(1) access
+    const auto& cachedStats = repository_->getCachedStatistics();
+    return cachedStats.categoryCounts;
 }
 
 bool LibraryService::isValidYear(int year) {
@@ -247,63 +176,19 @@ std::string LibraryService::sanitizeInput(const std::string& input) {
 
 LibraryService::LibraryStatistics LibraryService::getLibraryStatistics() {
     LibraryStatistics stats;
-    auto books = repository_->getAllBooks();
     
-    if (books.empty()) {
+    // Use cached statistics for O(1) access instead of O(n) iteration
+    const auto& cachedStats = repository_->getCachedStatistics();
+    
+    if (cachedStats.totalBooks == 0) {
         return stats; // Return default values for empty library
     }
     
-    // Basic counts
-    stats.totalBooks = static_cast<int>(books.size());
-    
-    // Calculate totals and collect data for analysis
-    std::map<std::string, int> categoryBookCounts;
-    std::map<std::string, int> categoryQuantityCounts;
-    std::map<std::string, int> authorBookCounts;
-    std::unordered_set<std::string> uniqueAuthors;
-    std::unordered_set<std::string> uniqueCategories;
-    
-    int totalQuantity = 0;
-    int oldestYear = std::numeric_limits<int>::max();
-    int newestYear = std::numeric_limits<int>::min();
-    std::string oldestBookTitle;
-    std::string newestBookTitle;
-    
-    for (const auto& book : books) {
-        // Quantity calculations
-        totalQuantity += book.getQuantity();
-        
-        // Category analysis
-        const std::string& category = book.getCategory();
-        uniqueCategories.insert(category);
-        categoryBookCounts[category]++;
-        categoryQuantityCounts[category] += book.getQuantity();
-        
-        // Author analysis
-        const std::string& author = book.getAuthor();
-        uniqueAuthors.insert(author);
-        authorBookCounts[author]++;
-        
-        // Year analysis
-        int year = book.getYear();
-        if (year < oldestYear) {
-            oldestYear = year;
-            oldestBookTitle = book.getTitle();
-        }
-        if (year > newestYear) {
-            newestYear = year;
-            newestBookTitle = book.getTitle();
-        }
-    }
-    
-    // Set calculated values
-    stats.totalQuantity = totalQuantity;
-    stats.uniqueAuthors = static_cast<int>(uniqueAuthors.size());
-    stats.totalCategories = static_cast<int>(uniqueCategories.size());
-    stats.oldestYear = oldestYear;
-    stats.newestYear = newestYear;
-    stats.oldestBookTitle = oldestBookTitle;
-    stats.newestBookTitle = newestBookTitle;
+    // Basic counts from cache
+    stats.totalBooks = cachedStats.totalBooks;
+    stats.totalQuantity = cachedStats.totalQuantity;
+    stats.uniqueAuthors = static_cast<int>(cachedStats.uniqueAuthors.size());
+    stats.totalCategories = static_cast<int>(cachedStats.uniqueCategories.size());
     
     // Calculate averages
     if (stats.totalCategories > 0) {
@@ -314,49 +199,70 @@ LibraryService::LibraryStatistics LibraryService::getLibraryStatistics() {
     }
     
     // Find most popular category (by book count)
-    if (!categoryBookCounts.empty()) {
-        auto maxCategory = std::max_element(categoryBookCounts.begin(), categoryBookCounts.end(),
+    if (!cachedStats.categoryCounts.empty()) {
+        auto maxCategory = std::max_element(cachedStats.categoryCounts.begin(), cachedStats.categoryCounts.end(),
             [](const auto& a, const auto& b) { return a.second < b.second; });
         stats.mostPopularCategory = maxCategory->first;
     }
     
-    // Find category with highest quantity
-    if (!categoryQuantityCounts.empty()) {
+    // Find most prolific author
+    if (!cachedStats.authorCounts.empty()) {
+        auto maxAuthor = std::max_element(cachedStats.authorCounts.begin(), cachedStats.authorCounts.end(),
+            [](const auto& a, const auto& b) { return a.second < b.second; });
+        stats.mostProlificAuthor = maxAuthor->first;
+    }
+    
+    // Find year range - still need to iterate for oldest/newest titles
+    if (!cachedStats.yearCounts.empty()) {
+        auto minYear = std::min_element(cachedStats.yearCounts.begin(), cachedStats.yearCounts.end(),
+            [](const auto& a, const auto& b) { return a.first < b.first; });
+        auto maxYear = std::max_element(cachedStats.yearCounts.begin(), cachedStats.yearCounts.end(),
+            [](const auto& a, const auto& b) { return a.first < b.first; });
+        
+        stats.oldestYear = minYear->first;
+        stats.newestYear = maxYear->first;
+        
+        // Find titles for oldest and newest years (minimal iteration)
+        auto books = repository_->getAllBooks();
+        for (const auto& book : books) {
+            if (book.getYear() == stats.oldestYear && stats.oldestBookTitle.empty()) {
+                stats.oldestBookTitle = book.getTitle();
+            }
+            if (book.getYear() == stats.newestYear && stats.newestBookTitle.empty()) {
+                stats.newestBookTitle = book.getTitle();
+            }
+            if (!stats.oldestBookTitle.empty() && !stats.newestBookTitle.empty()) {
+                break; // Found both, can exit early
+            }
+        }
+    }
+    
+    // Find category with highest quantity - need to calculate from books
+    if (!cachedStats.categoryCounts.empty()) {
+        std::map<std::string, int> categoryQuantityCounts;
+        auto books = repository_->getAllBooks();
+        for (const auto& book : books) {
+            categoryQuantityCounts[book.getCategory()] += book.getQuantity();
+        }
+        
         auto maxQuantityCategory = std::max_element(categoryQuantityCounts.begin(), categoryQuantityCounts.end(),
             [](const auto& a, const auto& b) { return a.second < b.second; });
         stats.categoryWithHighestQuantity = maxQuantityCategory->first;
-    }
-    
-    // Find most prolific author
-    if (!authorBookCounts.empty()) {
-        auto maxAuthor = std::max_element(authorBookCounts.begin(), authorBookCounts.end(),
-            [](const auto& a, const auto& b) { return a.second < b.second; });
-        stats.mostProlificAuthor = maxAuthor->first;
     }
     
     return stats;
 }
 
 std::map<std::string, int> LibraryService::getAuthorStatistics() {
-    std::map<std::string, int> authorStats;
-    auto books = repository_->getAllBooks();
-    
-    for (const auto& book : books) {
-        authorStats[book.getAuthor()]++;
-    }
-    
-    return authorStats;
+    // Use cached statistics for O(1) access
+    const auto& cachedStats = repository_->getCachedStatistics();
+    return cachedStats.authorCounts;
 }
 
 std::map<int, int> LibraryService::getYearStatistics() {
-    std::map<int, int> yearStats;
-    auto books = repository_->getAllBooks();
-    
-    for (const auto& book : books) {
-        yearStats[book.getYear()]++;
-    }
-    
-    return yearStats;
+    // Use cached statistics for O(1) access
+    const auto& cachedStats = repository_->getCachedStatistics();
+    return cachedStats.yearCounts;
 }
 
 } // namespace Services

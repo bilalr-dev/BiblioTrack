@@ -1,4 +1,4 @@
-# BiblioTrack - Secure Library Management System (v2.08)
+# BiblioTrack - Secure Library Management System (v2.09)
 
 A clean, well-structured C++ library management system with secure authentication, organized in separate layers for maintainability and scalability. Enhanced with comprehensive category management, advanced browsing features, and enterprise-grade security.
 
@@ -17,6 +17,7 @@ A clean, well-structured C++ library management system with secure authenticatio
 - ✅ Secure user authentication system with encrypted credential storage (v2.06)
 - ✅ High-performance algorithms with optimized memory usage (v2.07)
 - ✅ Comprehensive statistics dashboard with analytics (v2.08)
+- ✅ Advanced algorithm optimizations with O(1) indexing and caching (v2.09)
 - ✅ Clean layered architecture with separation of concerns
 - ✅ Enterprise-grade security with config directory isolation
 
@@ -85,36 +86,283 @@ Launcher → Services → DataModel
 ## Building and Running
 
 ### Prerequisites
-- C++17 compatible compiler (GCC, Clang, or MSVC 19.14+)
+
+**All Platforms:**
+- C++17 compatible compiler
 - CMake 3.12 or higher
-- Unix-like system recommended for secure file permissions (works on Windows/macOS/Linux)
 
-### Build Instructions
+**Platform-Specific Requirements:**
+- **Windows**: Visual Studio 2019+ or MinGW-w64
+- **macOS**: Xcode Command Line Tools or Clang
+- **Linux**: GCC 7+ or Clang 6+
 
+### Step-by-Step Build Instructions
+
+#### 🪟 **Windows (Visual Studio)**
+
+**Step 1: Install Prerequisites**
+```cmd
+# Install Visual Studio 2022 Community (free) with C++ workload
+# Or install Build Tools for Visual Studio 2022
+# Download from: https://visualstudio.microsoft.com/downloads/
+```
+
+**Step 2: Open Developer Command Prompt**
+```cmd
+# Open "Developer Command Prompt for VS 2022" or "x64 Native Tools Command Prompt"
+# Or use PowerShell with Visual Studio environment
+```
+
+**Step 3: Build the Project**
+```cmd
+# Navigate to project directory
+cd C:\path\to\BiblioTrack
+
+# Create build directory
+mkdir cmake-build-debug
+cd cmake-build-debug
+
+# Configure with Visual Studio generator
+cmake -G "Visual Studio 17 2022" -A x64 ..
+
+# Build the project
+cmake --build . --config Release --target BiblioTrack
+
+# Build all targets (including tests)
+cmake --build . --config Release --target ALL_BUILD
+```
+
+**Step 4: Setup Credentials**
+```cmd
+# Copy credentials template
+copy ..\config\credentials_template.json ..\config\credentials.json
+
+# Edit credentials.json with your desired admin username/password
+# Default: username="admin", password="admin123"
+```
+
+**Step 5: Run the Application**
+```cmd
+# Run from build directory
+.\Release\BiblioTrack.exe
+
+# Or run from project root
+..\cmake-build-debug\Release\BiblioTrack.exe
+```
+
+#### 🍎 **macOS**
+
+**Step 1: Install Prerequisites**
 ```bash
-# Create and enter build directory
-mkdir cmake-build-debug && cd cmake-build-debug
+# Install Xcode Command Line Tools
+xcode-select --install
 
-# Configure and build (Unix/macOS)
+# Install CMake (if not already installed)
+# Option 1: Using Homebrew
+brew install cmake
+
+# Option 2: Download from https://cmake.org/download/
+```
+
+**Step 2: Build the Project**
+```bash
+# Navigate to project directory
+cd /path/to/BiblioTrack
+
+# Create build directory
+mkdir cmake-build-debug
+cd cmake-build-debug
+
+# Configure the project
 cmake ..
-cmake --build . --target BiblioTrack -j 10
 
-# Configure and build (Windows MSVC)
-# cmake -G "Visual Studio 17 2022" ..
-# cmake --build . --config Release --target BiblioTrack
+# Build the project
+cmake --build . --target BiblioTrack -j $(nproc)
 
-# Setup secure credentials file (required for authentication)
+# Build all targets (including tests)
+cmake --build . --target ALL_BUILD -j $(nproc)
+```
+
+**Step 3: Setup Credentials**
+```bash
+# Copy credentials template
 cp ../config/credentials_template.json ../config/credentials.json
-# Edit config/credentials.json with your desired admin credentials
-# Set secure file permissions (recommended for production on Unix)
-chmod 600 ../config/credentials.json || true
 
-# Run the application (Unix/macOS)
+# Set secure file permissions (recommended)
+chmod 600 ../config/credentials.json
+
+# Edit credentials.json with your desired admin username/password
+# Default: username="admin", password="admin123"
+```
+
+**Step 4: Run the Application**
+```bash
+# Run from build directory
 ./BiblioTrack
 
-# Run the application (Windows)
-# .\\Release\\BiblioTrack.exe
+# Or run from project root
+./cmake-build-debug/BiblioTrack
 ```
+
+#### 🐧 **Linux (Ubuntu/Debian)**
+
+**Step 1: Install Prerequisites**
+```bash
+# Update package list
+sudo apt update
+
+# Install build essentials and CMake
+sudo apt install build-essential cmake git
+
+# Verify installation
+gcc --version
+cmake --version
+```
+
+**Step 2: Build the Project**
+```bash
+# Navigate to project directory
+cd /path/to/BiblioTrack
+
+# Create build directory
+mkdir cmake-build-debug
+cd cmake-build-debug
+
+# Configure the project
+cmake ..
+
+# Build the project
+cmake --build . --target BiblioTrack -j $(nproc)
+
+# Build all targets (including tests)
+cmake --build . --target ALL_BUILD -j $(nproc)
+```
+
+**Step 3: Setup Credentials**
+```bash
+# Copy credentials template
+cp ../config/credentials_template.json ../config/credentials.json
+
+# Set secure file permissions (recommended)
+chmod 600 ../config/credentials.json
+
+# Edit credentials.json with your desired admin username/password
+# Default: username="admin", password="admin123"
+```
+
+**Step 4: Run the Application**
+```bash
+# Run from build directory
+./BiblioTrack
+
+# Or run from project root
+./cmake-build-debug/BiblioTrack
+```
+
+#### 🐧 **Linux (CentOS/RHEL/Fedora)**
+
+**Step 1: Install Prerequisites**
+```bash
+# CentOS/RHEL
+sudo yum groupinstall "Development Tools"
+sudo yum install cmake3 git
+
+# Fedora
+sudo dnf groupinstall "Development Tools"
+sudo dnf install cmake git
+
+# Create symlink for cmake3 (CentOS/RHEL)
+sudo ln -s /usr/bin/cmake3 /usr/bin/cmake
+```
+
+**Step 2-4: Follow Ubuntu/Debian steps above**
+
+### 🔧 **Troubleshooting Build Issues**
+
+#### **Common Issues and Solutions:**
+
+**1. CMake Not Found**
+```bash
+# Windows: Add CMake to PATH or use full path
+# macOS: Install via Homebrew or download from cmake.org
+# Linux: Install via package manager
+```
+
+**2. Compiler Not Found**
+```bash
+# Windows: Install Visual Studio or Build Tools
+# macOS: Run xcode-select --install
+# Linux: Install build-essential package
+```
+
+**3. Permission Denied (Linux/macOS)**
+```bash
+# Make sure you have write permissions to the directory
+# Or run with sudo (not recommended for development)
+```
+
+**4. CMake Cache Issues**
+```bash
+# Clean and rebuild
+rm -rf cmake-build-debug
+mkdir cmake-build-debug
+cd cmake-build-debug
+cmake ..
+cmake --build . --target BiblioTrack
+```
+
+### 🚀 **Quick Start (All Platforms)**
+
+For experienced users, here's the minimal command sequence:
+
+```bash
+# 1. Create build directory and configure
+mkdir cmake-build-debug && cd cmake-build-debug
+cmake ..
+
+# 2. Build the project
+cmake --build . --target BiblioTrack
+
+# 3. Setup credentials
+cp ../config/credentials_template.json ../config/credentials.json
+
+# 4. Run the application
+./BiblioTrack  # Linux/macOS
+# or
+.\Release\BiblioTrack.exe  # Windows
+```
+
+### 🛠️ **IDE Setup**
+
+#### **CLion (Recommended)**
+1. Open CLion and select "Open or Import"
+2. Navigate to the BiblioTrack project directory
+3. CLion will automatically detect the CMakeLists.txt
+4. Configure CMake settings:
+   - Build type: Debug or Release
+   - CMake options: `-DCMAKE_BUILD_TYPE=Debug`
+5. Build and run using the IDE interface
+
+#### **Visual Studio Code**
+1. Install C++ extension pack
+2. Install CMake Tools extension
+3. Open the BiblioTrack project folder
+4. Configure CMake (Ctrl+Shift+P → "CMake: Configure")
+5. Build and run using the IDE interface
+
+#### **Visual Studio (Windows)**
+1. Open Visual Studio
+2. Select "Open a local folder"
+3. Navigate to the BiblioTrack project directory
+4. Visual Studio will detect CMakeLists.txt
+5. Build and run using the IDE interface
+
+#### **Xcode (macOS)**
+1. Install Xcode from App Store
+2. Open Terminal and navigate to project
+3. Generate Xcode project: `cmake -G Xcode ..`
+4. Open generated .xcodeproj file
+5. Build and run using Xcode interface
 
 ## Usage
 
@@ -134,7 +382,7 @@ The application now requires authentication before access:
 
 ## Data Storage
 
-As of v2.05, books are stored in `data/books.json` as one JSON object per line (line-delimited JSON). The data file is automatically created when the first book is added.
+As of v2.09, books are stored in `data/books.jsonl` as one JSON object per line (line-delimited JSON). The data file is automatically created when the first book is added.
 
 ## Security Features (v2.06)
 
@@ -152,10 +400,10 @@ As of v2.05, books are stored in `data/books.json` as one JSON object per line (
 - **Visual Feedback**: Success/failure indicators (✓/✗)
 - **Easy Exit**: Option to quit at any time
 
-Example lines in `books.json` (numeric ISBNs):
+Example lines in `books.jsonl` (numeric ISBNs):
 ```
 {"isbn":"9780134685991","title":"Effective Modern C++","author":"Scott Meyers","year":2014,"quantity":5,"category":"Programming"}
-{"isbn":"1255289001","title":"batman","author":"ali mansoor","year":2025,"quantity":99,"category":"Fiction"}
+{"isbn":"1255289001","title":"batman","author":"John Cena","year":2025,"quantity":99,"category":"Fiction"}
 ```
 
 ## 🎯 **Category Management Features (v2.01+)**
@@ -198,6 +446,11 @@ Example lines in `books.json` (numeric ISBNs):
 - Provides O(1) ISBN lookups and reduces repeated disk reads
 - Efficient writes: append on add, rewrite only when deleting
 
+### **Security Note (v2.06)**
+- Credentials stored in isolated `config/` directory for enhanced security
+- File permissions and git protection prevent accidental credential exposure
+- Enterprise-grade authentication system with user-friendly interface
+
 ### **Performance Optimizations (v2.07)**
 - **Algorithm Improvements**: O(n²) → O(n) category collection using unordered_set
 - **Memory Optimization**: Pre-allocated containers with estimated sizes
@@ -215,10 +468,14 @@ Example lines in `books.json` (numeric ISBNs):
 - **Performance Optimized**: Efficient single-pass data analysis
 - **Real-time Updates**: Statistics reflect current library state
 
-### **Security Note (v2.06)**
-- Credentials stored in isolated `config/` directory for enhanced security
-- File permissions and git protection prevent accidental credential exposure
-- Enterprise-grade authentication system with user-friendly interface
+### **Advanced Algorithm Optimizations (v2.09)**
+- **O(1) Indexing**: Advanced hash-based indexing for title, author, and category searches
+- **Intelligent Caching**: Pre-computed statistics with automatic cache invalidation
+- **Move Semantics**: Optimized string operations using C++11 move semantics
+- **Memory Efficiency**: Pre-allocated containers and optimized data structures
+- **Performance Monitoring**: Built-in performance measurement utilities
+- **Search Optimization**: Partial matching with case-insensitive normalization
+- **Data Integrity**: Robust index management during CRUD operations
 
 ## Design Principles
 
@@ -243,6 +500,7 @@ This architecture provides a solid foundation for a secure library management sy
 
 ## Version History
 
+- **v2.09**: Advanced algorithm optimization release - O(1) indexing, intelligent caching, move semantics, performance monitoring, and JSONL format standardization
 - **v2.08**: Statistics dashboard release - Comprehensive library analytics, collection insights, and performance metrics
 - **v2.07**: Performance optimization release - O(n²) → O(n) algorithms, memory optimization, enhanced testing
 - **v2.06**: Added secure authentication system with config directory isolation and enterprise-grade security

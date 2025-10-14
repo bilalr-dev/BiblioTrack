@@ -30,7 +30,7 @@ private:
     // Display helpers
     void displayBooks(const std::vector<DataModel::Book>& books);
     void displayCategoryStatistics();
-    void displayLibraryStatistics(); // v2.08
+    void displayLibraryStatistics(); // v2.09
 };
 
 } // namespace Launcher
