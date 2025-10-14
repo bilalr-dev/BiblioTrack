@@ -147,7 +147,7 @@ make -j$(nproc)
 ### Running the Application
 
 1. **First Run Setup:**
-   ```bash
+```bash
    cd build
    ./BiblioTrack
    ```
@@ -298,40 +298,40 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ```mermaid
 graph TB
     subgraph "PRESENTATION LAYER"
-        LA[LibraryApp]
-        UI[User Interface]
-        MENU[Menu System]
-        IO[Input/Output]
-        AUTH[Authentication UI]
+        LA["LibraryApp"]
+        UI["User Interface"]
+        MENU["Menu System"]
+        IO["Input/Output"]
+        AUTH["Authentication UI"]
     end
     
     subgraph "BUSINESS LAYER"
-        LS[LibraryService]
-        AS[AuthenticationService]
-        VAL[Validation]
-        SEARCH[Search Logic]
-        CAT[Category Management]
-        STATS[Statistics Engine]
+        LS["LibraryService"]
+        AS["AuthenticationService"]
+        VAL["Validation"]
+        SEARCH["Search Logic"]
+        CAT["Category Management"]
+        STATS["Statistics Engine"]
     end
     
     subgraph "DATA ACCESS LAYER"
-        BR[BookRepository]
-        JSON[JSONL Operations]
-        FILE[File I/O]
-        INDEX[O(1) Indexing]
-        CACHE[Intelligent Caching]
+        BR["BookRepository"]
+        JSON["JSONL Operations"]
+        FILE["File I/O"]
+        INDEX["O(1) Indexing"]
+        CACHE["Intelligent Caching"]
     end
     
     subgraph "UTILS LAYER"
-        PM[PerformanceMonitor]
-        TIMER[ScopedTimer]
-        STATS_UTIL[Performance Stats]
+        PM["PerformanceMonitor"]
+        TIMER["ScopedTimer"]
+        STATS_UTIL["Performance Stats"]
     end
     
     subgraph "DATA LAYER"
-        BOOK[Book Entity]
-        DATA[Data Structures]
-        CREDS[Credentials]
+        BOOK["Book Entity"]
+        DATA["Data Structures"]
+        CREDS["Credentials"]
     end
     
     LA --> LS
