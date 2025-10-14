@@ -2,6 +2,14 @@
 
 A comprehensive, enterprise-grade C++ library management system with secure authentication, advanced performance optimizations, and intelligent analytics. Built with clean architecture principles, featuring O(1) indexing, comprehensive testing suites, and real-time statistics dashboard.
 
+## Project Resources
+
+### Implementation & Planning
+- **[Implementation Plan](./bibliotrack-plan.md)** - Complete 1-month implementation roadmap from v1.0 to v2.09
+
+### Legal & Licensing
+- **[LICENSE](LICENSE)** - MIT License - See license terms and conditions
+
 ## Features
 
 ### Core Library Management
@@ -533,6 +541,12 @@ erDiagram
 
 ## Acknowledgments
 
+### Development Team
+- **Bilal RAHAOUI** - Core Developer & Project Lead
+- **Mohamed KADDOUR** - Core Development & Performance Optimization
+- **Ali MANSOOR** - Testing & Documentation
+
+### Project Credits
 - Built with modern C++17 features and best practices
 - Inspired by Clean Architecture principles
 - Designed for educational and professional use
