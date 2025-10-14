@@ -291,6 +291,246 @@ cd build
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+## Architecture Diagrams
+
+### System Architecture Overview
+
+```mermaid
+graph TB
+    subgraph "PRESENTATION LAYER"
+        LA[LibraryApp]
+        UI[User Interface]
+        MENU[Menu System]
+        IO[Input/Output]
+        AUTH[Authentication UI]
+    end
+    
+    subgraph "BUSINESS LAYER"
+        LS[LibraryService]
+        AS[AuthenticationService]
+        VAL[Validation]
+        SEARCH[Search Logic]
+        CAT[Category Management]
+        STATS[Statistics Engine]
+    end
+    
+    subgraph "DATA ACCESS LAYER"
+        BR[BookRepository]
+        JSON[JSONL Operations]
+        FILE[File I/O]
+        INDEX[O(1) Indexing]
+        CACHE[Intelligent Caching]
+    end
+    
+    subgraph "UTILS LAYER"
+        PM[PerformanceMonitor]
+        TIMER[ScopedTimer]
+        STATS_UTIL[Performance Stats]
+    end
+    
+    subgraph "DATA LAYER"
+        BOOK[Book Entity]
+        DATA[Data Structures]
+        CREDS[Credentials]
+    end
+    
+    LA --> LS
+    LA --> AS
+    UI --> LS
+    MENU --> LS
+    IO --> LS
+    AUTH --> AS
+    
+    LS --> BR
+    AS --> CREDS
+    VAL --> BR
+    SEARCH --> BR
+    CAT --> BR
+    STATS --> BR
+    
+    BR --> PM
+    BR --> INDEX
+    BR --> CACHE
+    BR --> JSON
+    BR --> FILE
+    BR --> BOOK
+    
+    PM --> TIMER
+    PM --> STATS_UTIL
+    
+    JSON --> BOOK
+    FILE --> BOOK
+    
+    style LA fill:#e3f2fd
+    style LS fill:#f3e5f5
+    style AS fill:#ffebee
+    style BR fill:#e8f5e8
+    style PM fill:#fff3e0
+    style BOOK fill:#f1f8e9
+```
+
+### Use Case Diagram
+
+```mermaid
+graph TB
+    Librarian[👤 Librarian]
+    
+    subgraph "BiblioTrack System v2.09"
+        UC0[🔐 Authenticate]
+        UC1[📚 Add Book]
+        UC2[🗑️ Delete Book]
+        UC3[📋 List Books]
+        UC4[🔍 Search Books]
+        UC5[📂 Browse by Category]
+        UC6[📊 View Statistics]
+        UC7[🚪 Exit]
+    end
+    
+    Librarian --> UC0
+    Librarian --> UC1
+    Librarian --> UC2
+    Librarian --> UC3
+    Librarian --> UC4
+    Librarian --> UC5
+    Librarian --> UC6
+    Librarian --> UC7
+    
+    style Librarian fill:#e1f5fe
+    style UC0 fill:#ffebee
+    style UC1 fill:#f3e5f5
+    style UC2 fill:#f3e5f5
+    style UC3 fill:#f3e5f5
+    style UC4 fill:#f3e5f5
+    style UC5 fill:#f3e5f5
+    style UC6 fill:#e8f5e8
+    style UC7 fill:#f3e5f5
+```
+
+### Authentication Sequence
+
+```mermaid
+sequenceDiagram
+    participant L as Librarian
+    participant LA as LibraryApp
+    participant AS as AuthenticationService
+    participant CREDS as Credentials File
+    
+    L->>LA: Start Application
+    LA->>AS: runAuthenticationFlow()
+    AS->>AS: showWelcomeScreen()
+    AS->>L: Display Login Options
+    L->>AS: Enter Credentials
+    AS->>CREDS: loadCredentialsFromJson()
+    CREDS-->>AS: Credentials Data
+    AS->>AS: authenticate(username, password)
+    AS-->>LA: Authentication Result
+    LA-->>L: Access Granted/Denied
+```
+
+### Add Book Sequence (v2.09)
+
+```mermaid
+sequenceDiagram
+    participant L as Librarian
+    participant LA as LibraryApp
+    participant LS as LibraryService
+    participant BR as BookRepository
+    participant PM as PerformanceMonitor
+    participant JSON as JSONL File
+    
+    L->>LA: Add Book Request
+    LA->>LS: addBook(bookData)
+    LS->>PM: timeOperation("addBook")
+    LS->>LS: validateInput()
+    LS->>LS: sanitizeInput()
+    LS->>BR: addBook(sanitizedBook)
+    BR->>BR: updateIndices()
+    BR->>BR: invalidateCache()
+    BR->>JSON: writeBook()
+    JSON-->>BR: Success
+    BR-->>LS: Success
+    PM-->>LS: Operation Timed
+    LS-->>LA: Success
+    LA-->>L: Book Added Successfully
+```
+
+### Entity Relationship Diagram
+
+```mermaid
+erDiagram
+    BOOK {
+        string isbn PK "Primary Key"
+        string title "Book Title"
+        string author "Book Author"
+        int year "Publication Year"
+        int quantity "Available Copies"
+        string category "Book Category"
+    }
+    
+    JSONL_FILE {
+        string filename "books.jsonl"
+        string format "Line-delimited JSON"
+        string location "data/books.jsonl"
+        boolean auto_created "Auto-created on first book"
+    }
+    
+    CREDENTIALS {
+        string username PK "Admin Username"
+        string password "Admin Password"
+        string file_location "config/credentials.json"
+        boolean secure_permissions "chmod 600"
+    }
+    
+    INDEX {
+        string isbn_index "O(1) ISBN lookup"
+        string title_index "O(1) Title search"
+        string author_index "O(1) Author search"
+        string category_index "O(1) Category search"
+        boolean cache_valid "Cache validity flag"
+    }
+    
+    STATISTICS {
+        int total_books "Total book count"
+        int total_quantity "Total quantity"
+        int unique_authors "Unique author count"
+        int total_categories "Category count"
+        string most_popular_category "Most popular category"
+        string most_prolific_author "Most prolific author"
+        int oldest_year "Oldest publication year"
+        int newest_year "Newest publication year"
+        double average_books_per_category "Average books per category"
+        double average_quantity_per_book "Average quantity per book"
+    }
+    
+    PERFORMANCE_METRICS {
+        string operation_name PK "Operation identifier"
+        int total_time "Total execution time (ms)"
+        int call_count "Number of calls"
+        int min_time "Minimum execution time"
+        int max_time "Maximum execution time"
+        int avg_time "Average execution time"
+    }
+    
+    BOOK ||--o{ JSONL_FILE : "stored_in"
+    BOOK ||--o{ INDEX : "indexed_by"
+    BOOK ||--o{ STATISTICS : "contributes_to"
+    INDEX ||--|| STATISTICS : "cached_in"
+    PERFORMANCE_METRICS ||--o{ BOOK : "monitors_operations"
+    
+    style BOOK fill:#e3f2fd
+    style JSONL_FILE fill:#f3e5f5
+    style CREDENTIALS fill:#ffebee
+    style INDEX fill:#e8f5e8
+    style STATISTICS fill:#fff3e0
+    style PERFORMANCE_METRICS fill:#f1f8e9
+```
+
+### Additional Documentation
+- **[Complete Technical Report](reports/BiblioTrack_Technical_Report.md)** - Comprehensive technical documentation
+- **[Testing Documentation](tests/README_Tests.md)** - Complete testing guide and coverage
+- **[All Sequence Diagrams](reports/diagrams/sequence_diagrams.md)** - Complete system workflows
+- **[Architecture Details](reports/diagrams/architecture_diagram.md)** - Detailed architecture diagrams
+
 ## Acknowledgments
 
 - Built with modern C++17 features and best practices
