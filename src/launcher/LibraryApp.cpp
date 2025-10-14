@@ -6,12 +6,12 @@
 namespace Launcher {
 
 LibraryApp::LibraryApp() {
-    repository_ = std::make_shared<Services::BookRepository>("data/books.csv");
+    repository_ = std::make_shared<Services::BookRepository>("data/books.json");
     service_ = std::make_shared<Services::LibraryService>(repository_);
 }
 
 void LibraryApp::run() {
-    std::cout << "=== BiblioTrack - Library Management System 2.04 ===\n";
+    std::cout << "=== BiblioTrack - Library Management System 2.05 ===\n";
     
     while (true) {
         showMenu();

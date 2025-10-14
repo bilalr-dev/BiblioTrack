@@ -13,6 +13,9 @@ std::string LibraryService::addBook(const DataModel::Book& book) {
     if (book.getIsbn().empty()) {
         return "ISBN cannot be empty";
     }
+    if (!isNumericString(book.getIsbn())) {
+        return "ISBN must contain digits only";
+    }
     if (book.getTitle().empty()) {
         return "Title cannot be empty";
     }
@@ -46,6 +49,9 @@ std::string LibraryService::addBook(const DataModel::Book& book) {
 std::string LibraryService::deleteBook(const std::string& isbn) {
     if (isbn.empty()) {
         return "ISBN cannot be empty";
+    }
+    if (!isNumericString(isbn)) {
+        return "ISBN must contain digits only";
     }
     
     if (repository_->removeBook(isbn)) {
@@ -90,6 +96,9 @@ std::vector<DataModel::Book> LibraryService::searchByAuthor(const std::string& a
 }
 
 std::optional<DataModel::Book> LibraryService::searchByIsbn(const std::string& isbn) {
+    if (!isNumericString(isbn)) {
+        return std::nullopt;
+    }
     return repository_->findByIsbn(isbn);
 }
 
@@ -146,6 +155,14 @@ std::map<std::string, int> LibraryService::getCategoryStatistics() {
 
 bool LibraryService::isValidYear(int year) {
     return year >= 1000 && year <= 2030; // Simple range check
+}
+
+bool LibraryService::isNumericString(const std::string& value) {
+    if (value.empty()) return false;
+    for (char c : value) {
+        if (!std::isdigit(static_cast<unsigned char>(c))) return false;
+    }
+    return true;
 }
 
 std::string LibraryService::toLowerCase(const std::string& str) {

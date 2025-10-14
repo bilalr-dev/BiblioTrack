@@ -1,4 +1,4 @@
-# BiblioTrack - Layered Library Management System (v2.04)
+# BiblioTrack - Layered Library Management System (v2.05)
 
 A clean, well-structured C++ library management system organized in separate layers for maintainability and scalability. Enhanced with comprehensive category management and advanced browsing features.
 
@@ -13,7 +13,7 @@ A clean, well-structured C++ library management system organized in separate lay
 - ✅ Search books by category (partial, case-insensitive)
 - ✅ Browse books by category with filtering options
 - ✅ View category statistics and distribution
-- ✅ CSV file persistence with automatic creation
+- ✅ JSON file persistence (line-delimited) with automatic creation and CSV migration
 - ✅ Clean layered architecture with separation of concerns
 
 ## Layered Architecture
@@ -26,7 +26,7 @@ Contains the core data structures and entities.
 
 ### 🔧 **Services Layer** (`src/services/`)
 Contains business logic and data access components.
-- `BookRepository.*` - Data persistence and CSV file operations with category support
+- `BookRepository.*` - Data persistence and JSON file operations with category support
 - `LibraryService.*` - Business logic, validation, search operations, and category management
 
 ### 🚀 **Launcher Layer** (`src/launcher/`)
@@ -48,7 +48,7 @@ BiblioTrack/
 │       ├── LibraryApp.*          # Application layer
 │       └── main.cpp              # Entry point
 ├── data/
-│   └── books.csv                 # Data storage (auto-created)
+│   └── books.json                # Data storage (auto-created; migrates from CSV if present)
 ├── build/                        # Build directory
 └── CMakeLists.txt                # Build configuration
 ```
@@ -107,14 +107,13 @@ The application provides a simple menu-driven interface:
 
 ## Data Storage
 
-Books are stored in `data/books.csv` with the following format:
-```
-ISBN,Title,Author,Year,Quantity,Category
-978-0134685991,Effective Modern C++,Scott Meyers,2014,5,Programming
-fr-1255-289d,batman,ali mansoor,2025,99,Fiction
-```
+As of v2.05, books are stored in `data/books.json` as one JSON object per line (line-delimited JSON). On first run, if a legacy `books.csv` exists, it is migrated automatically.
 
-The file and directory are automatically created on first run. The system supports backward compatibility with older CSV files that don't include the Category column (defaults to "General").
+Example lines in `books.json` (numeric ISBNs):
+```
+{"isbn":"9780134685991","title":"Effective Modern C++","author":"Scott Meyers","year":2014,"quantity":5,"category":"Programming"}
+{"isbn":"1255289001","title":"batman","author":"ali mansoor","year":2025,"quantity":99,"category":"Fiction"}
+```
 
 ## 🎯 **Category Management Features (v2.01+)**
 
@@ -150,6 +149,11 @@ The file and directory are automatically created on first run. The system suppor
 - **Error Prevention**: Reduces data corruption issues from malformed input
 - **Better Compatibility**: Enhanced CSV file format compliance
 - **Maintainable Data**: Cleaner data storage for long-term system health
+
+### **Performance Note (v2.05)**
+- Repository now loads data once into memory and keeps an in-memory index by ISBN
+- Adds O(1) ISBN lookups and reduces repeated disk reads
+- Writes append on add and rewrites file only when deleting
 
 ## Design Principles
 

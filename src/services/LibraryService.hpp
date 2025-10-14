@@ -32,6 +32,7 @@ private:
     
     // Validation methods
     bool isValidYear(int year);
+    bool isNumericString(const std::string& value);
     std::string toLowerCase(const std::string& str);
     std::string sanitizeInput(const std::string& input);
 };
