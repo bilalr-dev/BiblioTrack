@@ -1,19 +1,255 @@
-CMakeLists.txt.user
+# =============================================================================
+# BiblioTrack - Comprehensive .gitignore for C++ Project
+# =============================================================================
+
+# =============================================================================
+# Build Directories & Artifacts
+# =============================================================================
+build/
+cmake-build-*/
+out/
+bin/
+lib/
+obj/
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.dylib
+*.a
+*.lib
+
+# =============================================================================
+# CMake Generated Files
+# =============================================================================
 CMakeCache.txt
-CMakeFiles
-CMakeScripts
-Testing
+CMakeFiles/
+CMakeScripts/
+Testing/
 Makefile
 cmake_install.cmake
 install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
-_deps
+_deps/
 CMakeUserPresets.json
+CMakeLists.txt.user
+*.cmake
+!CMakeLists.txt
 
-# CLion
-#  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
-#  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
-#  and can be added to the global gitignore or merged into this file.  For a more nuclear
-#  option (not recommended) you can uncomment the following to ignore the entire idea folder.
-#cmake-build-*
+# =============================================================================
+# IDE & Editor Files
+# =============================================================================
+
+# Visual Studio / Visual Studio Code
+.vs/
+.vscode/
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.sln
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# CLion / JetBrains IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+cmake-build-*/
+
+# Xcode
+*.xcodeproj/
+*.xcworkspace/
+DerivedData/
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Qt Creator
+*.pro.user
+*.pro.user.*
+*.qbs.user
+*.qbs.user.*
+*.moc
+moc_*.cpp
+moc_*.h
+qrc_*.cpp
+ui_*.h
+*.qmlc
+*.jsc
+Makefile*
+*build-*
+
+# =============================================================================
+# Compiler & Debugger Files
+# =============================================================================
+*.pdb
+*.ilk
+*.exp
+*.idb
+*.tlog
+*.log
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# GDB
+.gdb_history
+.gdbinit
+
+# LLDB
+.lldbinit
+
+# =============================================================================
+# Package Managers & Dependencies
+# =============================================================================
+vcpkg_installed/
+conan/
+conandata.yml
+conanfile.txt
+conanfile.py
+conaninfo.txt
+conanbuildinfo.*
+
+# =============================================================================
+# Testing & Coverage
+# =============================================================================
+test_results/
+coverage/
+*.gcov
+*.gcda
+*.gcno
+lcov.info
+*.prof
+*.profraw
+
+# Google Test
+gtest/
+googletest/
+
+# =============================================================================
+# Documentation Build
+# =============================================================================
+docs/_build/
+docs/build/
+*.pdf
+*.dvi
+*.aux
+*.toc
+*.out
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+
+# =============================================================================
+# OS Generated Files
+# =============================================================================
+
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# =============================================================================
+# Project Specific Files
+# =============================================================================
+
+# Data Files (keep template, ignore actual data)
+data/books.jsonl
+data/books.csv
+data/*.json
+data/*.csv
+!data/books_template.*
+
+# Configuration Files (keep templates, ignore actual configs)
+config/credentials.json
+config/*.conf
+config/*.ini
+config/*.cfg
+!config/*_template.*
+
+# Log Files
+*.log
+logs/
+log/
+
+# Backup Files
+*.bak
+*.backup
+*.old
+*.orig
+
+# Temporary Files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# =============================================================================
+# Security & Sensitive Files
+# =============================================================================
+*.key
+*.pem
+*.p12
+*.pfx
+secrets/
+.env
+.env.local
+.env.*.local
+
+# =============================================================================
+# Performance & Profiling
+# =============================================================================
+*.prof
+*.profraw
+perf.data*
+callgrind.out.*
+cachegrind.out.*
+massif.out.*
+
+# =============================================================================
+# Archive Files
+# =============================================================================
+*.zip
+*.tar.gz
+*.tar.bz2
+*.rar
+*.7z
+
+# =============================================================================
+# Custom Project Exclusions
+# =============================================================================
+# Add any project-specific files or directories to ignore here
+debug_test.cpp
+test_output/
+benchmark_results/
