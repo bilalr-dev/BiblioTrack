@@ -544,7 +544,6 @@ erDiagram
 ### Development Team
 - **Bilal RAHAOUI** - Core Developer & Project Lead
 - **Mohamed KADDOUR** - Core Development & Performance Optimization
-- **Ali MANSOOR** - Testing & Documentation
 
 ### Project Credits
 - Built with modern C++17 features and best practices
