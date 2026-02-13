@@ -3,56 +3,61 @@
 #include <sstream>
 #include <iostream>
 #include <cctype>
+#include <filesystem>
 
 namespace Services {
 
-BookRepository::BookRepository(const std::string& jsonPath) : jsonPath_(jsonPath) {
+BookRepository::BookRepository(const std::string& jsonPath) : jsonPath_(jsonPath), loaded_(false) {
     ensureFileExists();
-    migrateCsvIfPresent();
 }
 
 void BookRepository::ensureFileExists() {
+    namespace fs = std::filesystem;
     std::ifstream file(jsonPath_);
-    if (!file.good()) {
-        // Create directory if it doesn't exist
-        size_t lastSlash = jsonPath_.find_last_of('/');
-        if (lastSlash != std::string::npos) {
-            std::string dir = jsonPath_.substr(0, lastSlash);
-            system(("mkdir -p " + dir).c_str());
+    if (file.good()) {
+        return;
+    }
+    // Create parent directory cross-platform
+    try {
+        fs::path jsonPath(jsonPath_);
+        fs::path parentDir = jsonPath.parent_path();
+        if (!parentDir.empty() && !fs::exists(parentDir)) {
+            fs::create_directories(parentDir);
         }
-
-        std::ofstream outFile(jsonPath_);
-        if (outFile.is_open()) {
-            // Start with an empty file for line-delimited JSON
-            // Each line is a JSON object representing one book
-            outFile.close();
-        }
+    } catch (...) {
+        // If directory creation fails, proceed to attempt file creation; addBook will fail gracefully if needed
+    }
+    std::ofstream outFile(jsonPath_);
+    if (outFile.is_open()) {
+        // Start with an empty file for line-delimited JSON
+        // Each line is a JSON object representing one book
+        outFile.close();
     }
 }
 
 std::vector<DataModel::Book> BookRepository::getAllBooks() {
     if (!loaded_) {
-        loadAllIntoCache();
+        loadBooksFromJson();
     }
-    return cache_;
+    return books_;
 }
 
 std::optional<DataModel::Book> BookRepository::findByIsbn(const std::string& isbn) {
     if (!loaded_) {
-        loadAllIntoCache();
+        loadBooksFromJson();
     }
-    auto it = isbnToIndex_.find(isbn);
-    if (it == isbnToIndex_.end()) return std::nullopt;
-    return cache_[it->second];
+    auto it = isbnIndex_.find(isbn);
+    if (it == isbnIndex_.end()) return std::nullopt;
+    return books_[it->second];
 }
 
 bool BookRepository::addBook(const DataModel::Book& book) {
     if (!loaded_) {
-        loadAllIntoCache();
+        loadBooksFromJson();
     }
-    if (isbnToIndex_.count(book.getIsbn())) return false;
-    cache_.push_back(book);
-    isbnToIndex_[book.getIsbn()] = cache_.size() - 1;
+    if (isbnIndex_.count(book.getIsbn())) return false;
+    books_.push_back(book);
+    isbnIndex_[book.getIsbn()] = books_.size() - 1;
     // Append to file for efficiency
     std::ofstream file(jsonPath_, std::ios::app);
     if (!file.is_open()) return false;
@@ -70,21 +75,21 @@ bool BookRepository::addBook(const DataModel::Book& book) {
 
 bool BookRepository::removeBook(const std::string& isbn) {
     if (!loaded_) {
-        loadAllIntoCache();
+        loadBooksFromJson();
     }
-    auto it = isbnToIndex_.find(isbn);
-    if (it == isbnToIndex_.end()) return false;
+    auto it = isbnIndex_.find(isbn);
+    if (it == isbnIndex_.end()) return false;
     size_t idx = it->second;
-    // Erase from cache by swap-pop to keep O(1)
-    size_t last = cache_.size() - 1;
+    // Erase from books by swap-pop to keep O(1)
+    size_t last = books_.size() - 1;
     if (idx != last) {
-        cache_[idx] = cache_[last];
-        isbnToIndex_[cache_[idx].getIsbn()] = idx;
+        books_[idx] = books_[last];
+        isbnIndex_[books_[idx].getIsbn()] = idx;
     }
-    cache_.pop_back();
-    isbnToIndex_.erase(it);
-    // Rewrite entire file from cache to maintain correctness
-    return writeAllFromCache();
+    books_.pop_back();
+    isbnIndex_.erase(it);
+    // Rewrite entire file from books to maintain correctness
+    return saveBooksToJson();
 }
 
 // Escape a string for safe inclusion in JSON string value
@@ -195,88 +200,9 @@ bool BookRepository::parseJsonLine(const std::string& line,
     return !isbn.empty() && !title.empty() && !author.empty() && okYear && okQty;
 }
 
-void BookRepository::migrateCsvIfPresent() {
-    // If legacy CSV exists and JSON file is empty, migrate
-    std::string csvPath;
-    // derive csv path by replacing extension if possible
-    size_t dot = jsonPath_.rfind('.');
-    if (dot != std::string::npos) {
-        csvPath = jsonPath_.substr(0, dot) + ".csv";
-    } else {
-        csvPath = jsonPath_ + ".csv";
-    }
-    std::ifstream csv(csvPath);
-    if (!csv.good()) return;
-
-    // Check if JSON already has content
-    std::ifstream jsonIn(jsonPath_);
-    std::string existingLine;
-    if (std::getline(jsonIn, existingLine) && !existingLine.empty()) {
-        return; // do not overwrite existing JSON data
-    }
-
-    // Read CSV and append to JSON
-    std::ofstream jsonOut(jsonPath_, std::ios::app);
-    if (!jsonOut.is_open()) return;
-
-    std::string line;
-    // skip header if present
-    if (std::getline(csv, line)) {
-        if (line.find("ISBN") == std::string::npos) {
-            // First line is a record; process it
-            csv.seekg(0);
-        }
-    }
-
-    while (std::getline(csv, line)) {
-        if (line.empty()) continue;
-        // simple CSV split (compatible with our previous buildLine/parseLine would be better, but avoid duplication)
-        std::vector<std::string> fields;
-        std::string cur;
-        bool inQuotes = false;
-        for (size_t i = 0; i < line.size(); ++i) {
-            char c = line[i];
-            if (c == '"') {
-                if (inQuotes && i + 1 < line.size() && line[i + 1] == '"') {
-                    cur += '"';
-                    ++i;
-                } else {
-                    inQuotes = !inQuotes;
-                }
-            } else if (c == ',' && !inQuotes) {
-                fields.push_back(cur);
-                cur.clear();
-            } else {
-                cur += c;
-            }
-        }
-        fields.push_back(cur);
-        if (fields.size() < 5) continue;
-
-        std::string isbn = fields[0];
-        std::string title = fields[1];
-        std::string author = fields[2];
-        int year = 0;
-        int quantity = 0;
-        try { year = std::stoi(fields[3]); } catch (...) { continue; }
-        try { quantity = std::stoi(fields[4]); } catch (...) { continue; }
-        std::string category = (fields.size() > 5 && !fields[5].empty()) ? fields[5] : "General";
-
-        jsonOut << "{"
-                << "\"isbn\":\"" << escapeJsonString(isbn) << "\","
-                << "\"title\":\"" << escapeJsonString(title) << "\","
-                << "\"author\":\"" << escapeJsonString(author) << "\","
-                << "\"year\":" << year << ","
-                << "\"quantity\":" << quantity << ","
-                << "\"category\":\"" << escapeJsonString(category) << "\"" 
-                << "}"
-                << "\n";
-    }
-}
-
-void BookRepository::loadAllIntoCache() {
-    cache_.clear();
-    isbnToIndex_.clear();
+void BookRepository::loadBooksFromJson() {
+    books_.clear();
+    isbnIndex_.clear();
     std::ifstream file(jsonPath_);
     std::string line;
     while (std::getline(file, line)) {
@@ -285,17 +211,17 @@ void BookRepository::loadAllIntoCache() {
         int year = 0;
         int quantity = 0;
         if (parseJsonLine(line, isbn, title, author, year, quantity, category)) {
-            isbnToIndex_[isbn] = cache_.size();
-            cache_.emplace_back(isbn, title, author, year, quantity, category);
+            isbnIndex_[isbn] = books_.size();
+            books_.emplace_back(isbn, title, author, year, quantity, category);
         }
     }
     loaded_ = true;
 }
 
-bool BookRepository::writeAllFromCache() {
+bool BookRepository::saveBooksToJson() {
     std::ofstream file(jsonPath_);
     if (!file.is_open()) return false;
-    for (const auto& book : cache_) {
+    for (const auto& book : books_) {
         file << "{"
              << "\"isbn\":\"" << escapeJsonString(book.getIsbn()) << "\"," 
              << "\"title\":\"" << escapeJsonString(book.getTitle()) << "\"," 
@@ -308,6 +234,7 @@ bool BookRepository::writeAllFromCache() {
     }
     return true;
 }
+
 
 } // namespace Services
 

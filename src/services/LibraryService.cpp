@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <cctype>
 #include <map>
+#include <ctime>
 
 namespace Services {
 
@@ -154,7 +155,10 @@ std::map<std::string, int> LibraryService::getCategoryStatistics() {
 }
 
 bool LibraryService::isValidYear(int year) {
-    return year >= 1000 && year <= 2030; // Simple range check
+    std::time_t t = std::time(nullptr);
+    std::tm tm = *std::localtime(&t);
+    const int currentYear = 1900 + tm.tm_year;
+    return year >= 1000 && year <= currentYear;
 }
 
 bool LibraryService::isNumericString(const std::string& value) {
@@ -186,7 +190,7 @@ std::string LibraryService::sanitizeInput(const std::string& input) {
     std::string cleaned;
     bool inSpace = false;
     for (char c : result) {
-        if (std::isspace(c)) {
+        if (std::isspace(static_cast<unsigned char>(c))) {
             if (!inSpace) {
                 cleaned += ' ';
                 inSpace = true;

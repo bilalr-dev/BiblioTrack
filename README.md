@@ -1,6 +1,6 @@
-# BiblioTrack - Layered Library Management System (v2.05)
+# BiblioTrack - Secure Library Management System (v2.06)
 
-A clean, well-structured C++ library management system organized in separate layers for maintainability and scalability. Enhanced with comprehensive category management and advanced browsing features.
+A clean, well-structured C++ library management system with secure authentication, organized in separate layers for maintainability and scalability. Enhanced with comprehensive category management, advanced browsing features, and enterprise-grade security.
 
 ## Features
 
@@ -13,8 +13,10 @@ A clean, well-structured C++ library management system organized in separate lay
 - ✅ Search books by category (partial, case-insensitive)
 - ✅ Browse books by category with filtering options
 - ✅ View category statistics and distribution
-- ✅ JSON file persistence (line-delimited) with automatic creation and CSV migration
+- ✅ JSON file persistence (line-delimited) with automatic creation
+- ✅ Secure user authentication system with encrypted credential storage (v2.06)
 - ✅ Clean layered architecture with separation of concerns
+- ✅ Enterprise-grade security with config directory isolation
 
 ## Layered Architecture
 
@@ -25,13 +27,14 @@ Contains the core data structures and entities.
 - `Book.hpp` - Book entity with properties (ISBN, title, author, year, quantity, category) and basic operations
 
 ### 🔧 **Services Layer** (`src/services/`)
-Contains business logic and data access components.
+Contains business logic, data access, and security components.
 - `BookRepository.*` - Data persistence and JSON file operations with category support
 - `LibraryService.*` - Business logic, validation, search operations, and category management
+- `AuthenticationService.*` - Complete authentication flow with user interaction and secure credential management (v2.06)
 
 ### 🚀 **Launcher Layer** (`src/launcher/`)
 Contains the presentation layer and application entry point.
-- `LibraryApp.*` - User interface and menu system with category browsing features
+- `LibraryApp.*` - User interface and menu system with category browsing features (authentication delegated to services)
 - `main.cpp` - Application entry point
 
 ## Project Structure
@@ -42,14 +45,17 @@ BiblioTrack/
 │   ├── datamodel/
 │   │   └── Book.hpp              # Book entity
 │   ├── services/
+│   │   ├── AuthenticationService.* # Authentication layer
 │   │   ├── BookRepository.*      # Data access layer
 │   │   └── LibraryService.*      # Business logic layer
 │   └── launcher/
 │       ├── LibraryApp.*          # Application layer
 │       └── main.cpp              # Entry point
-├── data/
-│   └── books.json                # Data storage (auto-created; migrates from CSV if present)
-├── build/                        # Build directory
+├── tests/
+│   └── SmokeTests.cpp            # Basic functionality tests
+├── config/                        # 🔐 SECURE CONFIGURATION
+│   └── credentials_template.json # Template for admin credentials
+├── cmake-build-debug/            # Build directory (auto-created)
 └── CMakeLists.txt                # Build configuration
 ```
 
@@ -57,8 +63,8 @@ BiblioTrack/
 
 ### 🎯 **Separation of Concerns**
 - **DataModel**: Pure data structures, no business logic
-- **Services**: Business rules and data operations
-- **Launcher**: User interface and application flow
+- **Services**: Business rules, data operations, and complete authentication flow
+- **Launcher**: User interface and application flow (delegates authentication to services)
 
 ### 🔄 **Dependency Flow**
 ```
@@ -77,37 +83,71 @@ Launcher → Services → DataModel
 ## Building and Running
 
 ### Prerequisites
-- C++17 compatible compiler
+- C++17 compatible compiler (GCC, Clang, or MSVC 19.14+)
 - CMake 3.12 or higher
+- Unix-like system recommended for secure file permissions (works on Windows/macOS/Linux)
 
 ### Build Instructions
 
 ```bash
 # Create and enter build directory
-mkdir build && cd build
+mkdir cmake-build-debug && cd cmake-build-debug
 
-# Configure and build
+# Configure and build (Unix/macOS)
 cmake ..
-make
+cmake --build . --target BiblioTrack -j 10
 
-# Run the application
-./bibliotrack
+# Configure and build (Windows MSVC)
+# cmake -G "Visual Studio 17 2022" ..
+# cmake --build . --config Release --target BiblioTrack
+
+# Setup secure credentials file (required for authentication)
+cp ../config/credentials_template.json ../config/credentials.json
+# Edit config/credentials.json with your desired admin credentials
+# Set secure file permissions (recommended for production on Unix)
+chmod 600 ../config/credentials.json || true
+
+# Run the application (Unix/macOS)
+./BiblioTrack
+
+# Run the application (Windows)
+# .\\Release\\BiblioTrack.exe
 ```
 
 ## Usage
 
-The application provides a simple menu-driven interface:
+The application now requires authentication before access:
 
-1. **Add Book** - Enter book details with validation (includes category assignment)
-2. **Delete Book** - Remove a book by ISBN with confirmation
-3. **List All Books** - Display all books in a formatted table with categories
-4. **Search Books** - Search by ISBN (exact), title (partial), author (partial), or category (partial)
-5. **Browse by Category** - View category statistics or filter books by specific categories
-6. **Exit** - Close the application
+1. **Authentication Menu** - Choose to login or exit the program
+2. **Login** - Enter admin credentials (username/password from credentials.json)
+   - Invalid credentials will prompt to try again or exit
+   - Multiple login attempts allowed
+3. **Add Book** - Enter book details with validation (includes category assignment)
+4. **Delete Book** - Remove a book by ISBN with confirmation
+5. **List All Books** - Display all books in a formatted table with categories
+6. **Search Books** - Search by ISBN (exact), title (partial), author (partial), or category (partial)
+7. **Browse by Category** - View category statistics or filter books by specific categories
+8. **Exit** - Close the application
 
 ## Data Storage
 
-As of v2.05, books are stored in `data/books.json` as one JSON object per line (line-delimited JSON). On first run, if a legacy `books.csv` exists, it is migrated automatically.
+As of v2.05, books are stored in `data/books.json` as one JSON object per line (line-delimited JSON). The data file is automatically created when the first book is added.
+
+## Security Features (v2.06)
+
+### 🔐 **Secure Authentication System**
+- **Isolated Storage**: Credentials stored in dedicated `config/` directory
+- **File Permissions**: Secure access with `chmod 600` (owner read/write only)
+- **Git Protection**: Credentials automatically ignored by version control
+- **Template System**: Safe setup with `credentials_template.json`
+- **Security Monitoring**: Warnings for insecure credential locations
+
+### 🛡️ **Authentication Flow**
+- **Default Credentials**: username=`admin`, password=`admin123`
+- **Production Ready**: Change credentials for production use
+- **User-Friendly**: Multiple login attempts with clear options
+- **Visual Feedback**: Success/failure indicators (✓/✗)
+- **Easy Exit**: Option to quit at any time
 
 Example lines in `books.json` (numeric ISBNs):
 ```
@@ -147,13 +187,18 @@ Example lines in `books.json` (numeric ISBNs):
 
 ### **Improved Reliability**
 - **Error Prevention**: Reduces data corruption issues from malformed input
-- **Better Compatibility**: Enhanced CSV file format compliance
+- **Better Compatibility**: Enhanced JSON file format compliance
 - **Maintainable Data**: Cleaner data storage for long-term system health
 
 ### **Performance Note (v2.05)**
-- Repository now loads data once into memory and keeps an in-memory index by ISBN
-- Adds O(1) ISBN lookups and reduces repeated disk reads
-- Writes append on add and rewrites file only when deleting
+- Repository loads data once into memory and maintains an in-memory index by ISBN
+- Provides O(1) ISBN lookups and reduces repeated disk reads
+- Efficient writes: append on add, rewrite only when deleting
+
+### **Security Note (v2.06)**
+- Credentials stored in isolated `config/` directory for enhanced security
+- File permissions and git protection prevent accidental credential exposure
+- Enterprise-grade authentication system with user-friendly interface
 
 ## Design Principles
 
@@ -174,4 +219,14 @@ Example lines in `books.json` (numeric ISBNs):
 - Minimal coupling between layers
 - Easy to extend and modify
 
-This architecture provides a solid foundation for a library management system that can grow and evolve while maintaining clean, maintainable code.
+This architecture provides a solid foundation for a secure library management system that can grow and evolve while maintaining clean, maintainable code and enterprise-grade security.
+
+## Version History
+
+- **v2.06**: Added secure authentication system with config directory isolation and enterprise-grade security
+- **v2.05**: JSON storage implementation, improved performance with in-memory caching
+- **v2.04**: Added comprehensive category management and browsing features
+- **v2.03**: Enhanced search functionality with partial matching
+- **v2.02**: Improved user interface and error handling
+- **v2.01**: Added ISBN validation and data persistence
+- **v2.00**: Initial layered architecture implementation
