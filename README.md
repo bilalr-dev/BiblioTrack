@@ -1,4 +1,4 @@
-# BiblioTrack - Secure Library Management System (v2.06)
+# BiblioTrack - Secure Library Management System (v2.07)
 
 A clean, well-structured C++ library management system with secure authentication, organized in separate layers for maintainability and scalability. Enhanced with comprehensive category management, advanced browsing features, and enterprise-grade security.
 
@@ -15,6 +15,7 @@ A clean, well-structured C++ library management system with secure authenticatio
 - ✅ View category statistics and distribution
 - ✅ JSON file persistence (line-delimited) with automatic creation
 - ✅ Secure user authentication system with encrypted credential storage (v2.06)
+- ✅ High-performance algorithms with optimized memory usage (v2.07)
 - ✅ Clean layered architecture with separation of concerns
 - ✅ Enterprise-grade security with config directory isolation
 
@@ -195,6 +196,14 @@ Example lines in `books.json` (numeric ISBNs):
 - Provides O(1) ISBN lookups and reduces repeated disk reads
 - Efficient writes: append on add, rewrite only when deleting
 
+### **Performance Optimizations (v2.07)**
+- **Algorithm Improvements**: O(n²) → O(n) category collection using unordered_set
+- **Memory Optimization**: Pre-allocated containers with estimated sizes
+- **String Operations**: Optimized sanitization with single-pass processing
+- **JSON Operations**: Efficient string building with reserved capacity
+- **Search Performance**: Enhanced with early size checks and const references
+- **Caching**: Static current year calculation to avoid repeated system calls
+
 ### **Security Note (v2.06)**
 - Credentials stored in isolated `config/` directory for enhanced security
 - File permissions and git protection prevent accidental credential exposure
@@ -223,6 +232,7 @@ This architecture provides a solid foundation for a secure library management sy
 
 ## Version History
 
+- **v2.07**: Performance optimization release - O(n²) → O(n) algorithms, memory optimization, enhanced testing
 - **v2.06**: Added secure authentication system with config directory isolation and enterprise-grade security
 - **v2.05**: JSON storage implementation, improved performance with in-memory caching
 - **v2.04**: Added comprehensive category management and browsing features

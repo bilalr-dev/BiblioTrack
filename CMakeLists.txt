@@ -22,4 +22,6 @@ add_executable(BiblioTrack
         src/services/BookRepository.cpp
         src/services/BookRepository.hpp
         src/services/LibraryService.cpp
-        src/services/LibraryService.hpp)
+        src/services/LibraryService.hpp
+        src/launcher/main.cpp
+        src/launcher/main.cpp)

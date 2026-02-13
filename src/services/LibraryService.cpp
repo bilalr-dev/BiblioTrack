@@ -3,6 +3,7 @@
 #include <cctype>
 #include <map>
 #include <ctime>
+#include <unordered_set>
 
 namespace Services {
 
@@ -26,7 +27,7 @@ std::string LibraryService::addBook(const DataModel::Book& book) {
     if (!isValidYear(book.getYear())) {
         return "Invalid year (must be between 1000 and current year)";
     }
-    if (book.getQuantity() <= 0) {
+    if (book.getQuantity() < Constants::MIN_QUANTITY) {
         return "Quantity must be greater than 0";
     }
     
@@ -67,14 +68,23 @@ std::vector<DataModel::Book> LibraryService::listBooks() {
 }
 
 std::vector<DataModel::Book> LibraryService::searchByTitle(const std::string& title) {
+    if (title.empty()) return {};
+    
     std::vector<DataModel::Book> results;
     auto books = repository_->getAllBooks();
-    std::string lowerTitle = toLowerCase(title);
+    
+    // Pre-allocate results vector for better performance
+    results.reserve(books.size() / Constants::ESTIMATED_SEARCH_MATCH_RATE);
+    
+    const std::string lowerTitle = toLowerCase(title);
     
     for (const auto& book : books) {
-        std::string bookTitle = toLowerCase(book.getTitle());
-        if (bookTitle.find(lowerTitle) != std::string::npos) {
-            results.push_back(book);
+        const std::string& bookTitle = book.getTitle();
+        if (bookTitle.size() >= title.size()) { // Quick size check
+            std::string lowerBookTitle = toLowerCase(bookTitle);
+            if (lowerBookTitle.find(lowerTitle) != std::string::npos) {
+                results.push_back(book);
+            }
         }
     }
     
@@ -82,14 +92,23 @@ std::vector<DataModel::Book> LibraryService::searchByTitle(const std::string& ti
 }
 
 std::vector<DataModel::Book> LibraryService::searchByAuthor(const std::string& author) {
+    if (author.empty()) return {};
+    
     std::vector<DataModel::Book> results;
     auto books = repository_->getAllBooks();
-    std::string lowerAuthor = toLowerCase(author);
+    
+    // Pre-allocate results vector for better performance
+    results.reserve(books.size() / Constants::ESTIMATED_SEARCH_MATCH_RATE);
+    
+    const std::string lowerAuthor = toLowerCase(author);
     
     for (const auto& book : books) {
-        std::string bookAuthor = toLowerCase(book.getAuthor());
-        if (bookAuthor.find(lowerAuthor) != std::string::npos) {
-            results.push_back(book);
+        const std::string& bookAuthor = book.getAuthor();
+        if (bookAuthor.size() >= author.size()) { // Quick size check
+            std::string lowerBookAuthor = toLowerCase(bookAuthor);
+            if (lowerBookAuthor.find(lowerAuthor) != std::string::npos) {
+                results.push_back(book);
+            }
         }
     }
     
@@ -104,14 +123,23 @@ std::optional<DataModel::Book> LibraryService::searchByIsbn(const std::string& i
 }
 
 std::vector<DataModel::Book> LibraryService::searchByCategory(const std::string& category) {
+    if (category.empty()) return {};
+    
     std::vector<DataModel::Book> results;
     auto books = repository_->getAllBooks();
-    std::string lowerCategory = toLowerCase(category);
+    
+    // Pre-allocate results vector for better performance
+    results.reserve(books.size() / Constants::ESTIMATED_CATEGORY_MATCH_RATE);
+    
+    const std::string lowerCategory = toLowerCase(category);
     
     for (const auto& book : books) {
-        std::string bookCategory = toLowerCase(book.getCategory());
-        if (bookCategory.find(lowerCategory) != std::string::npos) {
-            results.push_back(book);
+        const std::string& bookCategory = book.getCategory();
+        if (bookCategory.size() >= category.size()) { // Quick size check
+            std::string lowerBookCategory = toLowerCase(bookCategory);
+            if (lowerBookCategory.find(lowerCategory) != std::string::npos) {
+                results.push_back(book);
+            }
         }
     }
     
@@ -119,22 +147,23 @@ std::vector<DataModel::Book> LibraryService::searchByCategory(const std::string&
 }
 
 std::vector<std::string> LibraryService::getAllCategories() {
-    std::vector<std::string> categories;
+    std::unordered_set<std::string> categorySet;
     auto books = repository_->getAllBooks();
     
+    // Reserve space for better performance
+    categorySet.reserve(books.size() / Constants::ESTIMATED_CATEGORIES_PER_BOOK);
+    
     for (const auto& book : books) {
-        std::string category = book.getCategory();
-        bool exists = false;
-        for (const auto& existingCategory : categories) {
-            if (existingCategory == category) {
-                exists = true;
-                break;
-            }
-        }
-        if (!exists && !category.empty()) {
-            categories.push_back(category);
+        const std::string& category = book.getCategory();
+        if (!category.empty()) {
+            categorySet.insert(category);
         }
     }
+    
+    // Convert set to vector for return
+    std::vector<std::string> categories;
+    categories.reserve(categorySet.size());
+    categories.assign(categorySet.begin(), categorySet.end());
     
     return categories;
 }
@@ -155,10 +184,14 @@ std::map<std::string, int> LibraryService::getCategoryStatistics() {
 }
 
 bool LibraryService::isValidYear(int year) {
-    std::time_t t = std::time(nullptr);
-    std::tm tm = *std::localtime(&t);
-    const int currentYear = 1900 + tm.tm_year;
-    return year >= 1000 && year <= currentYear;
+    // Cache current year calculation for better performance
+    static int currentYear = 0;
+    if (currentYear == 0) {
+        std::time_t t = std::time(nullptr);
+        std::tm tm = *std::localtime(&t);
+        currentYear = 1900 + tm.tm_year;
+    }
+    return year >= Constants::MIN_YEAR && year <= currentYear;
 }
 
 bool LibraryService::isNumericString(const std::string& value) {
@@ -176,32 +209,35 @@ std::string LibraryService::toLowerCase(const std::string& str) {
 }
 
 std::string LibraryService::sanitizeInput(const std::string& input) {
-    std::string result = input;
+    if (input.empty()) return input;
     
-    // Trim leading and trailing whitespace
-    size_t start = result.find_first_not_of(" \t\n\r");
+    // Find first and last non-whitespace characters
+    size_t start = input.find_first_not_of(" \t\n\r");
     if (start == std::string::npos) {
         return "";
     }
-    size_t end = result.find_last_not_of(" \t\n\r");
-    result = result.substr(start, end - start + 1);
+    size_t end = input.find_last_not_of(" \t\n\r");
     
-    // Remove excessive whitespace (replace multiple spaces with single space)
-    std::string cleaned;
+    // Pre-allocate result string with estimated size
+    std::string result;
+    result.reserve(end - start + 1);
+    
+    // Process characters in one pass
     bool inSpace = false;
-    for (char c : result) {
+    for (size_t i = start; i <= end; ++i) {
+        char c = input[i];
         if (std::isspace(static_cast<unsigned char>(c))) {
             if (!inSpace) {
-                cleaned += ' ';
+                result += ' ';
                 inSpace = true;
             }
         } else {
-            cleaned += c;
+            result += c;
             inSpace = false;
         }
     }
     
-    return cleaned;
+    return result;
 }
 
 } // namespace Services

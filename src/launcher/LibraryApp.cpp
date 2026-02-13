@@ -12,7 +12,7 @@ LibraryApp::LibraryApp() {
 }
 
 void LibraryApp::run() {
-    std::cout << "=== BiblioTrack - Library Management System 2.06 ===\n";
+    std::cout << "=== BiblioTrack - Library Management System 2.07 ===\n";
     
     // Authenticate user before allowing access
     if (!authService_->runAuthenticationFlow()) {

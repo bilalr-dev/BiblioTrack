@@ -7,6 +7,12 @@
 
 namespace Services {
 
+// Constants for JSON operations
+namespace JsonConstants {
+    constexpr size_t ESTIMATED_JSON_LINE_SIZE = 200;
+    constexpr size_t BUFFER_RESERVE_SIZE = 1000;
+}
+
 class BookRepository {
 public:
     explicit BookRepository(const std::string& jsonPath);
